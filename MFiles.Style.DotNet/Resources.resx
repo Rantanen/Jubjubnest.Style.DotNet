@@ -1,0 +1,357 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="CommentedSegments_Description" xml:space="preserve">
+    <value>Each logical code segment must be commented. Code segments are segments of code separated by empty lines.</value>
+    <comment>An optional longer localizable description of the diagnostic.</comment>
+  </data>
+  <data name="CommentedSegments_Message" xml:space="preserve">
+    <value>Add comment to the code segment.</value>
+    <comment>The format-able message the diagnostic displays.</comment>
+  </data>
+  <data name="CommentedSegments_Title" xml:space="preserve">
+    <value>All code segments should be commented</value>
+    <comment>The title of the diagnostic.</comment>
+  </data>
+  <data name="CommentStartsWithSpace_Description" xml:space="preserve">
+    <value />
+  </data>
+  <data name="CommentStartsWithSpace_Message" xml:space="preserve">
+    <value>Add space between the comment marks and the text.</value>
+  </data>
+  <data name="CommentStartsWithSpace_Title" xml:space="preserve">
+    <value>Single line comments must have a space after the '//'</value>
+  </data>
+  <data name="NewlineBeforeComment_Description" xml:space="preserve">
+    <value>Single line comment blocks should be preceded by empty line (or opening brace).</value>
+  </data>
+  <data name="NewlineBeforeComment_Message" xml:space="preserve">
+    <value>Add a newline above the comment.</value>
+  </data>
+  <data name="NewlineBeforeComment_Title" xml:space="preserve">
+    <value>Comments should be separated with empty line from above</value>
+  </data>
+  <data name="SpacesBeforeTrailingComment_Description" xml:space="preserve">
+    <value />
+  </data>
+  <data name="SpacesBeforeTrailingComment_Message" xml:space="preserve">
+    <value>Ensure the trailing comment is separated by 2 spaces from the code before it.</value>
+  </data>
+  <data name="SpacesBeforeTrailingComment_Title" xml:space="preserve">
+    <value>Trailing comments should be separated by exactly 2 spaces</value>
+  </data>
+  <data name="SpacesWithinBrackets_Description" xml:space="preserve">
+    <value>Spaces should be inserted within parentheses, braces, square brackets and angle brackets.</value>
+  </data>
+  <data name="SpacesWithinBrackets_Message" xml:space="preserve">
+    <value>Insert a space inside the {0}.</value>
+  </data>
+  <data name="SpacesWithinBrackets_Title" xml:space="preserve">
+    <value>Brackets should have space inside</value>
+  </data>
+  <data name="XmlDocumentAllMethodParams_Description" xml:space="preserve">
+    <value>All method parameters should be documented with the &lt;param&gt; tag.</value>
+  </data>
+  <data name="XmlDocumentAllMethodParams_Message" xml:space="preserve">
+    <value>Add &lt;param name="{0}"&gt; tag to the XML documentation.</value>
+  </data>
+  <data name="XmlDocumentAllMethodParams_Title" xml:space="preserve">
+    <value>Method parameters should have &lt;param&gt; tag</value>
+  </data>
+  <data name="XmlDocumentationNoEmptyDocumentation_Description" xml:space="preserve">
+    <value />
+  </data>
+  <data name="XmlDocumentationNoEmptyDocumentation_Message" xml:space="preserve">
+    <value>Add the documentation content to {0} tag.</value>
+  </data>
+  <data name="XmlDocumentationNoEmptyDocumentation_Title" xml:space="preserve">
+    <value>All XML documentation tags should have non-empty content</value>
+  </data>
+  <data name="XmlDocumentationNoMismatchedParam_Description" xml:space="preserve">
+    <value />
+  </data>
+  <data name="XmlDocumentationNoMismatchedParam_Message" xml:space="preserve">
+    <value>Remove &lt;param&gt; for missing parameter '{0}'.</value>
+  </data>
+  <data name="XmlDocumentationNoMismatchedParam_Title" xml:space="preserve">
+    <value>Each &lt;param&gt; tag should have a matching parameter declared.</value>
+  </data>
+  <data name="XmlDocumentEverythingWithSummary_Description" xml:space="preserve">
+    <value>All interfaces, classes, structs and enums and their items should be documented with the &lt;summary&gt; tag.</value>
+  </data>
+  <data name="XmlDocumentEverythingWithSummary_Message" xml:space="preserve">
+    <value>Add XML documentation to the {0} {1}.</value>
+  </data>
+  <data name="XmlDocumentEverythingWithSummary_Title" xml:space="preserve">
+    <value>All items should have &lt;summary&gt; documentation</value>
+  </data>
+  <data name="XmlDocumentReturnValues_Description" xml:space="preserve">
+    <value>All methods that return a value should be documented with the &lt;returns&gt; tag.</value>
+  </data>
+  <data name="XmlDocumentReturnValues_Message" xml:space="preserve">
+    <value>Add &lt;returns&gt; tag to the XML documentation for method '{0}'.</value>
+  </data>
+  <data name="XmlDocumentReturnValues_Title" xml:space="preserve">
+    <value>Methods that return a value should have &lt;returns&gt; tag</value>
+  </data>
+  <data name="DoubleTabContinuationIndent_Description" xml:space="preserve">
+    <value />
+  </data>
+  <data name="DoubleTabContinuationIndent_Message" xml:space="preserve">
+    <value>Add double indent to the continuation line.</value>
+  </data>
+  <data name="DoubleTabContinuationIndent_Title" xml:space="preserve">
+    <value>Continuation lines should have double indent</value>
+  </data>
+  <data name="IndentWithTabs_Description" xml:space="preserve">
+    <value />
+  </data>
+  <data name="IndentWithTabs_Message" xml:space="preserve">
+    <value>Replace space indent with tabs.</value>
+  </data>
+  <data name="IndentWithTabs_Title" xml:space="preserve">
+    <value>Indenting should be done with tabs instead of spaces.</value>
+  </data>
+  <data name="KeepLinesWithin120Characters_Description" xml:space="preserve">
+    <value />
+  </data>
+  <data name="KeepLinesWithin120Characters_Message" xml:space="preserve">
+    <value>Split the line to stay within the 120 character limit.</value>
+  </data>
+  <data name="KeepLinesWithin120Characters_Title" xml:space="preserve">
+    <value>Lines should be limited to 120 characters</value>
+  </data>
+  <data name="NameConstantsWithCapitalCase_Description" xml:space="preserve">
+    <value />
+  </data>
+  <data name="NameConstantsWithCapitalCase_Message" xml:space="preserve">
+    <value>Rename the constant '{0}' using CAPITAL_CASING.</value>
+  </data>
+  <data name="NameConstantsWithCapitalCase_Title" xml:space="preserve">
+    <value>Constants should be named with CAPITAL_CASING</value>
+  </data>
+  <data name="NameEnumValuesWithPascalCase_Description" xml:space="preserve">
+    <value />
+  </data>
+  <data name="NameEnumValuesWithPascalCase_Message" xml:space="preserve">
+    <value>Rename the enumeration value '{0}' using PascalCasing.</value>
+  </data>
+  <data name="NameEnumValuesWithPascalCase_Title" xml:space="preserve">
+    <value>Enumeration values should be named with PascalCasing</value>
+  </data>
+  <data name="NameEventsWithPascalCase_Description" xml:space="preserve">
+    <value />
+  </data>
+  <data name="NameEventsWithPascalCase_Message" xml:space="preserve">
+    <value>Rename the event '{0}' using PascalCasing.</value>
+  </data>
+  <data name="NameEventsWithPascalCase_Title" xml:space="preserve">
+    <value>Events should be named with PascalCasing</value>
+  </data>
+  <data name="NameExceptionsWithExceptionSuffix_Description" xml:space="preserve">
+    <value />
+  </data>
+  <data name="NameExceptionsWithExceptionSuffix_Message" xml:space="preserve">
+    <value>Add Exception suffix to '{0}' exception type name.</value>
+  </data>
+  <data name="NameExceptionsWithExceptionSuffix_Title" xml:space="preserve">
+    <value>Exception names should end with Exception.</value>
+  </data>
+  <data name="NameFieldsWithCamelCase_Description" xml:space="preserve">
+    <value />
+  </data>
+  <data name="NameFieldsWithCamelCase_Message" xml:space="preserve">
+    <value>Rename the field '{0}' using camelCasing.</value>
+  </data>
+  <data name="NameFieldsWithCamelCase_Title" xml:space="preserve">
+    <value>Fields should be named with camelCasing</value>
+  </data>
+  <data name="NameInterfacesWithIPrefix_Description" xml:space="preserve">
+    <value />
+  </data>
+  <data name="NameInterfacesWithIPrefix_Message" xml:space="preserve">
+    <value>Add I prefix to the '{0}' interface name.</value>
+  </data>
+  <data name="NameInterfacesWithIPrefix_Title" xml:space="preserve">
+    <value>Interface names should begin with I</value>
+  </data>
+  <data name="NameMethodsWithPascalCasing_Description" xml:space="preserve">
+    <value />
+  </data>
+  <data name="NameMethodsWithPascalCasing_Message" xml:space="preserve">
+    <value>Rename the method '{0}' using PascalCasing.</value>
+  </data>
+  <data name="NameMethodsWithPascalCasing_Title" xml:space="preserve">
+    <value>Methods should be named with PascalCasing</value>
+  </data>
+  <data name="NameNamespacesWithPascalCasing_Description" xml:space="preserve">
+    <value />
+  </data>
+  <data name="NameNamespacesWithPascalCasing_Message" xml:space="preserve">
+    <value>Rename the namespace '{0}' using PascalCasing.</value>
+  </data>
+  <data name="NameNamespacesWithPascalCasing_Title" xml:space="preserve">
+    <value>Namespaces should be named with PascalCasing</value>
+  </data>
+  <data name="NamePropertiesWithPascalCase_Description" xml:space="preserve">
+    <value />
+  </data>
+  <data name="NamePropertiesWithPascalCase_Message" xml:space="preserve">
+    <value>Rename the property '{0}' using PascalCasing.</value>
+  </data>
+  <data name="NamePropertiesWithPascalCase_Title" xml:space="preserve">
+    <value>Properties should be named with PascalCasing</value>
+  </data>
+  <data name="NameTypeParameterWithDescriptiveName_Description" xml:space="preserve">
+    <value />
+  </data>
+  <data name="NameTypeParameterWithDescriptiveName_Message" xml:space="preserve">
+    <value>Give T parameter a more descriptive name.</value>
+  </data>
+  <data name="NameTypeParameterWithDescriptiveName_Title" xml:space="preserve">
+    <value>Type parameters should not be named just T</value>
+  </data>
+  <data name="NameTypeParameterWithTPrefix_Description" xml:space="preserve">
+    <value />
+  </data>
+  <data name="NameTypeParameterWithTPrefix_Message" xml:space="preserve">
+    <value>Add T prefix to the '{0}' type parameter name.</value>
+  </data>
+  <data name="NameTypeParameterWithTPrefix_Title" xml:space="preserve">
+    <value>Type parameters should begin with T</value>
+  </data>
+  <data name="NameTypesWithPascalCasing_Description" xml:space="preserve">
+    <value />
+  </data>
+  <data name="NameTypesWithPascalCasing_Message" xml:space="preserve">
+    <value>Rename the {0} '{1}' using PascalCasing.</value>
+  </data>
+  <data name="NameTypesWithPascalCasing_Title" xml:space="preserve">
+    <value>Types should be named with PascalCasing</value>
+  </data>
+  <data name="NameVariablesWithCamelCase_Description" xml:space="preserve">
+    <value />
+  </data>
+  <data name="NameVariablesWithCamelCase_Message" xml:space="preserve">
+    <value>Rename the variable '{0}' using camelCasing.</value>
+  </data>
+  <data name="NameVariablesWithCamelCase_Title" xml:space="preserve">
+    <value>Variables should be named with camelCasing</value>
+  </data>
+</root>
