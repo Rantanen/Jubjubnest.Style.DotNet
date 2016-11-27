@@ -9,7 +9,7 @@ using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.CodeAnalysis.Diagnostics;
 using Microsoft.CodeAnalysis.Text;
 
-namespace MFiles.Style.DotNet
+namespace Jubjubnest.Style.DotNet
 {
 	[DiagnosticAnalyzer( LanguageNames.CSharp )]
 	public class SpacingAnalyzer : DiagnosticAnalyzer

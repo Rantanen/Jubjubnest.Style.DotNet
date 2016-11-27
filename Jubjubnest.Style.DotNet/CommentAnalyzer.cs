@@ -10,7 +10,7 @@ using Microsoft.CodeAnalysis.Diagnostics;
 using Microsoft.CodeAnalysis.Text;
 using System.Text.RegularExpressions;
 
-namespace MFiles.Style.DotNet
+namespace Jubjubnest.Style.DotNet
 {
 	[DiagnosticAnalyzer( LanguageNames.CSharp )]
 	public class CommentAnalyzer : DiagnosticAnalyzer

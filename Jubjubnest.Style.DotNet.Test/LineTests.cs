@@ -4,10 +4,10 @@ using Microsoft.CodeAnalysis.Diagnostics;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using TestHelper;
-using MFiles.Style.DotNet;
-using MFiles.Style.DotNet.Test.Helpers;
+using Jubjubnest.Style.DotNet;
+using Jubjubnest.Style.DotNet.Test.Helpers;
 
-namespace MFiles.Style.DotNet.Test
+namespace Jubjubnest.Style.DotNet.Test
 {
 	[TestClass]
 	public class LineTests : CodeFixVerifier
@@ -120,7 +120,7 @@ namespace MFiles.Style.DotNet.Test
 
 		protected override CodeFixProvider GetCSharpCodeFixProvider()
 		{
-			return new MFilesStyleDotNetCodeFixProvider();
+			return new JubjubnestStyleDotNetCodeFixProvider();
 		}
 
 		protected override DiagnosticAnalyzer GetCSharpDiagnosticAnalyzer()

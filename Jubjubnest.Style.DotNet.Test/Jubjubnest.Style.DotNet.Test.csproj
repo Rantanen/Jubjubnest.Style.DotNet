@@ -8,8 +8,8 @@
     <ProjectGuid>{B49C3226-EFEB-49BA-98D4-BA967EC96AF7}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>MFiles.Style.DotNet.Test</RootNamespace>
-    <AssemblyName>MFiles.Style.DotNet.Test</AssemblyName>
+    <RootNamespace>Jubjubnest.Style.DotNet.Test</RootNamespace>
+    <AssemblyName>Jubjubnest.Style.DotNet.Test</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
@@ -119,9 +119,9 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\MFiles.Style.DotNet\MFiles.Style.DotNet.csproj">
+    <ProjectReference Include="..\Jubjubnest.Style.DotNet\Jubjubnest.Style.DotNet.csproj">
       <Project>{F232F1C1-867D-4713-9336-2DC22B54DB66}</Project>
-      <Name>MFiles.Style.DotNet</Name>
+      <Name>Jubjubnest.Style.DotNet</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

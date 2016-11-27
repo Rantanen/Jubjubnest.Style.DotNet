@@ -6,8 +6,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using MFiles.Style.DotNet;
-using MFiles.Style.DotNet.Test.Helpers;
+using Jubjubnest.Style.DotNet;
+using Jubjubnest.Style.DotNet.Test.Helpers;
 
 namespace TestHelper
 {

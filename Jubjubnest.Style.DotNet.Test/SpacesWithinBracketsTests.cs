@@ -4,10 +4,10 @@ using Microsoft.CodeAnalysis.Diagnostics;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using TestHelper;
-using MFiles.Style.DotNet;
-using MFiles.Style.DotNet.Test.Helpers;
+using Jubjubnest.Style.DotNet;
+using Jubjubnest.Style.DotNet.Test.Helpers;
 
-namespace MFiles.Style.DotNet.Test
+namespace Jubjubnest.Style.DotNet.Test
 {
 	[TestClass]
 	public class SpacesWithinBracketsTests : CodeFixVerifier
@@ -205,7 +205,7 @@ namespace MFiles.Style.DotNet.Test
 
 		protected override CodeFixProvider GetCSharpCodeFixProvider()
 		{
-			return new MFilesStyleDotNetCodeFixProvider();
+			return new JubjubnestStyleDotNetCodeFixProvider();
 		}
 
 		protected override DiagnosticAnalyzer GetCSharpDiagnosticAnalyzer()
@@ -217,7 +217,7 @@ namespace MFiles.Style.DotNet.Test
         {
 			return new DiagnosticResult
 			{
-				Id = "MFiles_Style_DotNet_SpacesWithinBrackets",
+				Id = "Jubjubnest_Style_DotNet_SpacesWithinBrackets",
 				Message = String.Format( "Insert a space inside the {0}.", type ),
 				Severity = DiagnosticSeverity.Warning,
 				Locations = new[] { new DiagnosticResultLocation( "Test0.cs", row, col ) }

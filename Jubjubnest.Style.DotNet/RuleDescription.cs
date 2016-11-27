@@ -6,7 +6,7 @@ using System.Resources;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MFiles.Style.DotNet
+namespace Jubjubnest.Style.DotNet
 {
     public class RuleDescription
     {

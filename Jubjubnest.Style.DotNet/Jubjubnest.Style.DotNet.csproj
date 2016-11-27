@@ -8,8 +8,8 @@
     <ProjectGuid>{F232F1C1-867D-4713-9336-2DC22B54DB66}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>MFiles.Style.DotNet</RootNamespace>
-    <AssemblyName>MFiles.Style.DotNet</AssemblyName>
+    <RootNamespace>Jubjubnest.Style.DotNet</RootNamespace>
+    <AssemblyName>Jubjubnest.Style.DotNet</AssemblyName>
     <ProjectTypeGuids>{786C830F-07A1-408B-BD7F-6EE04809D6DB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <TargetFrameworkProfile>Profile7</TargetFrameworkProfile>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>

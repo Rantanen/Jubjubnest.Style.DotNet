@@ -13,10 +13,10 @@ using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.CodeAnalysis.Rename;
 using Microsoft.CodeAnalysis.Text;
 
-namespace MFiles.Style.DotNet
+namespace Jubjubnest.Style.DotNet
 {
-	[ExportCodeFixProvider( LanguageNames.CSharp, Name = nameof( MFilesStyleDotNetCodeFixProvider ) ), Shared]
-	public class MFilesStyleDotNetCodeFixProvider : CodeFixProvider
+	[ExportCodeFixProvider( LanguageNames.CSharp, Name = nameof( JubjubnestStyleDotNetCodeFixProvider ) ), Shared]
+	public class JubjubnestStyleDotNetCodeFixProvider : CodeFixProvider
 	{
 		private const string title = "Make uppercase";
 

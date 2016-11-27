@@ -7,7 +7,7 @@ using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 
-namespace MFiles.Style.DotNet
+namespace Jubjubnest.Style.DotNet
 {
 	internal class SyntaxHelper
 	{

@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MFiles.Style.DotNet.Test.Helpers
+namespace Jubjubnest.Style.DotNet.Test.Helpers
 {
     public static class Code
     {
