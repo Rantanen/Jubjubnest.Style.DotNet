@@ -133,6 +133,14 @@ namespace Jubjubnest.Style.DotNet.Test
 		}
 
 		[TestMethod]
+		public void TestSingleLineAutomaticPropertiesWithDefaultValue()
+		{
+			var code = Code.InClass( @"public string Foo { get; set; } = """";" );
+
+			VerifyCSharpDiagnostic( code.Code );
+		}
+
+		[TestMethod]
 		public void TestParametersOnSameLine()
 		{
 			var code = Code.InClass( @"

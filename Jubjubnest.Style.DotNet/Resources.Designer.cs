@@ -62,6 +62,33 @@ namespace Jubjubnest.Style.DotNet {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        internal static string BracesOnTheirOwnLine_Description {
+            get {
+                return ResourceManager.GetString("BracesOnTheirOwnLine_Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Insert the brace on its own line..
+        /// </summary>
+        internal static string BracesOnTheirOwnLine_Message {
+            get {
+                return ResourceManager.GetString("BracesOnTheirOwnLine_Message", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Braces must be on their own line.
+        /// </summary>
+        internal static string BracesOnTheirOwnLine_Title {
+            get {
+                return ResourceManager.GetString("BracesOnTheirOwnLine_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Each logical code segment must be commented. Code segments are segments of code separated by empty lines..
         /// </summary>
         internal static string CommentedSegments_Description {
@@ -863,7 +890,7 @@ namespace Jubjubnest.Style.DotNet {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to There should be only one XMLdocumentation block..
+        ///   Looks up a localized string similar to There should be only one XMLdocumentation block.
         /// </summary>
         internal static string XmlNoMultipleXmlDocumentationSegments_Title {
             get {

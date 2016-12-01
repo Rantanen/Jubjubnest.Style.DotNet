@@ -215,7 +215,7 @@ namespace Jubjubnest.Style.DotNet
 		/// <summary>
 		/// Close brace validation regex.
 		/// </summary>
-		private static readonly Regex validCloseBrace = new Regex( @"^\s*\}[\s);]*$" );
+		private static readonly Regex validCloseBrace = new Regex( @"^\s*\}[\s);]*(?://.*)?$" );
 
 		/// <summary>
 		/// Check whether the braces are on their own lines.
@@ -291,7 +291,7 @@ namespace Jubjubnest.Style.DotNet
 				// Chech whether the line stays withint he 120 character limit.
 				var lineText = line.ToString();
 				int treshold;
-				var length = SyntaxHelper.GetTextLengthWith120Treshold( lineText, out treshold );
+				SyntaxHelper.GetTextLengthWith120Treshold( lineText, out treshold );
 				if( treshold != -1 )
 				{
 					// Line exceeds 120 characters. Report the error.

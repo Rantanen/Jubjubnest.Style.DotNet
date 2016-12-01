@@ -192,9 +192,9 @@ namespace Jubjubnest.Style.DotNet.Test
 			}";
 
 			VerifyCSharpDiagnostic( code,
-					Warning( 2, 9, DocumentationAnalyzer.XmlDocumentNoEmptyContent, "summary" ),
-					Warning( 4, 10, DocumentationAnalyzer.XmlDocumentNoEmptyContent, "summary" ),
-					Warning( 5, 10, DocumentationAnalyzer.XmlDocumentNoEmptyContent, "param" ) );
+					Warning( 2, 9, DocumentationAnalyzer.XmlDocumentationNoEmptyContent, "summary" ),
+					Warning( 4, 10, DocumentationAnalyzer.XmlDocumentationNoEmptyContent, "summary" ),
+					Warning( 5, 10, DocumentationAnalyzer.XmlDocumentationNoEmptyContent, "param" ) );
 		}
 
 		[TestMethod]

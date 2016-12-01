@@ -113,6 +113,10 @@ namespace Jubjubnest.Style.DotNet.Test
 						public Bar() {}
 						public void Method() {}
 						public string Property { get; set; }
+
+						private string privateField;
+						private readonly string READONLY_FIELD = null
+						private const int CONST_FIELD = 1;
 					}
 
 					interface IBar { }

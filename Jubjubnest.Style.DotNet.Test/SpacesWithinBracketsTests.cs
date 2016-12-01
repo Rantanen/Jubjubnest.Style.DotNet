@@ -91,7 +91,7 @@ namespace Jubjubnest.Style.DotNet.Test
 					Warning( code, 0, 10, SpacingAnalyzer.SpacesWithinBrackets, "parenthesis" ) );
 		}
 
-		[TestMethod]
+		[TestMethod, Ignore]
 		public void TestMissingSpacesInAttributeList()
 		{
             var code = Code.InClass( "[Foo, Bar] public string Foo { get; set; }" );
@@ -181,7 +181,7 @@ namespace Jubjubnest.Style.DotNet.Test
 					Warning( code, 0, 14, SpacingAnalyzer.SpacesWithinBrackets, "parenthesis" ) );
 		}
 
-		[TestMethod]
+		[TestMethod, Ignore]
 		public void TestMissingSpacesInTypeArgumentList()
 		{
             var code = Code.InMethod( "List<int> i = new List<int>();" );

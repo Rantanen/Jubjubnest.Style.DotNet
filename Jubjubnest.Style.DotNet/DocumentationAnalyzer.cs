@@ -35,8 +35,8 @@ namespace Jubjubnest.Style.DotNet
 				new RuleDescription( nameof( XmlDocumentationNoMismatchedParam ), "Documentation" );
 
 		/// <summary>Check that the documentation XML elements are not empty.</summary>
-		public static RuleDescription XmlDocumentNoEmptyContent { get; } =
-				new RuleDescription( nameof( XmlDocumentNoEmptyContent ), "Documentation" );
+		public static RuleDescription XmlDocumentationNoEmptyContent { get; } =
+				new RuleDescription( nameof( XmlDocumentationNoEmptyContent ), "Documentation" );
 
 		/// <summary>Check that the documentation XML elements are not empty.</summary>
 		public static RuleDescription XmlNoMultipleXmlDocumentationSegments { get; } =
@@ -55,7 +55,7 @@ namespace Jubjubnest.Style.DotNet
 					XmlDocumentAllMethodParams.Rule,
 					XmlDocumentReturnValues.Rule,
 					XmlDocumentationNoMismatchedParam.Rule,
-					XmlDocumentNoEmptyContent.Rule,
+					XmlDocumentationNoEmptyContent.Rule,
 					XmlNoMultipleXmlDocumentationSegments.Rule,
 					XmlNoMultipleParamsWithSameName.Rule );
 
@@ -261,7 +261,7 @@ namespace Jubjubnest.Style.DotNet
 				// Empty element.
 				// Create the diagnostic message and report it.
 				var diagnostic = Diagnostic.Create(
-						XmlDocumentNoEmptyContent.Rule,
+						XmlDocumentationNoEmptyContent.Rule,
 						element.GetLocation(),
 						element.StartTag.Name.ToString() );
 				context.ReportDiagnostic( diagnostic );

@@ -94,7 +94,6 @@ namespace Jubjubnest.Style.DotNet
 		{
 			// Register actions.
 			context.RegisterSymbolAction( AnalyzeTypeName, SymbolKind.NamedType );
-			context.RegisterSymbolAction( AnalyzeFieldName, SymbolKind.Field );
 			context.RegisterSymbolAction( AnalyzePropertyName, SymbolKind.Property );
 			context.RegisterSymbolAction( AnalyzeMethodName, SymbolKind.Method );
 			context.RegisterSymbolAction( AnalyzeNamespaceName, SymbolKind.Namespace );
@@ -102,7 +101,7 @@ namespace Jubjubnest.Style.DotNet
 
 			// Stuff.
 			context.RegisterSyntaxNodeAction( AnalyzeEnumValues, SyntaxKind.EnumMemberDeclaration );
-			context.RegisterSyntaxNodeAction( AnalyzeVariableNames, SyntaxKind.VariableDeclaration );
+			context.RegisterSyntaxNodeAction( AnalyzeVariableNames, SyntaxKind.VariableDeclarator );
 			context.RegisterSyntaxNodeAction( AnalyzeParameterNames, SyntaxKind.MethodDeclaration );
 		}
 
@@ -163,10 +162,32 @@ namespace Jubjubnest.Style.DotNet
 		/// <param name="context">Analysis context.</param>
 		private static void AnalyzeVariableNames( SyntaxNodeAnalysisContext context )
 		{
-			// Check variables.
-			var variableSyntax = (VariableDeclarationSyntax)context.Node;
-			foreach( var variable in variableSyntax.Variables )
+			// Get the syntax node.
+			var variable = (VariableDeclaratorSyntax)context.Node;
+
+			// If this variable is a field, skip it here. We have separate checks for fields.
+			FieldDeclarationSyntax field = variable.Parent.Parent as FieldDeclarationSyntax;
+			if( field != null )
+			{
+				// Type field variable.
+
+				// Check for modifiers.
+				var isReadOnly = field.Modifiers.Any( st => st.IsKind( SyntaxKind.ReadOnlyKeyword ) );
+				var isConst = field.Modifiers.Any( st => st.IsKind( SyntaxKind.ConstKeyword ) );
+
+				// Delegate depending on the field type.
+				if( isReadOnly || isConst )
+					CheckName( context, variable.Identifier, NameConstantsWithCapitalCase, IsCapitalCase );
+				else
+					CheckName( context, variable.Identifier, NameFieldsWithCamelCase, IsCamelCase );
+			}
+			else
+			{
+				// Normal non-field variable.
+
+				// Go through each variable in the declaration.
 				CheckName( context, variable.Identifier, NameVariablesWithCamelCase, IsCamelCase );
+			}
 		}
 
 		/// <summary>
@@ -274,16 +295,6 @@ namespace Jubjubnest.Style.DotNet
 					rule.Rule,
 					token.GetLocation(), name );
 			report( diagnostic );
-		}
-
-		/// <summary>
-		/// Check field naming rules.
-		/// </summary>
-		/// <param name="context">Analysis context.</param>
-		private static void AnalyzeFieldName( SymbolAnalysisContext context )
-		{
-			// Delegate.
-			CheckName( context, NameFieldsWithCamelCase, IsCamelCase );
 		}
 
 		/// <summary>

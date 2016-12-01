@@ -388,6 +388,15 @@
     <value>Merge multiple XMLdocumentation blocks.</value>
   </data>
   <data name="XmlNoMultipleXmlDocumentationSegments_Title" xml:space="preserve">
-    <value>There should be only one XMLdocumentation block.</value>
+    <value>There should be only one XMLdocumentation block</value>
+  </data>
+  <data name="BracesOnTheirOwnLine_Description" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BracesOnTheirOwnLine_Message" xml:space="preserve">
+    <value>Insert the brace on its own line.</value>
+  </data>
+  <data name="BracesOnTheirOwnLine_Title" xml:space="preserve">
+    <value>Braces must be on their own line</value>
   </data>
 </root>
