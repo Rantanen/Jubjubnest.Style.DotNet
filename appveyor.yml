@@ -6,8 +6,11 @@ pull_requests:
 
 build_script:
     - nuget restore
+    - ps: |
+        .\scripts\appveyor-build-version.ps1 -version $env:APPVEYOR_BUILD_VERSION
     - msbuild /p:configuration=Release
+    - ps:
+        .\scripts\appveyor-copy-artifacts.ps1 -version $env:APPVEYOR_BUILD_VERSION
 
 artifacts:
-    - path: Jubjubnest.Style.DotNet.Vsix\bin\Release\Jubjubnest.Style.DotNet.Vsix.vsix
-      name: Jubjubnest.Style.DotNet.vsix
+    - path: dist\Jubjubnest.Style.DotNet.vsix

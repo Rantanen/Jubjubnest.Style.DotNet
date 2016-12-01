@@ -1,5 +1,7 @@
 ﻿param( [ string ]$version )
 
+"Setting version to $version" | Write-Host
+
 # Open the XML file
 $manifest = [System.IO.Path]::Combine(
     $PSScriptRoot,
