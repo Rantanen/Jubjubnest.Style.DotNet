@@ -15,16 +15,6 @@ namespace Jubjubnest.Style.DotNet
 	{
 		public RuleDescription( string rule, string category )
 		{
-#if DEBUG
-
-			// Debug mode has everything enabled by default.
-			this.Enabled = true;
-#else
-
-			// Release mode has everything disabled by default.
-			this.Enabled = false;
-#endif
-
 			// Grab the localized resources.
 			var title = new LocalizableResourceString(
 					rule + "_Title", Resources.ResourceManager, typeof( Resources ) );
@@ -64,7 +54,7 @@ namespace Jubjubnest.Style.DotNet
 		/// <summary>
 		/// Default enable/disable state.
 		/// </summary>
-		public bool Enabled { get; set; } = true;
+		public bool Enabled { get; set; } = false;
 
 		/// <summary>
 		/// Rule ID.

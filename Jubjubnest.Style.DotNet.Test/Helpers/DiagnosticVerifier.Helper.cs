@@ -40,6 +40,51 @@ namespace TestHelper
 		}
 
 		/// <summary>
+		/// Gets the compilation data with diagnostics enabled.
+		/// </summary>
+		/// <param name="project">Project to compile.</param>
+		/// <param name="analyzer">Analyzer to enable the diagnostics for.</param>
+		/// <returns>Compilation data.</returns>
+		protected static Compilation GetCompilationWithEnabledDiagnostics( Project project, DiagnosticAnalyzer analyzer )
+		{
+			// Get the immutable diagnostic options.
+			var compilation = project.GetCompilationAsync().Result;
+			var options = compilation.Options;
+			var specificDiagnosticOptions = options.SpecificDiagnosticOptions;
+
+			// Add the rules.
+			foreach( var rule in analyzer.SupportedDiagnostics )
+				specificDiagnosticOptions = specificDiagnosticOptions.Add( rule.Id, ReportDiagnostic.Warn );
+
+			// Return the compilation data with the added diagnostic options.
+			return compilation.WithOptions(
+					options.WithSpecificDiagnosticOptions(
+						specificDiagnosticOptions ) );
+		}
+
+		/// <summary>
+		/// Converts diagnostic severity to report diagnostic.
+		/// </summary>
+		/// <param name="ruleDefaultSeverity">Diagnostic severity.</param>
+		/// <returns>Report diagnostic representing the severity.</returns>
+		private static ReportDiagnostic SeverityToDiagnostic( DiagnosticSeverity ruleDefaultSeverity )
+		{
+			switch( ruleDefaultSeverity )
+			{
+				case DiagnosticSeverity.Error:
+					return ReportDiagnostic.Error;
+				case DiagnosticSeverity.Hidden:
+					return ReportDiagnostic.Hidden;
+				case DiagnosticSeverity.Info:
+					return ReportDiagnostic.Info;
+				case DiagnosticSeverity.Warning:
+					return ReportDiagnostic.Warn;
+				default:
+					throw new NotImplementedException();
+			}
+		}
+
+		/// <summary>
 		/// Given an analyzer and a document to apply it to, run the analyzer and gather an array of diagnostics found in it.
 		/// The returned diagnostics are then ordered by location in the source document.
 		/// </summary>
@@ -57,7 +102,8 @@ namespace TestHelper
 			var diagnostics = new List<Diagnostic>();
 			foreach( var project in projects )
 			{
-				var compilationWithAnalyzers = project.GetCompilationAsync().Result.WithAnalyzers( ImmutableArray.Create( analyzer ) );
+				var compilation = GetCompilationWithEnabledDiagnostics( project, analyzer );
+				var compilationWithAnalyzers = compilation.WithAnalyzers( ImmutableArray.Create( analyzer ) );
 				var diags = compilationWithAnalyzers.GetAnalyzerDiagnosticsAsync().Result;
 				foreach( var diag in diags )
 				{
