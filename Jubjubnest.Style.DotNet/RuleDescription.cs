@@ -8,41 +8,72 @@ using System.Threading.Tasks;
 
 namespace Jubjubnest.Style.DotNet
 {
-    public class RuleDescription
-    {
-        public RuleDescription( string rule, string category )
-        {
-            this.Id = "Jubjubnest_" + rule;
-            this.Name = rule;
+	/// <summary>
+	/// Rule description.
+	/// </summary>
+	public class RuleDescription
+	{
+		public RuleDescription( string rule, string category )
+		{
+#if DEBUG
 
-            var title = new LocalizableResourceString(
-                rule + "_Title", Resources.ResourceManager, typeof( Resources ) );
-            var message = new LocalizableResourceString(
-                rule + "_Message", Resources.ResourceManager, typeof( Resources ) );
-            var description = new LocalizableResourceString(
-                rule + "_Description", Resources.ResourceManager, typeof( Resources ) );
+			// Debug mode has everything enabled by default.
+			this.Enabled = true;
+#else
 
+			// Release mode has everything disabled by default.
+			this.Enabled = false;
+#endif
+
+			// Grab the localized resources.
+			var title = new LocalizableResourceString(
+					rule + "_Title", Resources.ResourceManager, typeof( Resources ) );
+			var message = new LocalizableResourceString(
+					rule + "_Message", Resources.ResourceManager, typeof( Resources ) );
+			var description = new LocalizableResourceString(
+					rule + "_Description", Resources.ResourceManager, typeof( Resources ) );
+
+			// If description wasn't localized, set it to null for descriptor purposes.
 			if( string.IsNullOrWhiteSpace( description.ToString() ) )
 				description = null;
 
-            this.Message = message.ToString();
+			// Store the string data.
+			this.Id = "Jubjubnest_" + rule;
+			this.Name = rule;
+			this.Message = message.ToString();
 
-            this.Rule = new DiagnosticDescriptor(
-                    Id,
-                    title, message, category,
-                    DiagnosticSeverity.Warning,
-                    isEnabledByDefault: true,
-                    description: description );
-        }
+			// Create the diagnostic descriptor for the actual rule.
+			this.Rule = new DiagnosticDescriptor(
+					Id,
+					title, message, category,
+					DiagnosticSeverity.Warning,
+					isEnabledByDefault: this.Enabled,
+					description: description );
+		}
 
-        public string Name { get; }
+		/// <summary>
+		/// Rule name.
+		/// </summary>
+		public string Name { get; }
 
-        public string Message { get; }
+		/// <summary>
+		/// Rule message.
+		/// </summary>
+		public string Message { get; }
 
-        public bool Enabled { get; set; } = true;
+		/// <summary>
+		/// Default enable/disable state.
+		/// </summary>
+		public bool Enabled { get; set; } = true;
 
-        public string Id { get; }
+		/// <summary>
+		/// Rule ID.
+		/// </summary>
+		public string Id { get; }
 
-        public DiagnosticDescriptor Rule { get; }
-    }
+		/// <summary>
+		/// The actual rule.
+		/// </summary>
+		public DiagnosticDescriptor Rule { get; }
+	}
 }

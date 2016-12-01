@@ -99,6 +99,19 @@ namespace Jubjubnest.Style.DotNet.Test
 		}
 
 		[TestMethod]
+		public void TestMultipleXmlDocumentationSegments()
+		{
+			var code = @"namespace Foo {
+				/// <summary>Enum</summary>
+
+				/// <summary>Enum</summary>
+				enum Bar { }
+			}";
+
+			VerifyCSharpDiagnostic( code, Warning( 2, 8, DocumentationAnalyzer.XmlNoMultipleXmlDocumentationSegments ) );
+		}
+
+		[TestMethod]
 		public void TestDocumentationHasMultipleLines()
 		{
 			var code = @"namespace Foo {
@@ -122,6 +135,19 @@ namespace Jubjubnest.Style.DotNet.Test
 			}";
 
 			VerifyCSharpDiagnostic( code, Warning( 4, 11, DocumentationAnalyzer.XmlDocumentEverythingWithSummary, "method", "Foobar" ) );
+		}
+
+		[TestMethod]
+		public void TestDocumentationMissingOnClassConstructor()
+		{
+			var code = @"namespace Foo {
+				/// <summary>Bar</summary>
+				class Bar {
+					void Bar() {}
+				}
+			}";
+
+			VerifyCSharpDiagnostic( code, Warning( 4, 11, DocumentationAnalyzer.XmlDocumentEverythingWithSummary, "method", "Bar" ) );
 		}
 
 		[TestMethod]

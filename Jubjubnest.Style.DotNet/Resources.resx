@@ -174,13 +174,13 @@
   <data name="XmlDocumentAllMethodParams_Title" xml:space="preserve">
     <value>Method parameters should have &lt;param&gt; tag</value>
   </data>
-  <data name="XmlDocumentationNoEmptyDocumentation_Description" xml:space="preserve">
+  <data name="XmlDocumentationNoEmptyContent_Description" xml:space="preserve">
     <value />
   </data>
-  <data name="XmlDocumentationNoEmptyDocumentation_Message" xml:space="preserve">
+  <data name="XmlDocumentationNoEmptyContent_Message" xml:space="preserve">
     <value>Add the documentation content to {0} tag.</value>
   </data>
-  <data name="XmlDocumentationNoEmptyDocumentation_Title" xml:space="preserve">
+  <data name="XmlDocumentationNoEmptyContent_Title" xml:space="preserve">
     <value>All XML documentation tags should have non-empty content</value>
   </data>
   <data name="XmlDocumentationNoMismatchedParam_Description" xml:space="preserve">
@@ -353,5 +353,41 @@
   </data>
   <data name="NameVariablesWithCamelCase_Title" xml:space="preserve">
     <value>Variables should be named with camelCasing</value>
+  </data>
+  <data name="NoTrailingWhitespace_Description" xml:space="preserve">
+    <value />
+  </data>
+  <data name="NoTrailingWhitespace_Message" xml:space="preserve">
+    <value>Remove trailing whitespace.</value>
+  </data>
+  <data name="NoTrailingWhitespace_Title" xml:space="preserve">
+    <value>There should be no trailing whitespace</value>
+  </data>
+  <data name="ParametersOnTheirOwnLines_Description" xml:space="preserve">
+    <value />
+  </data>
+  <data name="ParametersOnTheirOwnLines_Message" xml:space="preserve">
+    <value>Insert newline before the '{0}' parameter.</value>
+  </data>
+  <data name="ParametersOnTheirOwnLines_Title" xml:space="preserve">
+    <value>Method parameters should be on their own lines.</value>
+  </data>
+  <data name="XmlNoMultipleParamsWIthSameName_Description" xml:space="preserve">
+    <value />
+  </data>
+  <data name="XmlNoMultipleParamsWIthSameName_Message" xml:space="preserve">
+    <value>Remove duplicate &lt;param name="{0}"&gt;</value>
+  </data>
+  <data name="XmlNoMultipleParamsWIthSameName_Title" xml:space="preserve">
+    <value>There should be no duplicate &lt;param&gt; tags with the same name</value>
+  </data>
+  <data name="XmlNoMultipleXmlDocumentationSegments_Description" xml:space="preserve">
+    <value />
+  </data>
+  <data name="XmlNoMultipleXmlDocumentationSegments_Message" xml:space="preserve">
+    <value>Merge multiple XMLdocumentation blocks.</value>
+  </data>
+  <data name="XmlNoMultipleXmlDocumentationSegments_Title" xml:space="preserve">
+    <value>There should be only one XMLdocumentation block.</value>
   </data>
 </root>

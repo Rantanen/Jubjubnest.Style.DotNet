@@ -12,224 +12,286 @@ using System.Text.RegularExpressions;
 
 namespace Jubjubnest.Style.DotNet
 {
-	[DiagnosticAnalyzer( LanguageNames.CSharp )]
+	/// <summary>
+	/// Analyzes the commenting style.
+	/// </summary>
+	[ DiagnosticAnalyzer( LanguageNames.CSharp ) ]
 	public class CommentAnalyzer : DiagnosticAnalyzer
 	{
-        // You can change these strings in the Resources.resx file. If you do not want your analyzer to be localize-able, you can use regular strings for Title and MessageFormat.
-        // See https://github.com/dotnet/roslyn/blob/master/docs/analyzers/Localizing%20Analyzers.md for more on localization
-        public static readonly RuleDescription CommentedSegments = new RuleDescription( "CommentedSegments", "Comments" );
-        public static readonly RuleDescription NewlineBeforeComment = new RuleDescription( "NewlineBeforeComment", "Comments" );
-        public static readonly RuleDescription SpacesBeforeTrailingComment = new RuleDescription( "SpacesBeforeTrailingComment", "Comments" );
-        public static readonly RuleDescription CommentStartsWithSpace = new RuleDescription( "CommentStartsWithSpace", "Comments" );
+		/// <summary>All code segments must be commented.</summary>
+		public static RuleDescription CommentedSegments { get; } =
+				new RuleDescription( "CommentedSegments", "Comments" );
 
-		public override ImmutableArray<DiagnosticDescriptor> SupportedDiagnostics
-        {
-            get
-            {
-                return ImmutableArray.Create(
-                        CommentedSegments.Rule,
-                        NewlineBeforeComment.Rule,
-                        SpacesBeforeTrailingComment.Rule,
-                        CommentStartsWithSpace.Rule );
-            }
-        }
+		/// <summary>Comments must have a newline before them.</summary>
+		public static RuleDescription NewlineBeforeComment { get; } =
+				new RuleDescription( "NewlineBeforeComment", "Comments" );
 
+		/// <summary>There must be two spaces separating a trailing comment from the code before it.</summary>
+		public static RuleDescription SpacesBeforeTrailingComment { get; } =
+				new RuleDescription( "SpacesBeforeTrailingComment", "Comments" );
+
+		/// <summary>Comments must have a space after the '//'.</summary>
+		public static RuleDescription CommentStartsWithSpace { get; } =
+				new RuleDescription( "CommentStartsWithSpace", "Comments" );
+
+		/// <summary>
+		/// Supported diagnostic rules.
+		/// </summary>
+		public override ImmutableArray< DiagnosticDescriptor > SupportedDiagnostics =>
+				ImmutableArray.Create(
+					CommentedSegments.Rule,
+					NewlineBeforeComment.Rule,
+					SpacesBeforeTrailingComment.Rule,
+					CommentStartsWithSpace.Rule );
+
+		/// <summary>
+		/// Initialize the analyzer.
+		/// </summary>
+		/// <param name="context">Analysis context the analysis actions are registered on.</param>
 		public override void Initialize( AnalysisContext context )
 		{
+			// Register the actions.
 			context.RegisterSyntaxNodeAction( AnalyzeCodeBlocks, SyntaxKind.Block );
-            context.RegisterSyntaxTreeAction( AnalyzeAllComments );
+			context.RegisterSyntaxTreeAction( AnalyzeAllComments );
 		}
 
-        private static void AnalyzeAllComments( SyntaxTreeAnalysisContext context )
-        {
-            var root = context.Tree.GetRoot( context.CancellationToken );
-            var comments = root.DescendantTrivia().Where( t => t.IsKind( SyntaxKind.SingleLineCommentTrivia ) );
+		/// <summary>
+		/// Analyze the comments.
+		/// </summary>
+		/// <param name="context">Analysis context.</param>
+		private static void AnalyzeAllComments( SyntaxTreeAnalysisContext context )
+		{
+			// Get all comments.
+			var root = context.Tree.GetRoot( context.CancellationToken );
+			var comments = root.DescendantTrivia().Where( t => t.IsKind( SyntaxKind.SingleLineCommentTrivia ) );
 
-            foreach( var comment in comments )
-            {
-                // If the comment doesn't start with double '//' we have no idea what it is.
-                var str = comment.ToString();
-                if( !str.StartsWith( "//" ) )
-                    continue;
+			// Analyze each comment separately.
+			foreach( var comment in comments )
+			{
+				// If the comment doesn't start with double '//' we have no idea what it is.
+				var str = comment.ToString();
+				if( !str.StartsWith( "//" ) )
+					continue;
 
-                // If the comment has space after slashes it's okay.
-                if( str[ 2 ] == ' ' )
-                    continue;
+				// If the comment has space after slashes it's okay.
+				if( str.Length <= 2 || str[ 2 ] == ' ' )
+					continue;
 
-                // Create the diagnostic message and report it.
-                var diagnostic = Diagnostic.Create(
-                        CommentStartsWithSpace.Rule,
-                        comment.GetLocation() );
-                context.ReportDiagnostic( diagnostic );
-            }
-        }
+				// Create the diagnostic message and report it.
+				var diagnostic = Diagnostic.Create(
+						CommentStartsWithSpace.Rule,
+						comment.GetLocation() );
+				context.ReportDiagnostic( diagnostic );
+			}
+		}
 
+		/// <summary>
+		/// Analyze the code segments within code blocks.
+		/// </summary>
+		/// <param name="context">Analysis context.</param>
 		private static void AnalyzeCodeBlocks( SyntaxNodeAnalysisContext context )
 		{
-            int previousStatementEndLine = int.MinValue;
-            int segmentStart = -1;
-            int nodesInSegment = 0;
-            SyntaxNode firstInSegment = null;
-            SyntaxNode lastInSegment = null;
+			// Variables used during iteration.
+			int previousStatementEndLine = int.MinValue;
+			int segmentStart = -1;
+			int nodesInSegment = 0;
+			SyntaxNode firstInSegment = null;
+			SyntaxNode lastInSegment = null;
 
-            foreach( var childNode in context.Node.ChildNodes() )
-            {
-                CheckLeadingCommentSpace( context, childNode );
-                CheckTrailingCommentSpace( context, childNode );
+			// Process all top-level code nodes within the block.
+			foreach( var childNode in context.Node.ChildNodes() )
+			{
+				// Check for the leading and trailing comment spacing.
+				CheckLeadingCommentSpace( context, childNode );
+				CheckTrailingCommentSpace( context, childNode );
 
-                // Store the segment start if we're not tracking a segment currently.
-                var lineSpan = childNode.GetLocation().GetLineSpan();
-                if( segmentStart == -1 )
-                {
-                    segmentStart = lineSpan.StartLinePosition.Line;
-                    previousStatementEndLine = lineSpan.EndLinePosition.Line;
-                    firstInSegment = childNode;
-                    lastInSegment = childNode;
-                }
+				// Store the segment start if we're not tracking a segment currently.
+				var lineSpan = childNode.GetLocation().GetLineSpan();
+				if( segmentStart == -1 )
+				{
+					// This is the first segment. Initialize the trackign variables.
+					segmentStart = lineSpan.StartLinePosition.Line;
+					previousStatementEndLine = lineSpan.EndLinePosition.Line;
+					firstInSegment = childNode;
+					lastInSegment = childNode;
+				}
 
-                // Check whether the current syntax node is attached to the previous node.
-                if( lineSpan.StartLinePosition.Line <= previousStatementEndLine + 1 )
-                {
-                    // The nodes are attached. Find the next one.
-                    previousStatementEndLine = lineSpan.EndLinePosition.Line;
-                    lastInSegment = childNode;
-                    nodesInSegment += 1;
-                    continue;
-                }
+				// Check whether the current syntax node is attached to the previous node.
+				if( lineSpan.StartLinePosition.Line <= previousStatementEndLine + 1 )
+				{
+					// The nodes are attached. Find the next one.
+					previousStatementEndLine = lineSpan.EndLinePosition.Line;
+					lastInSegment = childNode;
+					nodesInSegment += 1;
+					continue;
+				}
 
-                // Segment ended so we know its full length. Make sure it has a comment.
-                RequireComment( context, firstInSegment, lastInSegment );
+				// Segment ended so we know its full length. Make sure it has a comment.
+				RequireComment( context, firstInSegment, lastInSegment );
 
-                // Start a new segment.
-                segmentStart = lineSpan.StartLinePosition.Line;
-                previousStatementEndLine = lineSpan.EndLinePosition.Line;
-                nodesInSegment = 1;
-                firstInSegment = childNode;
-                lastInSegment = childNode;
-            }
+				// Start a new segment.
+				segmentStart = lineSpan.StartLinePosition.Line;
+				previousStatementEndLine = lineSpan.EndLinePosition.Line;
+				nodesInSegment = 1;
+				firstInSegment = childNode;
+				lastInSegment = childNode;
+			}
 
-            // No more statements so make sure the last segment has a comment as well.
-            if( firstInSegment != null )
-                RequireComment( context, firstInSegment, lastInSegment );
+			// No more statements so make sure the last segment has a comment as well.
+			if( firstInSegment != null )
+				RequireComment( context, firstInSegment, lastInSegment );
 		}
 
-        private static void CheckTrailingCommentSpace( SyntaxNodeAnalysisContext context, SyntaxNode childNode )
-        {
-            if( !childNode.HasTrailingTrivia )
-                return;
+		/// <summary>
+		/// Check spacing rules in the trailing comments.
+		/// </summary>
+		/// <param name="context">Analysis context.</param>
+		/// <param name="childNode">Node to check for trailing comments.</param>
+		private static void CheckTrailingCommentSpace(
+			SyntaxNodeAnalysisContext context,
+			SyntaxNode childNode )
+		{
+			// If there are no trailing trivia, skip the whole node.
+			if( !childNode.HasTrailingTrivia )
+				return;
 
-            var trivia = childNode.GetTrailingTrivia().ToList();
+			// Gather all the continuous whitespace in the trivia.
+			var trivia = childNode.GetTrailingTrivia().ToList();
+			var cursor = 0;
+			var whitespace = "";
+			while( cursor < trivia.Count && trivia[ cursor ].IsKind( SyntaxKind.WhitespaceTrivia ) )
+				whitespace += trivia[ cursor++ ].ToString();
 
-            var badDistance = false;
-            Location triviaLocation = null;
+			// Check whether we have trailing comment trivia after the whitespace.
+			if( cursor >= trivia.Count ||
+				!trivia[ cursor ].IsKind( SyntaxKind.SingleLineCommentTrivia ) )
+			{
+				// No trailing trivia. Stop processing the node.
+				return;
+			}
 
-            // If the single line comment is attached directly it's bad.
-            if( trivia.Count > 0 && trivia[ 0 ].IsKind( SyntaxKind.SingleLineCommentTrivia ) )
-            {
-                badDistance = true;
-                triviaLocation = trivia[ 0 ].GetLocation();
-            }
+			// If there is exactly two characters of whitespace before the comment, we're
+			// okay and there's no need for warning.
+			if( SyntaxHelper.GetTextLength( whitespace ) == 2 )
+				return;
 
-            // If the single line comment has whitespace in front that isn't 2 space, it's bad.
-            if( trivia.Count > 1 &&
-                trivia[ 0 ].IsKind( SyntaxKind.WhitespaceTrivia ) &&
-                trivia[ 1 ].IsKind( SyntaxKind.SingleLineCommentTrivia ) &&
-                trivia[ 0 ].ToString() != "  " )
-            {
-                badDistance = true;
-                triviaLocation = trivia[ 1 ].GetLocation();
-            }
+			// There's comments and they are not separated by two spaces.
+			// Report the diagnostic.
+			var diagnostic = Diagnostic.Create(
+					SpacesBeforeTrailingComment.Rule,
+					trivia[ cursor ].GetLocation() );
+			context.ReportDiagnostic( diagnostic );
+		}
 
-            if( badDistance )
-            {
-                // Create the diagnostic message and report it.
-                var diagnostic = Diagnostic.Create(
-                        SpacesBeforeTrailingComment.Rule,
-                        triviaLocation );
-                context.ReportDiagnostic( diagnostic );
-            }
-        }
+		/// <summary>
+		/// Check spacing rules in the leading comments.
+		/// </summary>
+		/// <param name="context">Analysis context.</param>
+		/// <param name="childNode">Node to check for leading comments.</param>
+		private static void CheckLeadingCommentSpace(
+			SyntaxNodeAnalysisContext context,
+			SyntaxNode childNode )
+		{
+			// If there's no leading trivia we can skip the whole node.
+			if( !childNode.HasLeadingTrivia )
+				return;
 
-        private static void CheckLeadingCommentSpace( SyntaxNodeAnalysisContext context, SyntaxNode childNode )
-        {
-            if( !childNode.HasLeadingTrivia )
-                return;
+			// Get the leading comments.
+			var comments = childNode.GetLeadingTrivia()
+								.Where( trivia => trivia.IsKind( SyntaxKind.SingleLineCommentTrivia ) )
+								.ToList();
 
-            var comments = childNode.GetLeadingTrivia()
-                                .Where( trivia => trivia.IsKind( SyntaxKind.SingleLineCommentTrivia ) )
-                                .ToList();
+			// We'll cache the source text if we need it.
+			SourceText sourceText = null;
 
-            SourceText sourceText = null;
+			// Process each comment trivia.
+			//
+			// Keep track of the previous comment line since we will consider subsequent lines
+			// as single comments and won't require empty lines between them.
+			var previousLineNumber = int.MinValue;
+			for( var i = 0; i < comments.Count; ++i )
+			{
+				// Grab the comment line number.
+				var comment = comments[ i ];
+				var currentLineNumber = comment.GetLocation().GetLineSpan().StartLinePosition.Line;
 
-            var previousLineNumber = int.MinValue;
-            for( var i = 0; i < comments.Count; ++i )
-            {
-                var comment = comments[ i ];
-                var currentLineNumber = comment.GetLocation().GetLineSpan().StartLinePosition.Line;
+				// If this is continuation block, skip the checks.
+				if( previousLineNumber == currentLineNumber - 1 )
+				{
+					// Continuation comment. Store the line number and proceed to the next comment.
+					previousLineNumber = currentLineNumber;
+					continue;
+				}
 
-                // If this is continuation block, skip the checks.
-                if( previousLineNumber == currentLineNumber - 1 )
-                {
-                    previousLineNumber = currentLineNumber;
-                    continue;
-                }
+				// Not a continuation comment. Require empty line before.
 
-                // Store the previous line number as we won't need it during this iteration
-                // anymore and we might continue out of it at some point.
-                previousLineNumber = currentLineNumber;
+				// Store the previous line number as we won't need it during this iteration
+				// anymore and we might continue out of it at some point.
+				previousLineNumber = currentLineNumber;
 
-                // If we haven't retrieved the source text yet, do so now.
-                // The source should be the same for all the trivia here.
-                if( sourceText == null )
-                    sourceText = comment.GetLocation().SourceTree
-                                        .GetText( context.CancellationToken );
+				// If we haven't retrieved the source text yet, do so now.
+				// The source should be the same for all the trivia here.
+				if( sourceText == null )
+					sourceText = comment.GetLocation().SourceTree
+										.GetText( context.CancellationToken );
 
-                var lineAbove = sourceText.GetSubText( sourceText.Lines[ currentLineNumber - 1 ].Span )
-                                        .ToString().Trim();
+				// Get the text for the line above.
+				var lineAbove = sourceText.GetSubText( sourceText.Lines[ currentLineNumber - 1 ].Span )
+										.ToString().Trim();
 
-                // If the previous line is nothing but an opening brace, consider this okay.
-                if( lineAbove == "{" || lineAbove == "" )
-                    continue; 
+				// If the previous line is nothing but an opening brace, consider this okay.
+				if( lineAbove == "{" || lineAbove == "" )
+					continue;
 
-                // Create the diagnostic message and report it.
-                var diagnostic = Diagnostic.Create(
-                        NewlineBeforeComment.Rule,
-                        comment.GetLocation() );
-                context.ReportDiagnostic( diagnostic );
-            }
-        }
+				// Create the diagnostic message and report it.
+				var diagnostic = Diagnostic.Create(
+						NewlineBeforeComment.Rule,
+						comment.GetLocation() );
+				context.ReportDiagnostic( diagnostic );
+			}
+		}
 
-        private static void RequireComment( SyntaxNodeAnalysisContext context, SyntaxNode firstInSegment, SyntaxNode lastInSegment )
-        {
-            // Try to find a leading comment for the segment.
-            var hasComments = false;
-            if( firstInSegment.HasLeadingTrivia )
-            {
-                // Get the list of all trivia. This includes comments, end of lines, whitespace, etc.
-                var trivia = firstInSegment.GetLeadingTrivia().ToList();
+		/// <summary>
+		/// Process the code segment and ensure it has leading comment.
+		/// </summary>
+		/// <param name="context">Analysis context.</param>
+		/// <param name="firstInSegment">First node in the code segment.</param>
+		/// <param name="lastInSegment">Last node in the code segment.</param>
+		private static void RequireComment(
+			SyntaxNodeAnalysisContext context,
+			SyntaxNode firstInSegment,
+			SyntaxNode lastInSegment )
+		{
+			// Try to find a leading comment for the segment.
+			var hasComments = false;
+			if( firstInSegment.HasLeadingTrivia )
+			{
+				// Get the list of all trivia. This includes comments, end of lines, whitespace, etc.
+				var trivia = firstInSegment.GetLeadingTrivia().ToList();
 
-                // Find the last comment. If one exists, calculate the amount of new lines afterwards.
-                var newLines = int.MaxValue;
-                var lastComment = trivia.FindLastIndex( item => item.IsKind( SyntaxKind.SingleLineCommentTrivia ) );
-                if( lastComment >= 0 )
-                    newLines = trivia.Skip( lastComment ).Count( item => item.IsKind( SyntaxKind.EndOfLineTrivia ) );
+				// Find the last comment. If one exists, calculate the amount of new lines afterwards.
+				var newLines = int.MaxValue;
+				var lastComment = trivia.FindLastIndex( item => item.IsKind( SyntaxKind.SingleLineCommentTrivia ) );
+				if( lastComment >= 0 )
+					newLines = trivia.Skip( lastComment ).Count( item => item.IsKind( SyntaxKind.EndOfLineTrivia ) );
 
-                // If new line was within 1 line break (no empty line between), consider it being the comment of the current segment.
-                if( newLines <= 1 )
-                    hasComments = true;
-            }
+				// If new line was within 1 line break (no empty line between),
+				// consider it being the comment of the current segment.
+				if( newLines <= 1 )
+					hasComments = true;
+			}
 
-            // If the segment has no comment, flag it for error.
-            if( !hasComments )
-            {
-                // Create the diagnostic message and report it.
-                var diagnostic = Diagnostic.Create(
-                        CommentedSegments.Rule,
-                        Location.Create(
-                            context.Node.GetLocation().SourceTree,
-                            TextSpan.FromBounds( firstInSegment.Span.Start, lastInSegment.Span.End ) ) );
-                context.ReportDiagnostic( diagnostic );
-            }
-        }
-    }
+			// If the segment has no comment, flag it for error.
+			if( !hasComments )
+			{
+				// Create the diagnostic message and report it.
+				var diagnostic = Diagnostic.Create(
+						CommentedSegments.Rule,
+						Location.Create(
+							context.Node.GetLocation().SourceTree,
+							TextSpan.FromBounds( firstInSegment.Span.Start, lastInSegment.Span.End ) ) );
+				context.ReportDiagnostic( diagnostic );
+			}
+		}
+	}
 }

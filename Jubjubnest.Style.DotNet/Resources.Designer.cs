@@ -577,6 +577,60 @@ namespace Jubjubnest.Style.DotNet {
         /// <summary>
         ///   Looks up a localized string similar to .
         /// </summary>
+        internal static string NoTrailingWhitespace_Description {
+            get {
+                return ResourceManager.GetString("NoTrailingWhitespace_Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Remove trailing whitespace..
+        /// </summary>
+        internal static string NoTrailingWhitespace_Message {
+            get {
+                return ResourceManager.GetString("NoTrailingWhitespace_Message", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to There should be no trailing whitespace.
+        /// </summary>
+        internal static string NoTrailingWhitespace_Title {
+            get {
+                return ResourceManager.GetString("NoTrailingWhitespace_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        internal static string ParametersOnTheirOwnLines_Description {
+            get {
+                return ResourceManager.GetString("ParametersOnTheirOwnLines_Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Insert newline before the &apos;{0}&apos; parameter..
+        /// </summary>
+        internal static string ParametersOnTheirOwnLines_Message {
+            get {
+                return ResourceManager.GetString("ParametersOnTheirOwnLines_Message", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Method parameters should be on their own lines..
+        /// </summary>
+        internal static string ParametersOnTheirOwnLines_Title {
+            get {
+                return ResourceManager.GetString("ParametersOnTheirOwnLines_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
         internal static string SpacesBeforeTrailingComment_Description {
             get {
                 return ResourceManager.GetString("SpacesBeforeTrailingComment_Description", resourceCulture);
@@ -658,27 +712,27 @@ namespace Jubjubnest.Style.DotNet {
         /// <summary>
         ///   Looks up a localized string similar to .
         /// </summary>
-        internal static string XmlDocumentationNoEmptyDocumentation_Description {
+        internal static string XmlDocumentationNoEmptyContent_Description {
             get {
-                return ResourceManager.GetString("XmlDocumentationNoEmptyDocumentation_Description", resourceCulture);
+                return ResourceManager.GetString("XmlDocumentationNoEmptyContent_Description", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Add the documentation content to {0} tag..
         /// </summary>
-        internal static string XmlDocumentationNoEmptyDocumentation_Message {
+        internal static string XmlDocumentationNoEmptyContent_Message {
             get {
-                return ResourceManager.GetString("XmlDocumentationNoEmptyDocumentation_Message", resourceCulture);
+                return ResourceManager.GetString("XmlDocumentationNoEmptyContent_Message", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to All XML documentation tags should have non-empty content.
         /// </summary>
-        internal static string XmlDocumentationNoEmptyDocumentation_Title {
+        internal static string XmlDocumentationNoEmptyContent_Title {
             get {
-                return ResourceManager.GetString("XmlDocumentationNoEmptyDocumentation_Title", resourceCulture);
+                return ResourceManager.GetString("XmlDocumentationNoEmptyContent_Title", resourceCulture);
             }
         }
         
@@ -760,6 +814,60 @@ namespace Jubjubnest.Style.DotNet {
         internal static string XmlDocumentReturnValues_Title {
             get {
                 return ResourceManager.GetString("XmlDocumentReturnValues_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        internal static string XmlNoMultipleParamsWIthSameName_Description {
+            get {
+                return ResourceManager.GetString("XmlNoMultipleParamsWIthSameName_Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Remove duplicate &lt;param name=&quot;{0}&quot;&gt;.
+        /// </summary>
+        internal static string XmlNoMultipleParamsWIthSameName_Message {
+            get {
+                return ResourceManager.GetString("XmlNoMultipleParamsWIthSameName_Message", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to There should be no duplicate &lt;param&gt; tags with the same name.
+        /// </summary>
+        internal static string XmlNoMultipleParamsWIthSameName_Title {
+            get {
+                return ResourceManager.GetString("XmlNoMultipleParamsWIthSameName_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        internal static string XmlNoMultipleXmlDocumentationSegments_Description {
+            get {
+                return ResourceManager.GetString("XmlNoMultipleXmlDocumentationSegments_Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Merge multiple XMLdocumentation blocks..
+        /// </summary>
+        internal static string XmlNoMultipleXmlDocumentationSegments_Message {
+            get {
+                return ResourceManager.GetString("XmlNoMultipleXmlDocumentationSegments_Message", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to There should be only one XMLdocumentation block..
+        /// </summary>
+        internal static string XmlNoMultipleXmlDocumentationSegments_Title {
+            get {
+                return ResourceManager.GetString("XmlNoMultipleXmlDocumentationSegments_Title", resourceCulture);
             }
         }
     }

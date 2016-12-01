@@ -1,0 +1,31 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<RuleSet Name="Rules for Jubjubnest.Style.DotNet" Description="Code analysis rules for Jubjubnest.Style.DotNet.csproj." ToolsVersion="14.0">
+  <Rules AnalyzerId="Jubjubnest.Style.DotNet" RuleNamespace="Jubjubnest.Style.DotNet">
+    <Rule Id="Jubjubnest_BracesOnTheirOwnLine" Action="Warning" />
+    <Rule Id="Jubjubnest_CommentStartsWithSpace" Action="Warning" />
+    <Rule Id="Jubjubnest_CommentedSegments" Action="Warning" />
+    <Rule Id="Jubjubnest_DoubleTabContinuationIndent" Action="Warning" />
+    <Rule Id="Jubjubnest_IndentWithTabs" Action="Warning" />
+    <Rule Id="Jubjubnest_KeepLinesWithin120Characters" Action="Warning" />
+    <Rule Id="Jubjubnest_NameConstantsWithCapitalCase" Action="Warning" />
+    <Rule Id="Jubjubnest_NameEnumValuesWithPascalCase" Action="Warning" />
+    <Rule Id="Jubjubnest_NameExceptionsWithExceptionSuffix" Action="Warning" />
+    <Rule Id="Jubjubnest_NameFieldsWithCamelCase" Action="Warning" />
+    <Rule Id="Jubjubnest_NameInterfacesWithIPrefix" Action="Warning" />
+    <Rule Id="Jubjubnest_NameMethodsWithPascalCasing" Action="Warning" />
+    <Rule Id="Jubjubnest_NameNamespacesWithPascalCasing" Action="Warning" />
+    <Rule Id="Jubjubnest_NamePropertiesWithPascalCase" Action="Warning" />
+    <Rule Id="Jubjubnest_NameTypesWithPascalCasing" Action="Warning" />
+    <Rule Id="Jubjubnest_NameVariablesWithCamelCase" Action="Warning" />
+    <Rule Id="Jubjubnest_NewlineBeforeComment" Action="Warning" />
+    <Rule Id="Jubjubnest_NoTrailingWhitespace" Action="Warning" />
+    <Rule Id="Jubjubnest_ParametersOnTheirOwnLines" Action="Warning" />
+    <Rule Id="Jubjubnest_SpacesBeforeTrailingComment" Action="Warning" />
+    <Rule Id="Jubjubnest_SpacesWithinBrackets" Action="Warning" />
+    <Rule Id="Jubjubnest_XmlDocumentAllMethodParams" Action="Warning" />
+    <Rule Id="Jubjubnest_XmlDocumentEverythingWithSummary" Action="Warning" />
+    <Rule Id="Jubjubnest_XmlDocumentNoEmptyContent" Action="Warning" />
+    <Rule Id="Jubjubnest_XmlDocumentReturnValues" Action="Warning" />
+    <Rule Id="Jubjubnest_XmlDocumentationNoMismatchedParam" Action="Warning" />
+  </Rules>
+</RuleSet>

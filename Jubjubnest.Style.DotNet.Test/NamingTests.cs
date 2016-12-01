@@ -40,6 +40,14 @@ namespace Jubjubnest.Style.DotNet.Test
 		}
 
 		[TestMethod]
+		public void TestNumericNameWithCamelCase()
+		{
+			var code = @"namespace Foo1Bar { class Foo2Bar { } }";
+
+			VerifyCSharpDiagnostic( code );
+		}
+
+		[TestMethod]
 		public void TestClassWithCamelCaseName()
 		{
 			var code = @"namespace Foo { class bar { } }";

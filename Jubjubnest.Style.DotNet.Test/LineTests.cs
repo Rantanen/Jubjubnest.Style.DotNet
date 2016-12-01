@@ -38,6 +38,14 @@ namespace Jubjubnest.Style.DotNet.Test
 		}
 
 		[TestMethod]
+		public void TestLineWithTrailingWhitespace()
+		{
+			var code = "namespace Foo {}  ";
+
+			VerifyCSharpDiagnostic( code, Warning( 1, 17, LineAnalyzer.NoTrailingWhitespace ) );
+		}
+
+		[TestMethod]
 		public void TestLineOver120WithSpaces()
 		{
 			var code = Code.InMethod( new string( ' ', 116 ) + "int foo;" );
@@ -60,8 +68,7 @@ namespace Jubjubnest.Style.DotNet.Test
 		{
 			var code = Code.InMethod( @"
 				int foo =
-					1;
-			" );
+					1;" );
 
 			VerifyCSharpDiagnostic( code.Code, Warning( code, 2, 6, LineAnalyzer.DoubleTabContinuationIndent ) );
 		}
@@ -72,8 +79,7 @@ namespace Jubjubnest.Style.DotNet.Test
 			var code = Code.InMethod( @"
 				if( foo ) {
 				} else {
-				}
-			" );
+				}" );
 
 			VerifyCSharpDiagnostic( code.Code,
 					Warning( code, 1, 15, LineAnalyzer.BracesOnTheirOwnLine ),
@@ -82,12 +88,23 @@ namespace Jubjubnest.Style.DotNet.Test
 		}
 
 		[TestMethod]
+		public void TestCloseBraceWithParenthesis()
+		{
+			var code = Code.InMethod( @"
+				Foo( foo =>
+				{
+					foo.i = 2;
+				} );" );
+
+			VerifyCSharpDiagnostic( code.Code );
+		}
+
+		[TestMethod]
 		public void TestTwoLinePropertyWithBracesOnSharedLines()
 		{
 			var code = Code.InClass( @"
 				public string Foo {
-					get; set; }
-			" );
+					get; set; }" );
 
 			VerifyCSharpDiagnostic( code.Code,
 					Warning( code, 1, 23, LineAnalyzer.BracesOnTheirOwnLine ),
@@ -97,9 +114,7 @@ namespace Jubjubnest.Style.DotNet.Test
 		[TestMethod]
 		public void TestSingleLineAutomaticProperties()
 		{
-			var code = Code.InClass( @"
-				public string Foo { get; set; }
-			" );
+			var code = Code.InClass( @"public string Foo { get; set; }" );
 
 			VerifyCSharpDiagnostic( code.Code );
 		}
@@ -112,8 +127,31 @@ namespace Jubjubnest.Style.DotNet.Test
 				{
 					get { return foo; }
 					set { foo = value; }
-				}
-			" );
+				}" );
+
+			VerifyCSharpDiagnostic( code.Code );
+		}
+
+		[TestMethod]
+		public void TestParametersOnSameLine()
+		{
+			var code = Code.InClass( @"
+				public string Foo( string a, string b )
+				{
+				}" );
+
+			VerifyCSharpDiagnostic( code.Code, Warning( code, 1, 34, LineAnalyzer.ParametersOnTheirOwnLines, "b" ) );
+		}
+
+		[TestMethod]
+		public void TestParametersOnTheirOwnLine()
+		{
+			var code = Code.InClass( @"
+				public string Foo(
+					string a,
+					string b )
+				{
+				}" );
 
 			VerifyCSharpDiagnostic( code.Code );
 		}

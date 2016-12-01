@@ -9,10 +9,19 @@ using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 namespace Jubjubnest.Style.DotNet
 {
+	/// <summary>
+	/// Helper for syntax analysis related functionality.
+	/// </summary>
 	internal class SyntaxHelper
 	{
+		/// <summary>
+		/// Get the type name for the syntax node.
+		/// </summary>
+		/// <param name="node">Declaration syntax node.</param>
+		/// <returns>Declaration type name.</returns>
 		public static string GetItemType( SyntaxNode node )
 		{
+			// Switch based on the syntax kind.
 			switch( node.Kind() )
 			{
 				case SyntaxKind.InterfaceDeclaration:
@@ -36,8 +45,14 @@ namespace Jubjubnest.Style.DotNet
 			}
 		}
 
+		/// <summary>
+		/// Get the identifier for the syntax node.
+		/// </summary>
+		/// <param name="node">Syntax node to get the identifier for.</param>
+		/// <returns>Identifier token.</returns>
 		public static SyntaxToken GetIdentifier( SyntaxNode node )
 		{
+			// Switch based on the syntax node.
 			switch( node.Kind() )
 			{
 				case SyntaxKind.InterfaceDeclaration:
@@ -59,6 +74,61 @@ namespace Jubjubnest.Style.DotNet
 				default:
 					return default( SyntaxToken );
 			}
+		}
+
+		/// <summary>
+		/// Get the string display length.
+		/// </summary>
+		/// <param name="text">Text to resolve the length for.</param>
+		/// <returns>String length assuming tab = 4 spaces.</returns>
+		public static int GetTextLength( string text )
+		{
+			// Delegate.
+			int charCount = 0;
+			return GetTextLengthWith120Treshold( text, out charCount );
+		}
+
+		/// <summary>
+		/// Get the string display length.
+		/// </summary>
+		/// <param name="text">Text to resolve the length for.</param>
+		/// <param name="tresholdCharCount">Column of the character exceeding the 120-char limit.</param>
+		/// <returns>String length assuming tab = 4 spaces.</returns>
+		public static int GetTextLengthWith120Treshold(
+			string text,
+			out int tresholdCharCount )
+		{
+			// Calculate the text length.
+			int length = 0;
+			tresholdCharCount = 0;
+			foreach( var c in text )
+			{
+				// Count this in the treshold if we're still below the length.
+				if( length < 120 )
+					tresholdCharCount++;
+
+				// Figure out whether this is a multi-width display character.
+				if( c == '\t' )
+				{
+					// Tab should end up at the next multiple of 4.
+					// Add 4 to the length subtracted by the mod 4 to ensure the
+					// final stays as a multiple of 4. If length is multiple of 4,
+					// the remainder is 0 which causes the full + 4 on length.
+					length += 4 - length % 4;
+				}
+				else
+				{
+					// Single-width character.
+					length += 1;
+				}
+			}
+
+			// If we ended up with less than 120 chars, reset the treshold to -1.
+			if( length <= 120 )
+				tresholdCharCount = -1;
+
+			// Return.
+			return length;
 		}
 	}
 }
