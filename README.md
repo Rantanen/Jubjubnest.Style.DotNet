@@ -2,3 +2,14 @@
 
 .Net style checker for various style rules not covered by the built-in
 analyzers.
+
+## Downloads
+
+The repository is automatically built on appveyor.
+
+Following build artifacts are available:
+
+### `master` branch
+
+[Visual Studio Extension package](https://ci.appveyor.com/api/projects/Rantanen/jubjubnest-style-dotnet/artifacts/dist/Jubjubnest.Style.DotNet.vsix?branch=master)
+
