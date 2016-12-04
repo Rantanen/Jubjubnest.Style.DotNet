@@ -20,8 +20,8 @@ namespace Jubjubnest.Style.DotNet.Test.Helpers
 
             public CodeResult( string prefix, string code, string postfix )
             {
-                prefix += "\n";
-                postfix = "\n" + postfix;
+                prefix += "\r\n";
+                postfix = "\r\n" + postfix;
 
                 this.Code = prefix + code + postfix;
                 this.PrefixLength = prefix.Length;

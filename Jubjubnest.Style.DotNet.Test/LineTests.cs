@@ -164,6 +164,14 @@ namespace Jubjubnest.Style.DotNet.Test
 			VerifyCSharpDiagnostic( code.Code );
 		}
 
+		[TestMethod]
+		public void TestCodeWithUnixNewlines()
+		{
+			var code = Code.InMethod( "int a = 0;\nint b = 0;" );
+
+			VerifyCSharpDiagnostic( code.Code, Warning( 7, 11, LineAnalyzer.UseWindowsLineEnding ) );
+		}
+
 		protected override CodeFixProvider GetCSharpCodeFixProvider()
 		{
 			return new JubjubnestStyleDotNetCodeFixProvider();

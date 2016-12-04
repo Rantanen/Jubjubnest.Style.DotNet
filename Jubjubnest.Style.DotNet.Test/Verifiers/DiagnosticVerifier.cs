@@ -230,6 +230,8 @@ namespace TestHelper
 
         protected DiagnosticResult Warning( int row, int col, RuleDescription rule, params object[] args )
         {
+	        Assert.AreNotEqual( rule.Name, "", $"Rule {rule.Id} has empty name." );
+	        Assert.AreNotEqual( rule.Message, "", $"Rule {rule.Id} has empty description." );
 			return new DiagnosticResult
 			{
 				Id = rule.Id,

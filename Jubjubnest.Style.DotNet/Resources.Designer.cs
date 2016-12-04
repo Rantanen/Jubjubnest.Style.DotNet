@@ -710,6 +710,33 @@ namespace Jubjubnest.Style.DotNet {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        internal static string UseWindowsLineEnding_Description {
+            get {
+                return ResourceManager.GetString("UseWindowsLineEnding_Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Replace line endings with CRLF..
+        /// </summary>
+        internal static string UseWindowsLineEnding_Message {
+            get {
+                return ResourceManager.GetString("UseWindowsLineEnding_Message", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Files should use CRLF as line ending.
+        /// </summary>
+        internal static string UseWindowsLineEnding_Title {
+            get {
+                return ResourceManager.GetString("UseWindowsLineEnding_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to All method parameters should be documented with the &lt;param&gt; tag..
         /// </summary>
         internal static string XmlDocumentAllMethodParams_Description {

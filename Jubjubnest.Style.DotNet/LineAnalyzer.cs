@@ -30,6 +30,10 @@ namespace Jubjubnest.Style.DotNet
 		public static RuleDescription NoTrailingWhitespace { get; } =
 				new RuleDescription( nameof( NoTrailingWhitespace ), "Spacing" );
 
+		/// <summary>End lines with CRLF.</summary>
+		public static RuleDescription UseWindowsLineEnding { get; } =
+				new RuleDescription( nameof( UseWindowsLineEnding ), "Newlines" );
+
 		/// <summary>Keep lines within 120 characters.</summary>
 		public static RuleDescription KeepLinesWithin120Characters { get; } =
 				new RuleDescription( nameof( KeepLinesWithin120Characters ), "Newlines" );
@@ -50,6 +54,7 @@ namespace Jubjubnest.Style.DotNet
 					IndentWithTabs.Rule,
 					DoubleTabContinuationIndent.Rule,
 					NoTrailingWhitespace.Rule,
+					UseWindowsLineEnding.Rule,
 					KeepLinesWithin120Characters.Rule,
 					BracesOnTheirOwnLine.Rule,
 					ParametersOnTheirOwnLines.Rule );
@@ -285,6 +290,9 @@ namespace Jubjubnest.Style.DotNet
 			// Get the text for the file.
 			var text = context.Tree.GetText( context.CancellationToken );
 
+			// Gather non-CRLF lines.
+			var nonCrlfLineEndings = new List<Location>();
+
 			// Check each line.
 			foreach( var line in text.Lines )
 			{
@@ -329,6 +337,37 @@ namespace Jubjubnest.Style.DotNet
 									line.End ) ) );
 					context.ReportDiagnostic( diagnostic );
 				}
+
+				// Skip the line ending check if this is the last line.
+				// The last "line" has no line ending.
+				if( line.End == context.Tree.Length )
+					continue;
+
+				// Ensure the line ends with CRLF.
+				var expectedLineEndSpan = TextSpan.FromBounds(
+					line.EndIncludingLineBreak - 2,
+					line.EndIncludingLineBreak );
+				var expectedLineEndText = line.Text.GetSubText( expectedLineEndSpan );
+				var expectedLineEnd = expectedLineEndText.ToString();
+				if( expectedLineEnd != "\r\n" )
+				{
+					// Non-CRLF line ending.
+					var actualLineEndSpan = TextSpan.FromBounds( line.End, line.EndIncludingLineBreak );
+					nonCrlfLineEndings.Add( Location.Create( context.Tree, actualLineEndSpan ) );
+				}
+			}
+
+			// If we had non-CRLF lines, report a diagnostic.
+			// Do this only once per file to avoid spamming warnings.
+			if( nonCrlfLineEndings.Count > 0 )
+			{
+				// Trailing whitespace. Report error.
+				var firstLocation = nonCrlfLineEndings.First();
+				var additionalLocations = nonCrlfLineEndings.Skip( 1 );
+				var diagnostic = Diagnostic.Create(
+						UseWindowsLineEnding.Rule,
+						firstLocation, additionalLocations );
+				context.ReportDiagnostic( diagnostic );
 			}
 		}
 
