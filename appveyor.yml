@@ -4,6 +4,9 @@ os: Visual Studio 2015
 pull_requests:
   do_not_increment_build_number: true
 
+init:
+    - ps: git config --global core.autocrlf true
+
 build_script:
     - nuget restore
     - ps: |
