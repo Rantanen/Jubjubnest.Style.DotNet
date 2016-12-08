@@ -220,7 +220,7 @@ namespace Jubjubnest.Style.DotNet
 		/// <summary>
 		/// Close brace validation regex.
 		/// </summary>
-		private static readonly Regex validCloseBrace = new Regex( @"^\s*\}[\s);]*(?://.*)?$" );
+		private static readonly Regex validCloseBrace = new Regex( @"^\s*\}[\s);,]*(?://.*)?$" );
 
 		/// <summary>
 		/// Check whether the braces are on their own lines.
