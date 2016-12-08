@@ -361,6 +361,60 @@ namespace Jubjubnest.Style.DotNet {
         /// <summary>
         ///   Looks up a localized string similar to .
         /// </summary>
+        internal static string NameFilesAccordingToTypeNames_Description {
+            get {
+                return ResourceManager.GetString("NameFilesAccordingToTypeNames_Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Move type &apos;{0}&apos; to file &apos;{1}&apos;..
+        /// </summary>
+        internal static string NameFilesAccordingToTypeNames_Message {
+            get {
+                return ResourceManager.GetString("NameFilesAccordingToTypeNames_Message", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to File names should match type names.
+        /// </summary>
+        internal static string NameFilesAccordingToTypeNames_Title {
+            get {
+                return ResourceManager.GetString("NameFilesAccordingToTypeNames_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        internal static string NameFoldersAccordingToNamespace_Description {
+            get {
+                return ResourceManager.GetString("NameFoldersAccordingToNamespace_Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Move type &apos;{0}&apos; to folder &apos;{1}&apos;..
+        /// </summary>
+        internal static string NameFoldersAccordingToNamespace_Message {
+            get {
+                return ResourceManager.GetString("NameFoldersAccordingToNamespace_Message", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Folder names should match namespace names.
+        /// </summary>
+        internal static string NameFoldersAccordingToNamespace_Title {
+            get {
+                return ResourceManager.GetString("NameFoldersAccordingToNamespace_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
         internal static string NameInterfacesWithIPrefix_Description {
             get {
                 return ResourceManager.GetString("NameInterfacesWithIPrefix_Description", resourceCulture);

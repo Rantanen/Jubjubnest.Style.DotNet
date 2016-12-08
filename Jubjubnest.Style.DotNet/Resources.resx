@@ -399,6 +399,24 @@
   <data name="BracesOnTheirOwnLine_Title" xml:space="preserve">
     <value>Braces must be on their own line</value>
   </data>
+  <data name="NameFilesAccordingToTypeNames_Description" xml:space="preserve">
+    <value />
+  </data>
+  <data name="NameFilesAccordingToTypeNames_Message" xml:space="preserve">
+    <value>Move type '{0}' to file '{1}'.</value>
+  </data>
+  <data name="NameFilesAccordingToTypeNames_Title" xml:space="preserve">
+    <value>File names should match type names</value>
+  </data>
+  <data name="NameFoldersAccordingToNamespace_Description" xml:space="preserve">
+    <value />
+  </data>
+  <data name="NameFoldersAccordingToNamespace_Message" xml:space="preserve">
+    <value>Move type '{0}' to folder '{1}'.</value>
+  </data>
+  <data name="NameFoldersAccordingToNamespace_Title" xml:space="preserve">
+    <value>Folder names should match namespace names</value>
+  </data>
   <data name="UseWindowsLineEnding_Description" xml:space="preserve">
     <value />
   </data>

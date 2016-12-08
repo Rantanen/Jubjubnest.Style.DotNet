@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
+using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading;
@@ -70,6 +71,14 @@ namespace Jubjubnest.Style.DotNet
 		public static RuleDescription NameTypeParameterWithDescriptiveName { get; } =
 				new RuleDescription( nameof( NameTypeParameterWithDescriptiveName ), "Naming" );
 
+		/// <summary>Type parameters must have better name than just 'T'.</summary>
+		public static RuleDescription NameFilesAccordingToTypeNames { get; } =
+				new RuleDescription( nameof( NameFilesAccordingToTypeNames ), "Naming" );
+
+		/// <summary>Type parameters must have better name than just 'T'.</summary>
+		public static RuleDescription NameFoldersAccordingToNamespaces { get; } =
+				new RuleDescription( nameof( NameFoldersAccordingToNamespaces ), "Naming" );
+
 		/// <summary>
 		/// Supported diagnostic rules.
 		/// </summary>
@@ -84,7 +93,9 @@ namespace Jubjubnest.Style.DotNet
 					NameConstantsWithCapitalCase.Rule,
 					NameEnumValuesWithPascalCase.Rule,
 					NameExceptionsWithExceptionSuffix.Rule,
-					NameInterfacesWithIPrefix.Rule );
+					NameInterfacesWithIPrefix.Rule,
+					NameFilesAccordingToTypeNames.Rule,
+					NameFoldersAccordingToNamespaces.Rule );
 
 		/// <summary>
 		/// Initialize the analyzer.
@@ -226,6 +237,26 @@ namespace Jubjubnest.Style.DotNet
 					CheckPrefix(
 							"I", interfaceSyntax.Identifier, NameInterfacesWithIPrefix,
 							IsPascalCase, context.ReportDiagnostic );
+				}
+
+				// If this is a top-level type, we'll check for file naming.
+				if( syntax.Parent.IsKind( SyntaxKind.NamespaceDeclaration ) )
+				{
+					// Resolve the file information.
+					string file = syntax.SyntaxTree.FilePath;
+					string filename = Path.GetFileNameWithoutExtension( file );
+
+					// Check the file name matches the symbol name.
+					if( context.Symbol.Name != filename )
+					{
+						// File name doesn't match the symbol. Report the issue.
+						var diagnostic = Diagnostic.Create(
+								NameFilesAccordingToTypeNames.Rule,
+								syntax.GetLocation(),
+								context.Symbol.Name,
+								context.Symbol.Name + ".cs" );
+						context.ReportDiagnostic( diagnostic );
+					}
 				}
 			}
 		}

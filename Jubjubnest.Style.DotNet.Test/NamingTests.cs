@@ -42,35 +42,38 @@ namespace Jubjubnest.Style.DotNet.Test
 		[TestMethod]
 		public void TestNumericNameWithCamelCase()
 		{
-			var code = @"namespace Foo1Bar { class Foo2Bar { } }";
-
-			VerifyCSharpDiagnostic( code );
+			VerifyCSharpDiagnostic(
+					@"namespace Foo1Bar { class Foo2Bar { } }",
+					new TestEnvironment { FileName = "Foo2Bar" } ) ;
 		}
 
 		[TestMethod]
 		public void TestClassWithCamelCaseName()
 		{
-			var code = @"namespace Foo { class bar { } }";
 
-			VerifyCSharpDiagnostic( code,
+			VerifyCSharpDiagnostic(
+					@"namespace Foo { class bar { } }",
+					new TestEnvironment { FileName = "bar.cs" },
 					Warning( 1, 23, NamingAnalyzer.NameTypesWithPascalCasing, "class", "bar" ) );
 		}
 
 		[TestMethod]
 		public void TestEnumWithCamelCaseName()
 		{
-			var code = @"namespace Foo { enum bar { } }";
 
-			VerifyCSharpDiagnostic( code,
+			VerifyCSharpDiagnostic(
+					@"namespace Foo { enum bar { } }",
+					new TestEnvironment { FileName = "bar.cs" },
 					Warning( 1, 22, NamingAnalyzer.NameTypesWithPascalCasing, "enum", "bar" ) );
 		}
 
 		[TestMethod]
 		public void TestInterfaceWithCamelCaseName()
 		{
-			var code = @"namespace Foo { interface bar { } }";
 
-			VerifyCSharpDiagnostic( code,
+			VerifyCSharpDiagnostic(
+					@"namespace Foo { interface bar { } }",
+					new TestEnvironment { FileName = "bar.cs" },
 					Warning( 1, 27, NamingAnalyzer.NameTypesWithPascalCasing, "interface", "bar" ),
 					Warning( 1, 27, NamingAnalyzer.NameInterfacesWithIPrefix, "bar" ) );
 		}
@@ -78,9 +81,10 @@ namespace Jubjubnest.Style.DotNet.Test
 		[TestMethod]
 		public void TestEnumValueWithCamelCaseName()
 		{
-			var code = @"namespace Foo { enum Bar { foo } }";
 
-			VerifyCSharpDiagnostic( code,
+			VerifyCSharpDiagnostic(
+					@"namespace Foo { enum Bar { foo } }",
+					new TestEnvironment { FileName = "Bar.cs" },
 					Warning( 1, 28, NamingAnalyzer.NameEnumValuesWithPascalCase, "foo" ) );
 		}
 
@@ -88,26 +92,28 @@ namespace Jubjubnest.Style.DotNet.Test
 		[TestMethod]
 		public void TestInterfaceWithoutIPrefix()
 		{
-			var code = @"namespace Foo { interface Bar { } }";
 
-			VerifyCSharpDiagnostic( code,
+			VerifyCSharpDiagnostic(
+					@"namespace Foo { interface Bar { } }",
+					new TestEnvironment { FileName = "Bar.cs" },
 					Warning( 1, 27, NamingAnalyzer.NameInterfacesWithIPrefix, "Bar" ) );
 		}
 
 		[TestMethod]
 		public void TestExceptionWithoutExceptionSuffix()
 		{
-			var code = @"namespace Foo { class Foo : Exception { } }";
 
-			VerifyCSharpDiagnostic( code,
+			VerifyCSharpDiagnostic(
+					@"namespace Foo { class Foo : Exception { } }",
+					new TestEnvironment { FileName = "Foo.cs" },
 					Warning( 1, 23, NamingAnalyzer.NameExceptionsWithExceptionSuffix, "Foo" ) );
 		}
 
 		[TestMethod]
 		public void TestProperNaming()
 		{
-			var code = @"
-				namespace Foo.Bar {
+			VerifyCSharpDiagnostic(
+				@"namespace Foo.Bar {
 
 					class Bar {
 						public Bar() {}
@@ -118,12 +124,38 @@ namespace Jubjubnest.Style.DotNet.Test
 						private readonly string READONLY_FIELD = null
 						private const int CONST_FIELD = 1;
 					}
+				}",
+				new TestEnvironment { FileName = "Bar.cs" } );
 
+			VerifyCSharpDiagnostic(
+				@"namespace Foo.Bar {
 					interface IBar { }
-					enum Foo { }
-				}";
+				}",
+				new TestEnvironment { FileName = "IBar.cs" } );
 
-			VerifyCSharpDiagnostic( code );
+			VerifyCSharpDiagnostic(
+				@"namespace Foo.Bar {
+					enum Foo { }
+				}",
+				new TestEnvironment { FileName = "Foo.cs" } );
+		}
+
+		[TestMethod]
+		public void TestWrongFilename()
+		{
+			VerifyCSharpDiagnostic(
+					@"namespace TestProject { class Bar { } }",
+					new TestEnvironment { FileName = "File" },
+					Warning( 1, 25, NamingAnalyzer.NameFilesAccordingToTypeNames, "Bar", "Bar.cs" ) );
+		}
+
+		[TestMethod]
+		public void TestWrongFilenameInDirectory()
+		{
+			VerifyCSharpDiagnostic(
+					@"namespace TestProject { class Bar { } }",
+					new TestEnvironment { FileName = @"Path\File" },
+					Warning( 1, 25, NamingAnalyzer.NameFilesAccordingToTypeNames, "Bar", "Bar.cs" ) );
 		}
 
 		protected override CodeFixProvider GetCSharpCodeFixProvider()
