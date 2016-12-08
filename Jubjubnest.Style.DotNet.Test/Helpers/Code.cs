@@ -45,7 +45,7 @@ namespace Jubjubnest.Style.DotNet.Test.Helpers
             return new CodeResult(
 @"		namespace Namespace
 		{
-			class Class
+			class Test
 			{",
 			code,
 @"			}
@@ -57,7 +57,7 @@ namespace Jubjubnest.Style.DotNet.Test.Helpers
             return new CodeResult(
 @"	namespace Namespace
 	{
-		class Class
+		class Test
 		{
 			void Method()
 			{",

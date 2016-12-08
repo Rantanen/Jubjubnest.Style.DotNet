@@ -114,6 +114,7 @@
     <Compile Include="Helpers\DiagnosticVerifier.Helper.cs" />
     <Compile Include="CommentTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Verifiers\TestEnvironment.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

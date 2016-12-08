@@ -44,58 +44,48 @@ namespace TestHelper
 		/// <param name="expected"> DiagnosticResults that should appear after the analyzer is run on the source</param>
 		protected void VerifyCSharpDiagnostic( string source, params DiagnosticResult[] expected )
 		{
-			var lines = source.Split( '\n' );
-			for( var i = 0; i < lines.Length; i++ )
-			{
-				Console.WriteLine( $"{i + 1,2}: {lines[ i ]}" );
-			}
-			VerifyDiagnostics( new[] { source }, LanguageNames.CSharp, GetCSharpDiagnosticAnalyzer(), expected );
+			VerifyCSharpDiagnostic( source, new TestEnvironment(), expected );
 		}
 
 		/// <summary>
-		/// Called to test a VB DiagnosticAnalyzer when applied on the single inputted string as a source
+		/// Called to test a C# DiagnosticAnalyzer when applied on the single inputted string as a source
 		/// Note: input a DiagnosticResult for each Diagnostic expected
 		/// </summary>
 		/// <param name="source">A class in the form of a string to run the analyzer on</param>
-		/// <param name="expected">DiagnosticResults that should appear after the analyzer is run on the source</param>
-		protected void VerifyBasicDiagnostic( string source, params DiagnosticResult[] expected )
+		/// <param name="env">Information about the code environment.</param>
+		/// <param name="expected"> DiagnosticResults that should appear after the analyzer is run on the source</param>
+		protected void VerifyCSharpDiagnostic( string source, TestEnvironment env, params DiagnosticResult[] expected )
 		{
-			VerifyDiagnostics( new[] { source }, LanguageNames.VisualBasic, GetBasicDiagnosticAnalyzer(), expected );
-		}
+			var expectedFinal = expected.Select( dr =>
+				new DiagnosticResult
+				{
+					Id = dr.Id,
+					Message = dr.Message,
+					Severity = dr.Severity,
+					Locations = dr.Locations
+									.Select( l => new DiagnosticResultLocation( env.FileName, l.Line, l.Column ) )
+									.ToArray()
+				} ).ToArray();
 
-		/// <summary>
-		/// Called to test a C# DiagnosticAnalyzer when applied on the inputted strings as a source
-		/// Note: input a DiagnosticResult for each Diagnostic expected
-		/// </summary>
-		/// <param name="sources">An array of strings to create source documents from to run the analyzers on</param>
-		/// <param name="expected">DiagnosticResults that should appear after the analyzer is run on the sources</param>
-		protected void VerifyCSharpDiagnostic( string[] sources, params DiagnosticResult[] expected )
-		{
-			VerifyDiagnostics( sources, LanguageNames.CSharp, GetCSharpDiagnosticAnalyzer(), expected );
-		}
+			var lines = source.Split( '\n' ).Select( l => l.TrimEnd() ).ToArray();
+			for( var i = 0; i < lines.Length; i++ )
+				Console.WriteLine( $"{i + 1,2}: {lines[ i ]}" );
 
-		/// <summary>
-		/// Called to test a VB DiagnosticAnalyzer when applied on the inputted strings as a source
-		/// Note: input a DiagnosticResult for each Diagnostic expected
-		/// </summary>
-		/// <param name="sources">An array of strings to create source documents from to run the analyzers on</param>
-		/// <param name="expected">DiagnosticResults that should appear after the analyzer is run on the sources</param>
-		protected void VerifyBasicDiagnostic( string[] sources, params DiagnosticResult[] expected )
-		{
-			VerifyDiagnostics( sources, LanguageNames.VisualBasic, GetBasicDiagnosticAnalyzer(), expected );
+			VerifyDiagnostics( env, new[] { source }, LanguageNames.CSharp, GetCSharpDiagnosticAnalyzer(), expectedFinal );
 		}
 
 		/// <summary>
 		/// General method that gets a collection of actual diagnostics found in the source after the analyzer is run, 
 		/// then verifies each of them.
 		/// </summary>
+		/// <param name="env">Information about the code environment.</param>
 		/// <param name="sources">An array of strings to create source documents from to run the analyzers on</param>
 		/// <param name="language">The language of the classes represented by the source strings</param>
 		/// <param name="analyzer">The analyzer to be run on the source code</param>
 		/// <param name="expected">DiagnosticResults that should appear after the analyzer is run on the sources</param>
-		private void VerifyDiagnostics( string[] sources, string language, DiagnosticAnalyzer analyzer, params DiagnosticResult[] expected )
+		private void VerifyDiagnostics( TestEnvironment env, string[] sources, string language, DiagnosticAnalyzer analyzer, params DiagnosticResult[] expected )
 		{
-			var diagnostics = GetSortedDiagnostics( sources, language, analyzer );
+			var diagnostics = GetSortedDiagnostics( env, sources, language, analyzer );
 			VerifyDiagnosticResults( diagnostics, analyzer, expected );
 		}
 
@@ -228,7 +218,7 @@ namespace TestHelper
 	        return Warning( code.PrefixLines + row, col, rule, args );
         }
 
-        protected DiagnosticResult Warning( int row, int col, RuleDescription rule, params object[] args )
+		protected DiagnosticResult Warning( int row, int col, RuleDescription rule, params object[] args )
         {
 	        Assert.AreNotEqual( rule.Name, "", $"Rule {rule.Id} has empty name." );
 	        Assert.AreNotEqual( rule.Message, "", $"Rule {rule.Id} has empty description." );
@@ -237,7 +227,7 @@ namespace TestHelper
 				Id = rule.Id,
 				Message = String.Format( rule.Message, args ),
 				Severity = DiagnosticSeverity.Warning,
-				Locations = new[] { new DiagnosticResultLocation( "Test0.cs", row, col ) }
+				Locations = new[] { new DiagnosticResultLocation( "", row, col ) }
 			};
         }
 
