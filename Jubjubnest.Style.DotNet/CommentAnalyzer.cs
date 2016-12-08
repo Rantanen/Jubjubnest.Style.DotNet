@@ -137,9 +137,25 @@ namespace Jubjubnest.Style.DotNet
 				lastInSegment = childNode;
 			}
 
-			// No more statements so make sure the last segment has a comment as well.
+			// No more statements. We might need to process the last statmeent unless the
+			// whole block was empty.
 			if( firstInSegment != null )
-				RequireComment( context, firstInSegment, lastInSegment );
+			{
+				// Last segment exists.
+
+				// Make an exception of a single return value.
+				if( firstInSegment == lastInSegment &&
+					firstInSegment.IsKind( SyntaxKind.ReturnStatement ) )
+				{
+					// Single return value ending the block.
+					// Make an exception for the comment requirement.
+				}
+				else
+				{
+					// Check for comment as usual.
+					RequireComment( context, firstInSegment, lastInSegment );
+				}
+			}
 		}
 
 		/// <summary>

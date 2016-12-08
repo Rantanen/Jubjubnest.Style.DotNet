@@ -141,6 +141,20 @@ namespace Jubjubnest.Style.DotNet.Test
 		}
 
 		[TestMethod]
+		public void TestMissingCommentForFinalReturn()
+		{
+            var code = Code.InMethod( @"
+                // variables
+				int x = 0;
+				int y = 0;
+
+				return x;
+            " );
+
+            VerifyCSharpDiagnostic( code.Code );
+		}
+
+		[TestMethod]
 		public void TestMissingCommentsInLambdaBody()
 		{
             var code = Code.InMethod( @"
