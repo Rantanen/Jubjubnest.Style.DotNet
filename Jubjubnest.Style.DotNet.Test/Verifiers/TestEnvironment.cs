@@ -6,9 +6,9 @@
 	public class TestEnvironment
 	{
 		/// <summary>
-		/// Project name.
+		/// Global namespace.
 		/// </summary>
-		public string ProjectName { get; set; } = "TestProject";
+		public string GlobalNamespace { get; set; } = "TestProject";
 
 		/// <summary>
 		/// Filename.

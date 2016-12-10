@@ -24,27 +24,35 @@ namespace Jubjubnest.Style.DotNet.Test
 		[TestMethod]
 		public void TestNamespaceWithCamelCaseName()
 		{
-			var code = @"namespace foo { }";
 
-			VerifyCSharpDiagnostic( code,
-					Warning( 1, 11, NamingAnalyzer.NameNamespacesWithPascalCasing, "foo" ) );
+			VerifyCSharpDiagnostic(
+
+					@"namespace TestProject.foo { }",
+
+					new TestEnvironment { FileName = "foo/Test.cs" },
+					Warning( 1, 23, NamingAnalyzer.NameNamespacesWithPascalCasing, "foo" ) );
 		}
 
 		[TestMethod]
 		public void TestNamespacesContainingOneWithCamelCaseName()
 		{
-			var code = @"namespace Foo.bar.Foobar { }";
 
-			VerifyCSharpDiagnostic( code,
-					Warning( 1, 15, NamingAnalyzer.NameNamespacesWithPascalCasing, "bar" ) );
+			VerifyCSharpDiagnostic(
+
+					@"namespace TestProject.bar.Foobar { }",
+
+					new TestEnvironment { FileName = "bar/Foobar/Test.cs" },
+					Warning( 1, 23, NamingAnalyzer.NameNamespacesWithPascalCasing, "bar" ) );
 		}
 
 		[TestMethod]
 		public void TestNumericNameWithCamelCase()
 		{
 			VerifyCSharpDiagnostic(
-					@"namespace Foo1Bar { class Foo2Bar { } }",
-					new TestEnvironment { FileName = "Foo2Bar" } ) ;
+
+					@"namespace TestProject.Foo1Bar { class Foo2Bar { } }",
+
+					new TestEnvironment { FileName = "Foo1Bar/Foo2Bar.cs" } ) ;
 		}
 
 		[TestMethod]
@@ -52,9 +60,11 @@ namespace Jubjubnest.Style.DotNet.Test
 		{
 
 			VerifyCSharpDiagnostic(
-					@"namespace Foo { class bar { } }",
+
+					@"namespace TestProject { class bar { } }",
+
 					new TestEnvironment { FileName = "bar.cs" },
-					Warning( 1, 23, NamingAnalyzer.NameTypesWithPascalCasing, "class", "bar" ) );
+					Warning( 1, 31, NamingAnalyzer.NameTypesWithPascalCasing, "class", "bar" ) );
 		}
 
 		[TestMethod]
@@ -62,9 +72,11 @@ namespace Jubjubnest.Style.DotNet.Test
 		{
 
 			VerifyCSharpDiagnostic(
-					@"namespace Foo { enum bar { } }",
+
+					@"namespace TestProject { enum bar { } }",
+
 					new TestEnvironment { FileName = "bar.cs" },
-					Warning( 1, 22, NamingAnalyzer.NameTypesWithPascalCasing, "enum", "bar" ) );
+					Warning( 1, 30, NamingAnalyzer.NameTypesWithPascalCasing, "enum", "bar" ) );
 		}
 
 		[TestMethod]
@@ -72,10 +84,12 @@ namespace Jubjubnest.Style.DotNet.Test
 		{
 
 			VerifyCSharpDiagnostic(
-					@"namespace Foo { interface bar { } }",
+
+					@"namespace TestProject { interface bar { } }",
+
 					new TestEnvironment { FileName = "bar.cs" },
-					Warning( 1, 27, NamingAnalyzer.NameTypesWithPascalCasing, "interface", "bar" ),
-					Warning( 1, 27, NamingAnalyzer.NameInterfacesWithIPrefix, "bar" ) );
+					Warning( 1, 35, NamingAnalyzer.NameTypesWithPascalCasing, "interface", "bar" ),
+					Warning( 1, 35, NamingAnalyzer.NameInterfacesWithIPrefix, "bar" ) );
 		}
 
 		[TestMethod]
@@ -83,7 +97,9 @@ namespace Jubjubnest.Style.DotNet.Test
 		{
 
 			VerifyCSharpDiagnostic(
+
 					@"namespace Foo { enum Bar { foo } }",
+
 					new TestEnvironment { FileName = "Bar.cs" },
 					Warning( 1, 28, NamingAnalyzer.NameEnumValuesWithPascalCase, "foo" ) );
 		}
@@ -94,7 +110,9 @@ namespace Jubjubnest.Style.DotNet.Test
 		{
 
 			VerifyCSharpDiagnostic(
+
 					@"namespace Foo { interface Bar { } }",
+
 					new TestEnvironment { FileName = "Bar.cs" },
 					Warning( 1, 27, NamingAnalyzer.NameInterfacesWithIPrefix, "Bar" ) );
 		}
@@ -104,7 +122,9 @@ namespace Jubjubnest.Style.DotNet.Test
 		{
 
 			VerifyCSharpDiagnostic(
+
 					@"namespace Foo { class Foo : Exception { } }",
+
 					new TestEnvironment { FileName = "Foo.cs" },
 					Warning( 1, 23, NamingAnalyzer.NameExceptionsWithExceptionSuffix, "Foo" ) );
 		}
@@ -141,21 +161,36 @@ namespace Jubjubnest.Style.DotNet.Test
 		}
 
 		[TestMethod]
-		public void TestWrongFilename()
+		public void TestWrongFileName()
 		{
 			VerifyCSharpDiagnostic(
+
 					@"namespace TestProject { class Bar { } }",
+
 					new TestEnvironment { FileName = "File" },
 					Warning( 1, 25, NamingAnalyzer.NameFilesAccordingToTypeNames, "Bar", "Bar.cs" ) );
 		}
 
 		[TestMethod]
-		public void TestWrongFilenameInDirectory()
+		public void TestWrongFileNameInDirectory()
 		{
 			VerifyCSharpDiagnostic(
+
 					@"namespace TestProject { class Bar { } }",
+
 					new TestEnvironment { FileName = @"Path\File" },
 					Warning( 1, 25, NamingAnalyzer.NameFilesAccordingToTypeNames, "Bar", "Bar.cs" ) );
+		}
+
+		[TestMethod, Ignore]
+		public void TestWrongFolderName()
+		{
+			VerifyCSharpDiagnostic(
+
+					@"namespace TestProject.Folder { class Bar { } }",
+
+					new TestEnvironment { FileName = "File" },
+					Warning( 1, 11, NamingAnalyzer.NameFoldersAccordingToNamespaces, "TestProject.Folder", "Folder" ) );
 		}
 
 		protected override CodeFixProvider GetCSharpCodeFixProvider()

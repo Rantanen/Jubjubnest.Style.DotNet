@@ -26,6 +26,9 @@
     <Rule Id="Jubjubnest_XmlDocumentEverythingWithSummary" Action="Warning" />
     <Rule Id="Jubjubnest_XmlDocumentNoEmptyContent" Action="Warning" />
     <Rule Id="Jubjubnest_XmlDocumentReturnValues" Action="Warning" />
+    <Rule Id="Jubjubnest_XmlDocumentationNoEmptyContent" Action="Warning" />
     <Rule Id="Jubjubnest_XmlDocumentationNoMismatchedParam" Action="Warning" />
+    <Rule Id="Jubjubnest_XmlNoMultipleParamsWithSameName" Action="Warning" />
+    <Rule Id="Jubjubnest_XmlNoMultipleXmlDocumentationSegments" Action="Warning" />
   </Rules>
 </RuleSet>
