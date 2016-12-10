@@ -80,7 +80,7 @@ namespace Jubjubnest.Style.DotNet
 		/// <summary>
 		/// Check for the XML documentaiton.
 		/// </summary>
-		/// <param name="context"></param>
+		/// <param name="context">Analysis context.</param>
 		private static void CheckXmlDocumentation( SyntaxNodeAnalysisContext context )
 		{
 			// Get all the documentaiton trivia.
@@ -160,15 +160,26 @@ namespace Jubjubnest.Style.DotNet
 				return;
 			}
 
-			// Get the XML elements in the documentation.
+			// Validate the individual XML elements.
 			var xmlElements = documentationTrivias[ 0 ]
 					.ChildNodes()
 					.OfType< XmlElementSyntax >()
 					.ToList();
+			ValidateXmlElements( context, xmlElements );
+		}
 
+		/// <summary>
+		/// Validates the XML-elements in the documentation block.
+		/// </summary>
+		/// <param name="context">Analysis context.</param>
+		/// <param name="xmlElements">XML elements contained in the XML-documentation.</param>
+		private static void ValidateXmlElements(
+			SyntaxNodeAnalysisContext context,
+			List< XmlElementSyntax > xmlElements )
+		{
 			// Ensure a summary exists.
 			var summaries = xmlElements.Where( xml => xml.StartTag.Name.ToString() == "summary" );
-			if( ! summaries.Any() )
+			if( !summaries.Any() )
 			{
 				// No summary.
 				// Create the diagnostic message and report it.
@@ -186,7 +197,7 @@ namespace Jubjubnest.Style.DotNet
 				// This is a method declaration. Check for additional XML elements.
 
 				// Get the method and gather the method params by name.
-				var method = ( MethodDeclarationSyntax )context.Node;
+				var method = (MethodDeclarationSyntax)context.Node;
 				var paramNodes = method.ParameterList.Parameters.ToDictionary( p => p.Identifier.ToString() );
 
 				// Gather all <param> elements.
@@ -205,7 +216,7 @@ namespace Jubjubnest.Style.DotNet
 
 					// Check whether a parameter exists with that name.
 					var paramName = nameAttribute.Identifier.ToString();
-					if( ! paramNodes.ContainsKey( paramName ) )
+					if( !paramNodes.ContainsKey( paramName ) )
 					{
 						// No parameter with the name found.
 						// Create the diagnostic message and report it.
@@ -243,7 +254,7 @@ namespace Jubjubnest.Style.DotNet
 				{
 					// Check if there is a <param> element for the parameter.
 					var paramName = paramPair.Key;
-					if( ! paramDocs.ContainsKey( paramName ) )
+					if( !paramDocs.ContainsKey( paramName ) )
 					{
 						// No element exists.
 						// Create the diagnostic message and report it.

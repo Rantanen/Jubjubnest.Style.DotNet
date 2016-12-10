@@ -132,7 +132,7 @@ namespace Jubjubnest.Style.DotNet
 		/// <summary>
 		/// Regex for gathering all the indent in front of the statement.
 		/// </summary>
-		private static readonly Regex indentRegex = new Regex( @"^[\t ]*" );
+		private static readonly Regex ALL_INDENT_REGEX = new Regex( @"^[\t ]*" );
 
 		/// <summary>
 		/// Analyze the statements in the block for continuation lines.
@@ -200,7 +200,7 @@ namespace Jubjubnest.Style.DotNet
 				var firstLineIndent = whitespaceOfLastLine == -1
 						? "" : leadingTrivia[ whitespaceOfLastLine ].ToString();
 				int firstIndent = SyntaxHelper.GetTextLength( firstLineIndent );
-				var secondLineIndent = indentRegex.Match( secondLine ).Value;
+				var secondLineIndent = ALL_INDENT_REGEX.Match( secondLine ).Value;
 				int expectedIndent = firstIndent + 8;
 
 				// Check whether the second line fulfills the indent requirement.
@@ -220,7 +220,7 @@ namespace Jubjubnest.Style.DotNet
 		/// <summary>
 		/// Close brace validation regex.
 		/// </summary>
-		private static readonly Regex validCloseBrace = new Regex( @"^\s*\}[\s);,]*(?://.*)?$" );
+		private static readonly Regex VALID_CLOSE_BRACE_REGEX = new Regex( @"^\s*\}[\s);,]*(?://.*)?$" );
 
 		/// <summary>
 		/// Check whether the braces are on their own lines.
@@ -261,7 +261,7 @@ namespace Jubjubnest.Style.DotNet
 
 			// Check the close brace line.
 			var closeLine = text.Lines[ closeLineNumber ].ToString();
-			if( ! validCloseBrace.IsMatch( closeLine ) )
+			if( ! VALID_CLOSE_BRACE_REGEX.IsMatch( closeLine ) )
 			{
 				// Close brace isn't alone on its line. Report an error.
 				var diagnostic = Diagnostic.Create(
@@ -274,12 +274,12 @@ namespace Jubjubnest.Style.DotNet
 		/// <summary>
 		/// Regex for capturing the space indenting.
 		/// </summary>
-		private static readonly Regex indent = new Regex( @"^\t*(?<space> +)" );
+		private static readonly Regex SPACE_INDENT_REGEX = new Regex( @"^\t*(?<space> +)" );
 
 		/// <summary>
 		/// Regex for checking for trailing whitespace.
 		/// </summary>
-		private static readonly Regex hasTrailingWhitespace = new Regex( @"\s+$" );
+		private static readonly Regex TRAILING_WHITESPACE_REGEX = new Regex( @"\s+$" );
 
 		/// <summary>
 		/// Analyze each line textually.
@@ -311,7 +311,7 @@ namespace Jubjubnest.Style.DotNet
 				}
 
 				// Check whether there are space indenting.
-				var match = indent.Match( lineText );
+				var match = SPACE_INDENT_REGEX.Match( lineText );
 				if( match.Success )
 				{
 					// Space indenting. REport error.
@@ -325,7 +325,7 @@ namespace Jubjubnest.Style.DotNet
 				}
 
 				// Check for trailing whitespace.
-				var trailingMatch = hasTrailingWhitespace.Match( lineText );
+				var trailingMatch = TRAILING_WHITESPACE_REGEX.Match( lineText );
 				if( trailingMatch.Success )
 				{
 					// Trailing whitespace. Report error.
@@ -345,8 +345,8 @@ namespace Jubjubnest.Style.DotNet
 
 				// Ensure the line ends with CRLF.
 				var expectedLineEndSpan = TextSpan.FromBounds(
-					line.EndIncludingLineBreak - 2,
-					line.EndIncludingLineBreak );
+						line.EndIncludingLineBreak - 2,
+						line.EndIncludingLineBreak );
 				var expectedLineEndText = line.Text.GetSubText( expectedLineEndSpan );
 				var expectedLineEnd = expectedLineEndText.ToString();
 				if( expectedLineEnd != "\r\n" )

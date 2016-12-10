@@ -200,7 +200,7 @@ namespace Jubjubnest.Style.DotNet
 							.GetText()
 							.GetSubText( TextSpan.FromBounds( spanStart, spanStart + 1 ) )
 							.ToString();
-			if( text.Trim() == "" )
+			if( string.IsNullOrEmpty( text.Trim() ) )
 				return;
 
 			// Get the bracket type name.

@@ -70,7 +70,7 @@ namespace Jubjubnest.Style.DotNet
 			{
 				// If the comment doesn't start with double '//' we have no idea what it is.
 				var str = comment.ToString();
-				if( !str.StartsWith( "//" ) )
+				if( !str.StartsWith( "//", StringComparison.Ordinal ) )
 					continue;
 
 				// If the comment has space after slashes it's okay.
@@ -256,7 +256,7 @@ namespace Jubjubnest.Style.DotNet
 										.ToString().Trim();
 
 				// If the previous line is nothing but an opening brace, consider this okay.
-				if( lineAbove == "{" || lineAbove == "" )
+				if( string.IsNullOrEmpty( lineAbove ) || lineAbove == "{" )
 					continue;
 
 				// Create the diagnostic message and report it.

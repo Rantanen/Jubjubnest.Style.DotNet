@@ -12,7 +12,7 @@ namespace Jubjubnest.Style.DotNet
 	/// <summary>
 	/// Helper for syntax analysis related functionality.
 	/// </summary>
-	internal class SyntaxHelper
+	internal static class SyntaxHelper
 	{
 		/// <summary>
 		/// Get the type name for the syntax node.
@@ -70,7 +70,7 @@ namespace Jubjubnest.Style.DotNet
 				case SyntaxKind.FieldDeclaration:
 					return ( ( FieldDeclarationSyntax )node ).Declaration.Variables.Single().Identifier;
 				case SyntaxKind.EnumMemberDeclaration:
-					return ( ( EnumDeclarationSyntax )node ).Identifier;
+					return ( ( EnumMemberDeclarationSyntax )node ).Identifier;
 				default:
 					return default( SyntaxToken );
 			}

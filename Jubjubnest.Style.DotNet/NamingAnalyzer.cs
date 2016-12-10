@@ -272,14 +272,14 @@ namespace Jubjubnest.Style.DotNet
 		{
 			// Make sure this is an exception class.
 			if( classSyntax.BaseList == null ||
-				!classSyntax.BaseList.Types.Any( bt => bt.ToString().EndsWith( "Exception" ) ) )
+				!classSyntax.BaseList.Types.Any( bt => IsExceptionName( bt.ToString() ) ) )
 			{
 				// Not an exception class. Stop processing.
 				return;
 			}
 
 			// This is an exception class. If it ends in 'Exception' everything is okay.
-			if( context.Symbol.Name.EndsWith( "Exception" ) )
+			if( IsExceptionName( context.Symbol.Name ) )
 				return;
 
 			// Doesn't end in 'Exception'.
@@ -292,6 +292,16 @@ namespace Jubjubnest.Style.DotNet
 						l, context.Symbol.Name );
 				context.ReportDiagnostic( diagnostic );
 			}
+		}
+
+		/// <summary>
+		/// Check whether the name is an exception name.
+		/// </summary>
+		/// <param name="typeName">Type name.</param>
+		/// <returns>True, if the type name is an exception name.</returns>
+		private static bool IsExceptionName( string typeName )
+		{
+			return typeName.EndsWith( "Exception", StringComparison.Ordinal );
 		}
 
 		/// <summary>
@@ -313,7 +323,7 @@ namespace Jubjubnest.Style.DotNet
 			var name = token.ToString();
 
 			// Chekc for prefix rules.
-			if( name.StartsWith( prefix ) &&
+			if( name.StartsWith( prefix, StringComparison.Ordinal ) &&
 				name.Length > prefix.Length &&
 				predicate( name.Substring( prefix.Length, 1 ) ) )
 			{
@@ -441,7 +451,7 @@ namespace Jubjubnest.Style.DotNet
 		/// <summary>
 		/// Regex for checking the pascal case names.
 		/// </summary>
-		private static readonly Regex pascalCase = new Regex( @"
+		private static readonly Regex PASCAL_CASE_REGEX = new Regex( @"
 			^(?>
 				[A-Z]			# Normal pascal casing
 				[a-z]+
@@ -465,13 +475,13 @@ namespace Jubjubnest.Style.DotNet
 		private static bool IsPascalCase( string name )
 		{
 			// Check with regex.
-			return pascalCase.IsMatch( name );
+			return PASCAL_CASE_REGEX.IsMatch( name );
 		}
 
 		/// <summary>
 		/// Camel case naming rule.
 		/// </summary>
-		private static readonly Regex camelCase = new Regex( @"^[a-z]+(?>[A-Z][A-Z]?[a-z]+|[0-9])*[A-Z]?$" );
+		private static readonly Regex CAMEL_CASE_REGEX = new Regex( @"^[a-z]+(?>[A-Z][A-Z]?[a-z]+|[0-9])*[A-Z]?$" );
 
 		/// <summary>
 		/// Method for checking camel casing.
@@ -481,13 +491,13 @@ namespace Jubjubnest.Style.DotNet
 		private static bool IsCamelCase( string name )
 		{
 			// Check with regex.
-			return camelCase.IsMatch( name );
+			return CAMEL_CASE_REGEX.IsMatch( name );
 		}
 
 		/// <summary>
 		/// CAPITAL_CASE naming rule.
 		/// </summary>
-		private static readonly Regex capitalCase = new Regex( @"^[A-Z]+(?>_[A-Z]+|_[0-9]+)*$" );
+		private static readonly Regex CAPITAL_CASE_REGEX = new Regex( @"^[A-Z]+(?>_[A-Z]+|_[0-9]+)*$" );
 
 		/// <summary>
 		/// Method for checking capital casing.
@@ -497,7 +507,7 @@ namespace Jubjubnest.Style.DotNet
 		private static bool IsCapitalCase( string name )
 		{
 			// Check with regex.
-			return capitalCase.IsMatch( name );
+			return CAPITAL_CASE_REGEX.IsMatch( name );
 		}
 	}
 }
