@@ -241,6 +241,21 @@ namespace Jubjubnest.Style.DotNet.Test
 			VerifyCSharpDiagnostic( code );
 		}
 
+		[TestMethod]
+		public void TestDocumentationMissingOnTestMethods()
+		{
+			var code = @"namespace Foo {
+				/// <summary>Bar</summary>
+				class Bar {
+					[Test] string Foobar() {}
+					[TestCase( 1 )] string Foobar() {}
+					[TestMethod] string Foobar() {}
+				}
+			}";
+
+			VerifyCSharpDiagnostic( code );
+		}
+
 		protected override CodeFixProvider GetCSharpCodeFixProvider()
 		{
 			return new JubjubnestStyleDotNetCodeFixProvider();

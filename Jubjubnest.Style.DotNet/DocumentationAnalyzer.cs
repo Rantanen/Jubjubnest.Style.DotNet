@@ -114,6 +114,34 @@ namespace Jubjubnest.Style.DotNet
 				return;
 			}
 
+			// [Test], [TestCase] and [TestMethod] methods do not need XML documentation.
+			// These methods should have a name that is descriptive enough.
+			bool requiresDocumentation = true;
+			if( context.Node.IsKind( SyntaxKind.MethodDeclaration ) )
+			{
+				// Check for the attributes on the method.
+				var method = ( MethodDeclarationSyntax )context.Node;
+				var attributes = method.AttributeLists.SelectMany( list => list.Attributes );
+
+				// Check for the aforementioned attributes.
+				var isTestMethod = attributes.Any( attr =>
+				{
+					// Compare the name.
+					var attrName = attr.Name.ToString();
+					return attrName == "Test" ||
+							attrName == "TestCase" ||
+							attrName == "TestMethod";
+				} );
+
+				// Set the require-value.
+				requiresDocumentation = !isTestMethod;
+			}
+
+			// The remaining tests involve checking the documentation.
+			// If there is no documentation and none is required we can stop here.
+			if( !requiresDocumentation && documentationTrivias.Count == 0 )
+				return;
+
 			// Ensure the documentation exists.
 			if( documentationTrivias.Count == 0 )
 			{
