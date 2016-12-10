@@ -2,16 +2,15 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
   <metadata>
     <id>Jubjubnest.Style.DotNet</id>
-    <version>0.1.0.0</version>
+    <version>0.0.0.1</version>
     <title>Jubjubnest.Style.DotNet</title>
     <authors>Rantanen</authors>
     <owners>Rantanen</owners>
-    <licenseUrl>http://LICENSE_URL_HERE_OR_DELETE_THIS_LINE</licenseUrl>
-    <projectUrl>http://PROJECT_URL_HERE_OR_DELETE_THIS_LINE</projectUrl>
+    <licenseUrl>https://raw.githubusercontent.com/Rantanen/Jubjubnest.Style.DotNet/master/LICENSE</licenseUrl>
+    <projectUrl>https://github.com/Rantanen/Jubjubnest.Style.DotNet</projectUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>Jubjubnest.Style.DotNet</description>
-    <releaseNotes>Summary of changes made in this release of the package.</releaseNotes>
-    <copyright>Copyright</copyright>
+    <copyright>Mikko Rantanen 2016</copyright>
     <tags>analyzers</tags>
     <frameworkAssemblies>
       <frameworkAssembly assemblyName="System" targetFramework="" />
@@ -19,6 +18,7 @@
   </metadata>
   <!-- The convention for analyzers is to put language agnostic dlls in analyzers\portable50 and language specific analyzers in either analyzers\portable50\cs or analyzers\portable50\vb -->
   <files>
+    <file src="README.md" target="" />
     <file src="*.dll" target="analyzers\dotnet\cs" exclude="**\Microsoft.CodeAnalysis.*;**\System.Collections.Immutable.*;**\System.Reflection.Metadata.*;**\System.Composition.*" />
     <file src="tools\*.ps1" target="tools\" />
   </files>
