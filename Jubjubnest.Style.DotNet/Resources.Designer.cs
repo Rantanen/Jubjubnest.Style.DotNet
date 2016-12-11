@@ -926,6 +926,33 @@ namespace Jubjubnest.Style.DotNet {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Various XML documentation rules are not being processed correctly unless the XML documentation file is generated..
+        /// </summary>
+        internal static string XmlEnableDocumentationGeneration_Description {
+            get {
+                return ResourceManager.GetString("XmlEnableDocumentationGeneration_Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Enable XML documentation generation..
+        /// </summary>
+        internal static string XmlEnableDocumentationGeneration_Message {
+            get {
+                return ResourceManager.GetString("XmlEnableDocumentationGeneration_Message", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to XML documentation should be processed..
+        /// </summary>
+        internal static string XmlEnableDocumentationGeneration_Title {
+            get {
+                return ResourceManager.GetString("XmlEnableDocumentationGeneration_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to .
         /// </summary>
         internal static string XmlNoMultipleParamsWIthSameName_Description {

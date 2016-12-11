@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading;
 using Microsoft.CodeAnalysis;
@@ -46,11 +47,16 @@ namespace Jubjubnest.Style.DotNet
 		public static RuleDescription XmlNoMultipleParamsWithSameName { get; } =
 				new RuleDescription( nameof( XmlNoMultipleParamsWithSameName ), "Documentation" );
 
+		/// <summary>Check that the documentation XML elements are not empty.</summary>
+		public static RuleDescription XmlEnableDocumentationGeneration { get; } =
+				new RuleDescription( nameof( XmlEnableDocumentationGeneration ), "Documentation" );
+
 		/// <summary>
 		/// Supported diagnostic rules.
 		/// </summary>
 		public override ImmutableArray< DiagnosticDescriptor > SupportedDiagnostics =>
 				ImmutableArray.Create(
+					XmlEnableDocumentationGeneration.Rule,
 					XmlDocumentEverythingWithSummary.Rule,
 					XmlDocumentAllMethodParams.Rule,
 					XmlDocumentReturnValues.Rule,
@@ -68,7 +74,9 @@ namespace Jubjubnest.Style.DotNet
 			// Ignore for generated files.
 			context.ConfigureGeneratedCodeAnalysis( GeneratedCodeAnalysisFlags.None );
 
+
 			// Register the actions.
+			context.RegisterSyntaxTreeAction( CheckDocumentationMode );
 			context.RegisterSyntaxNodeAction( CheckXmlDocumentation,
 					SyntaxKind.InterfaceDeclaration,
 					SyntaxKind.ClassDeclaration,
@@ -81,11 +89,33 @@ namespace Jubjubnest.Style.DotNet
 		}
 
 		/// <summary>
+		/// Check the documentation mode.
+		/// </summary>
+		/// <param name="context">Analysis context.</param>
+		private void CheckDocumentationMode( SyntaxTreeAnalysisContext context )
+		{
+			// Check whether the documentation mode is set.
+			if( context.Tree.Options.DocumentationMode == DocumentationMode.None )
+			{
+				// Documentation is not being processed. Raise an error.
+				var diagnostic = Diagnostic.Create(
+						XmlEnableDocumentationGeneration.Rule,
+						null );
+				context.ReportDiagnostic( diagnostic );
+			}
+		}
+
+		/// <summary>
 		/// Check for the XML documentaiton.
 		/// </summary>
 		/// <param name="context">Analysis context.</param>
 		private static void CheckXmlDocumentation( SyntaxNodeAnalysisContext context )
 		{
+			// Skip the XML checks if the Xml documentation isn't being processed.
+			// These checks would fail even if XML documentationw as present.
+			if( context.Node.SyntaxTree.Options.DocumentationMode == DocumentationMode.None )
+				return;
+
 			// Get all the documentaiton trivia.
 			var documentationTrivias = context.Node.GetLeadingTrivia()
 					.Where( trivia =>
@@ -100,7 +130,8 @@ namespace Jubjubnest.Style.DotNet
 			{
 				// Multiple blocks. Report and stop processing until the dev fixes this issue.
 
-				// Remove the last trivia. We'll report only the preceding ones.
+				// Remove the last trivia. The last trivia is considered "okay".
+				// We'll report issues for only the preceding ones.
 				documentationTrivias.RemoveAt( documentationTrivias.Count - 1 );
 
 				// Report all preceding blocks.

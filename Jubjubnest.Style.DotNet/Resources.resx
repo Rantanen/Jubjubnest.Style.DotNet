@@ -426,4 +426,13 @@
   <data name="UseWindowsLineEnding_Title" xml:space="preserve">
     <value>Files should use CRLF as line ending</value>
   </data>
+  <data name="XmlEnableDocumentationGeneration_Description" xml:space="preserve">
+    <value>Various XML documentation rules are not being processed correctly unless the XML documentation file is generated.</value>
+  </data>
+  <data name="XmlEnableDocumentationGeneration_Message" xml:space="preserve">
+    <value>Enable XML documentation generation.</value>
+  </data>
+  <data name="XmlEnableDocumentationGeneration_Title" xml:space="preserve">
+    <value>XML documentation should be processed.</value>
+  </data>
 </root>
