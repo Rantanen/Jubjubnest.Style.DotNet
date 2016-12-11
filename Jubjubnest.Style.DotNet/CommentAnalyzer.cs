@@ -60,7 +60,7 @@ namespace Jubjubnest.Style.DotNet
 		///
 		/// Handles both normal comments and XML documentation comments.
 		/// </summary>
-		private static readonly Regex SPACE_AFTER_COMMENT_SLASHES_REGEX = new Regex( "^///? " );
+		private static readonly Regex SPACE_AFTER_COMMENT_SLASHES_REGEX = new Regex( "^///?(?: |$)" );
 
 		/// <summary>
 		/// Analyze the comments.
