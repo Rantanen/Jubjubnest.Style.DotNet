@@ -56,6 +56,13 @@ namespace Jubjubnest.Style.DotNet
 		}
 
 		/// <summary>
+		/// Regex validating there is a space after comments.
+		///
+		/// Handles both normal comments and XML documentation comments.
+		/// </summary>
+		private static readonly Regex SPACE_AFTER_COMMENT_SLASHES_REGEX = new Regex( "^///? " );
+
+		/// <summary>
 		/// Analyze the comments.
 		/// </summary>
 		/// <param name="context">Analysis context.</param>
@@ -74,7 +81,7 @@ namespace Jubjubnest.Style.DotNet
 					continue;
 
 				// If the comment has space after slashes it's okay.
-				if( str.Length <= 2 || str[ 2 ] == ' ' )
+				if( SPACE_AFTER_COMMENT_SLASHES_REGEX.IsMatch( str ) )
 					continue;
 
 				// Create the diagnostic message and report it.
