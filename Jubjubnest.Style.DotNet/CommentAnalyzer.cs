@@ -50,6 +50,9 @@ namespace Jubjubnest.Style.DotNet
 		/// <param name="context">Analysis context the analysis actions are registered on.</param>
 		public override void Initialize( AnalysisContext context )
 		{
+			// Ignore for generated files.
+			context.ConfigureGeneratedCodeAnalysis( GeneratedCodeAnalysisFlags.None );
+
 			// Register the actions.
 			context.RegisterSyntaxNodeAction( AnalyzeCodeBlocks, SyntaxKind.Block );
 			context.RegisterSyntaxTreeAction( AnalyzeAllComments );
