@@ -193,11 +193,6 @@ namespace Jubjubnest.Style.DotNet.Test
 					Warning( 1, 11, NamingAnalyzer.NameFoldersAccordingToNamespaces, "TestProject.Folder", "Folder" ) );
 		}
 
-		protected override CodeFixProvider GetCSharpCodeFixProvider()
-		{
-			return new JubjubnestStyleDotNetCodeFixProvider();
-		}
-
 		protected override DiagnosticAnalyzer GetCSharpDiagnosticAnalyzer()
 		{
             return new NamingAnalyzer();

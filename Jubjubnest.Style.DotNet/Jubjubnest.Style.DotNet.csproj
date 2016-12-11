@@ -41,8 +41,9 @@
     <AssemblyOriginatorKeyFile>public.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="CodeFixProvider.cs" />
+    <Compile Include="LineCodeFixProvider.cs" />
     <Compile Include="DocumentationAnalyzer.cs" />
+    <Compile Include="FixDescription.cs" />
     <Compile Include="SyntaxHelper.cs" />
     <Compile Include="LineAnalyzer.cs" />
     <Compile Include="NamingAnalyzer.cs" />

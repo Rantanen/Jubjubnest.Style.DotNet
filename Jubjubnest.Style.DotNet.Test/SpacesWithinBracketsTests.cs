@@ -203,11 +203,6 @@ namespace Jubjubnest.Style.DotNet.Test
 					Warning( code, 0, 10, SpacingAnalyzer.SpacesWithinBrackets, "parenthesis" ) );
 		}
 
-		protected override CodeFixProvider GetCSharpCodeFixProvider()
-		{
-			return new JubjubnestStyleDotNetCodeFixProvider();
-		}
-
 		protected override DiagnosticAnalyzer GetCSharpDiagnosticAnalyzer()
 		{
             return new SpacingAnalyzer();

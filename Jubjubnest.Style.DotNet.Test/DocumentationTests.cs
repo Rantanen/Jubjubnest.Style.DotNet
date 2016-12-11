@@ -256,11 +256,6 @@ namespace Jubjubnest.Style.DotNet.Test
 			VerifyCSharpDiagnostic( code );
 		}
 
-		protected override CodeFixProvider GetCSharpCodeFixProvider()
-		{
-			return new JubjubnestStyleDotNetCodeFixProvider();
-		}
-
 		protected override DiagnosticAnalyzer GetCSharpDiagnosticAnalyzer()
 		{
 			return new DocumentationAnalyzer();

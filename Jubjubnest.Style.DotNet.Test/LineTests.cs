@@ -43,6 +43,8 @@ namespace Jubjubnest.Style.DotNet.Test
 			var code = "namespace Foo {}  ";
 
 			VerifyCSharpDiagnostic( code, Warning( 1, 17, LineAnalyzer.NoTrailingWhitespace ) );
+
+			VerifyCSharpFix( new TestEnvironment(), code, code.Trim() );
 		}
 
 		[TestMethod]
@@ -174,7 +176,7 @@ namespace Jubjubnest.Style.DotNet.Test
 
 		protected override CodeFixProvider GetCSharpCodeFixProvider()
 		{
-			return new JubjubnestStyleDotNetCodeFixProvider();
+			return new LineCodeFixProvider();
 		}
 
 		protected override DiagnosticAnalyzer GetCSharpDiagnosticAnalyzer()

@@ -282,11 +282,6 @@ namespace Jubjubnest.Style.DotNet.Test
             VerifyCSharpDiagnostic( code.Code, Warning( code, 1, 17, CommentAnalyzer.CommentStartsWithSpace ) );
 		}
 
-		protected override CodeFixProvider GetCSharpCodeFixProvider()
-		{
-			return new JubjubnestStyleDotNetCodeFixProvider();
-		}
-
 		protected override DiagnosticAnalyzer GetCSharpDiagnosticAnalyzer()
 		{
 			return new CommentAnalyzer();
