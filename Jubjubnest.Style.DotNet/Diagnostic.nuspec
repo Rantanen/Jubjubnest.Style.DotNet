@@ -9,7 +9,9 @@
     <licenseUrl>https://raw.githubusercontent.com/Rantanen/Jubjubnest.Style.DotNet/master/LICENSE</licenseUrl>
     <projectUrl>https://github.com/Rantanen/Jubjubnest.Style.DotNet</projectUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
-    <description>Jubjubnest.Style.DotNet</description>
+    <description>
+			A style checker implementing various style checks for C# code - some rules being more esoteric than others.
+		</description>
     <copyright>Mikko Rantanen 2016</copyright>
     <tags>analyzers</tags>
     <frameworkAssemblies>
