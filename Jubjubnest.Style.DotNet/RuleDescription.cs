@@ -13,6 +13,11 @@ namespace Jubjubnest.Style.DotNet
 	/// </summary>
 	public class RuleDescription
 	{
+		/// <summary>
+		/// Constructor.
+		/// </summary>
+		/// <param name="rule">Rule name.</param>
+		/// <param name="category">Rule category.</param>
 		public RuleDescription( string rule, string category )
 		{
 			// Grab the localized resources.

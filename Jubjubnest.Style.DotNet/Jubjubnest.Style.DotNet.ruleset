@@ -11,6 +11,8 @@
     <Rule Id="Jubjubnest_NameEnumValuesWithPascalCase" Action="Warning" />
     <Rule Id="Jubjubnest_NameExceptionsWithExceptionSuffix" Action="Warning" />
     <Rule Id="Jubjubnest_NameFieldsWithCamelCase" Action="Warning" />
+    <Rule Id="Jubjubnest_NameFilesAccordingToTypeNames" Action="Warning" />
+    <Rule Id="Jubjubnest_NameFoldersAccordingToNamespaces" Action="Warning" />
     <Rule Id="Jubjubnest_NameInterfacesWithIPrefix" Action="Warning" />
     <Rule Id="Jubjubnest_NameMethodsWithPascalCasing" Action="Warning" />
     <Rule Id="Jubjubnest_NameNamespacesWithPascalCasing" Action="Warning" />
@@ -22,12 +24,14 @@
     <Rule Id="Jubjubnest_ParametersOnTheirOwnLines" Action="Warning" />
     <Rule Id="Jubjubnest_SpacesBeforeTrailingComment" Action="Warning" />
     <Rule Id="Jubjubnest_SpacesWithinBrackets" Action="Warning" />
+    <Rule Id="Jubjubnest_UseWindowsLineEnding" Action="Warning" />
     <Rule Id="Jubjubnest_XmlDocumentAllMethodParams" Action="Warning" />
     <Rule Id="Jubjubnest_XmlDocumentEverythingWithSummary" Action="Warning" />
     <Rule Id="Jubjubnest_XmlDocumentNoEmptyContent" Action="Warning" />
     <Rule Id="Jubjubnest_XmlDocumentReturnValues" Action="Warning" />
     <Rule Id="Jubjubnest_XmlDocumentationNoEmptyContent" Action="Warning" />
     <Rule Id="Jubjubnest_XmlDocumentationNoMismatchedParam" Action="Warning" />
+    <Rule Id="Jubjubnest_XmlEnableDocumentationGeneration" Action="Warning" />
     <Rule Id="Jubjubnest_XmlNoMultipleParamsWithSameName" Action="Warning" />
     <Rule Id="Jubjubnest_XmlNoMultipleXmlDocumentationSegments" Action="Warning" />
   </Rules>
