@@ -11,5 +11,6 @@ Following build artifacts are available:
 
 ### `master` branch
 
-[Visual Studio Extension package](https://ci.appveyor.com/api/projects/Rantanen/jubjubnest-style-dotnet/artifacts/dist/Jubjubnest.Style.DotNet.vsix?branch=master)
+- [Visual Studio Extension package](https://ci.appveyor.com/api/projects/Rantanen/jubjubnest-style-dotnet/artifacts/dist/Jubjubnest.Style.DotNet.vsix?branch=master)
+- [NuGet package](https://www.nuget.org/packages/Jubjubnest.Style.DotNet/)
 
