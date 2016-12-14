@@ -155,6 +155,28 @@ namespace Jubjubnest.Style.DotNet.Test
 		}
 
 		[TestMethod]
+		public void TestMissingCommentForSingleStatementMethod()
+		{
+			var code = Code.InMethod( @"x = 1;" );
+
+            VerifyCSharpDiagnostic( code.Code );
+		}
+
+		[TestMethod]
+		public void TestMissingCommentForSingleLineBlock()
+		{
+			var code = Code.InClass( @"
+				public int Y
+				{
+					get { return y; }
+					set { y = value; }
+				}
+			" );
+
+            VerifyCSharpDiagnostic( code.Code );
+		}
+
+		[TestMethod]
 		public void TestMissingCommentsInLambdaBody()
 		{
             var code = Code.InMethod( @"
@@ -280,6 +302,24 @@ namespace Jubjubnest.Style.DotNet.Test
             " );
 
             VerifyCSharpDiagnostic( code.Code, Warning( code, 1, 17, CommentAnalyzer.CommentStartsWithSpace ) );
+		}
+
+		[TestMethod]
+		public void TestMissingCommentOnDelegationCall()
+		{
+            var code = Code.InClass( @"
+				public void Foo()
+				{
+					AnotherFoo();
+				}
+
+				public void AnotherFoo()
+				{
+					this.Bar();
+				}
+            " );
+
+			VerifyCSharpDiagnostic( code.Code );
 		}
 
 		protected override DiagnosticAnalyzer GetCSharpDiagnosticAnalyzer()

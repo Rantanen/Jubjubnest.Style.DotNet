@@ -35,6 +35,21 @@ namespace Jubjubnest.Style.DotNet
 				new RuleDescription( "CommentStartsWithSpace", "Comments" );
 
 		/// <summary>
+		/// Statements that may be alone as the last statement in a function without requiring a comment.
+		///
+		/// Often these are the only statement in the function.
+		/// </summary>
+		public static HashSet< SyntaxKind > SoloStatementsWithoutComments { get; } =
+				new HashSet< SyntaxKind >
+				{
+					SyntaxKind.ReturnStatement,
+					SyntaxKind.AddAssignmentExpression,
+					SyntaxKind.SubtractAssignmentExpression,
+					SyntaxKind.SimpleAssignmentExpression,
+					SyntaxKind.InvocationExpression,
+				};
+
+		/// <summary>
 		/// Supported diagnostic rules.
 		/// </summary>
 		public override ImmutableArray< DiagnosticDescriptor > SupportedDiagnostics =>
@@ -101,6 +116,15 @@ namespace Jubjubnest.Style.DotNet
 		/// <param name="context">Analysis context.</param>
 		private static void AnalyzeCodeBlocks( SyntaxNodeAnalysisContext context )
 		{
+			// Get the block.
+			var block = (BlockSyntax)context.Node;
+			var blockStart = block.OpenBraceToken.GetLocation().GetLineSpan().StartLinePosition;
+			var blockEnd = block.CloseBraceToken.GetLocation().GetLineSpan().EndLinePosition;
+
+			// If the block is a single-line block, ignore comment requirements.
+			if( blockStart.Line == blockEnd.Line )
+				return;
+
 			// Variables used during iteration.
 			int previousStatementEndLine = int.MinValue;
 			int segmentStart = -1;
@@ -119,7 +143,7 @@ namespace Jubjubnest.Style.DotNet
 				var lineSpan = childNode.GetLocation().GetLineSpan();
 				if( segmentStart == -1 )
 				{
-					// This is the first segment. Initialize the trackign variables.
+					// This is the first segment. Initialize the tracking variables.
 					segmentStart = lineSpan.StartLinePosition.Line;
 					previousStatementEndLine = lineSpan.EndLinePosition.Line;
 					firstInSegment = childNode;
@@ -153,11 +177,16 @@ namespace Jubjubnest.Style.DotNet
 			{
 				// Last segment exists.
 
-				// Make an exception of a single return value.
+				// Get the statement kind.
+				var kind = firstInSegment.IsKind( SyntaxKind.ExpressionStatement )
+						? ( (ExpressionStatementSyntax)firstInSegment ).Expression.Kind()
+						: firstInSegment.Kind();
+
+				// Make an exception of a single statement if it's of an allowed kind.
 				if( firstInSegment == lastInSegment &&
-					firstInSegment.IsKind( SyntaxKind.ReturnStatement ) )
+					SoloStatementsWithoutComments.Contains( kind ) )
 				{
-					// Single return value ending the block.
+					// Single allowed statement ending the block.
 					// Make an exception for the comment requirement.
 				}
 				else
