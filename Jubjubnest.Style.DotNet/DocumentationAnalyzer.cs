@@ -180,7 +180,7 @@ namespace Jubjubnest.Style.DotNet
 				var identifier = SyntaxHelper.GetIdentifier( context.Node );
 				var diagnostic = Diagnostic.Create(
 						XmlDocumentEverythingWithSummary.Rule,
-						identifier.GetLocation(),
+						identifier?.GetLocation() ?? context.Node.GetLocation(),
 						SyntaxHelper.GetItemType( context.Node ), identifier.ToString() );
 				context.ReportDiagnostic( diagnostic );
 
@@ -216,7 +216,7 @@ namespace Jubjubnest.Style.DotNet
 				var identifier = SyntaxHelper.GetIdentifier( context.Node );
 				var diagnostic = Diagnostic.Create(
 						XmlDocumentEverythingWithSummary.Rule,
-						identifier.GetLocation(),
+						identifier?.GetLocation() ?? context.Node.GetLocation(),
 						SyntaxHelper.GetItemType( context.Node ), identifier.ToString() );
 				context.ReportDiagnostic( diagnostic );
 			}

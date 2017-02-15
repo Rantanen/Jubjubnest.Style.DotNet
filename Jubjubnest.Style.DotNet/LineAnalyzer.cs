@@ -235,8 +235,17 @@ namespace Jubjubnest.Style.DotNet
 			SyntaxToken openBrace,
 			SyntaxToken closeBrace )
 		{
-			// Get the line numbers for the variou braces.
-			var parentStartLine = parent.GetLocation().GetLineSpan().StartLinePosition.Line;
+			// Get the "parent" line number.
+			// We'll approximate this with the identifier line number as otherwise we'd end up
+			// with line number for various attributes, etc.
+			var parentIdentifier = SyntaxHelper.GetIdentifier( parent );
+			var parentLocation =
+					( parentIdentifier.HasValue
+						? parentIdentifier.Value.GetLocation()
+						: parent.GetLocation() );
+			var parentStartLine = parentLocation.GetLineSpan().StartLinePosition.Line;
+
+			// Get the line numbers for the various braces.
 			var openLineNumber = openBrace.GetLocation().GetLineSpan().StartLinePosition.Line;
 			var closeLineNumber = closeBrace.GetLocation().GetLineSpan().StartLinePosition.Line;
 

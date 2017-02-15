@@ -129,7 +129,26 @@ namespace Jubjubnest.Style.DotNet.Test
 				{
 					get { return foo; }
 					set { foo = value; }
-				}" );
+				}
+
+				public string Bar { get; set; }" );
+
+			VerifyCSharpDiagnostic( code.Code );
+		}
+
+		[TestMethod]
+		public void TestSingleLinePropertyAccessorsWithAttributes()
+		{
+			var code = Code.InClass( @"
+				[Attribute]
+				public string Foo
+				{
+					get { return foo; }
+					set { foo = value; }
+				}
+
+				[Attribute]
+				public string Bar { get; set; }" );
 
 			VerifyCSharpDiagnostic( code.Code );
 		}

@@ -50,7 +50,7 @@ namespace Jubjubnest.Style.DotNet
 		/// </summary>
 		/// <param name="node">Syntax node to get the identifier for.</param>
 		/// <returns>Identifier token.</returns>
-		public static SyntaxToken GetIdentifier( SyntaxNode node )
+		public static SyntaxToken? GetIdentifier( SyntaxNode node )
 		{
 			// Switch based on the syntax node.
 			switch( node.Kind() )
@@ -72,7 +72,7 @@ namespace Jubjubnest.Style.DotNet
 				case SyntaxKind.EnumMemberDeclaration:
 					return ( ( EnumMemberDeclarationSyntax )node ).Identifier;
 				default:
-					return default( SyntaxToken );
+					return null;
 			}
 		}
 
