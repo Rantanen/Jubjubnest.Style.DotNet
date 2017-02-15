@@ -155,6 +155,36 @@ namespace Jubjubnest.Style.DotNet.Test
 		}
 
 		[TestMethod]
+		public void TestMissingCommentForFinalThrow()
+		{
+            var code = Code.InMethod( @"
+                // variables
+				int x = 0;
+				int y = 0;
+
+				throw new Exception( null );
+            " );
+
+            VerifyCSharpDiagnostic( code.Code );
+		}
+
+		[TestMethod]
+		public void TestMissingCommentForFinalMultiLineThrow()
+		{
+            var code = Code.InMethod( @"
+                // variables
+				int x = 0;
+				int y = 0;
+
+				throw new Exception(
+						null,
+						null );
+            " );
+
+            VerifyCSharpDiagnostic( code.Code );
+		}
+
+		[TestMethod]
 		public void TestMissingCommentForSingleStatementMethod()
 		{
 			var code = Code.InMethod( @"x = 1;" );

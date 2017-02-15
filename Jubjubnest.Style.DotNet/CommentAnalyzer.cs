@@ -47,6 +47,7 @@ namespace Jubjubnest.Style.DotNet
 					SyntaxKind.SubtractAssignmentExpression,
 					SyntaxKind.SimpleAssignmentExpression,
 					SyntaxKind.InvocationExpression,
+					SyntaxKind.ThrowStatement,
 				};
 
 		/// <summary>
