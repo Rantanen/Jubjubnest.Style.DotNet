@@ -178,11 +178,25 @@ namespace Jubjubnest.Style.DotNet.Test
 			var code = Code.InClass( @"
 				public string Foo(
 					string a,
-					string b )
+					string b
+				)
 				{
 				}" );
 
 			VerifyCSharpDiagnostic( code.Code );
+		}
+
+		[TestMethod]
+		public void TestParameterParenSharingParameterLine()
+		{
+			var code = Code.InClass( @"
+				public string Foo(
+					string a,
+					string b )
+				{
+				}" );
+
+			VerifyCSharpDiagnostic( code.Code, Warning( 8, 15, LineAnalyzer.ClosingParameterParenthesesOnTheirOwnLines ) );
 		}
 
 		[TestMethod]

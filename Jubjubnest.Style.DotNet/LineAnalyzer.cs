@@ -46,6 +46,10 @@ namespace Jubjubnest.Style.DotNet
 		public static RuleDescription ParametersOnTheirOwnLines { get; } =
 				new RuleDescription( nameof( ParametersOnTheirOwnLines ), "Newlines" );
 
+		/// <summary>Parameters should be on their own lines.</summary>
+		public static RuleDescription ClosingParameterParenthesesOnTheirOwnLines { get; } =
+				new RuleDescription( nameof( ClosingParameterParenthesesOnTheirOwnLines ), "Newlines" );
+
 		/// <summary>
 		/// Supported diagnostic rules.
 		/// </summary>
@@ -57,7 +61,8 @@ namespace Jubjubnest.Style.DotNet
 					UseWindowsLineEnding.Rule,
 					KeepLinesWithin120Characters.Rule,
 					BracesOnTheirOwnLine.Rule,
-					ParametersOnTheirOwnLines.Rule );
+					ParametersOnTheirOwnLines.Rule,
+					ClosingParameterParenthesesOnTheirOwnLines.Rule );
 
 		/// <summary>
 		/// Initialize the analyzer.
@@ -105,6 +110,18 @@ namespace Jubjubnest.Style.DotNet
 
 				// Store the parameter line number for the next iteration.
 				previousParamLine = currentLine;
+			}
+
+			// Ensure multi-line parameter lists have the closing paren on their own line.
+			var openParen = method.ParameterList.OpenParenToken.GetLocation().GetLineSpan().StartLinePosition.Line;
+			var closingParen = method.ParameterList.CloseParenToken.GetLocation().GetLineSpan().StartLinePosition.Line;
+			if( openParen != closingParen && previousParamLine == closingParen )
+			{
+				// Closing paren is on the same line with the last parameter. Report error.
+				var diagnostic = Diagnostic.Create(
+						ClosingParameterParenthesesOnTheirOwnLines.Rule,
+						method.ParameterList.CloseParenToken.GetLocation() );
+				context.ReportDiagnostic( diagnostic );
 			}
 		}
 

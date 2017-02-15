@@ -89,6 +89,33 @@ namespace Jubjubnest.Style.DotNet {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        internal static string ClosingParameterParenthesesOnTheirOwnLines_Description {
+            get {
+                return ResourceManager.GetString("ClosingParameterParenthesesOnTheirOwnLines_Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Move the parameter list parenthesis on its own line..
+        /// </summary>
+        internal static string ClosingParameterParenthesesOnTheirOwnLines_Message {
+            get {
+                return ResourceManager.GetString("ClosingParameterParenthesesOnTheirOwnLines_Message", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Multiple parameter list parenthesis should be on their own line.
+        /// </summary>
+        internal static string ClosingParameterParenthesesOnTheirOwnLines_Title {
+            get {
+                return ResourceManager.GetString("ClosingParameterParenthesesOnTheirOwnLines_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Each logical code segment must be commented. Code segments are segments of code separated by empty lines..
         /// </summary>
         internal static string CommentedSegments_Description {
