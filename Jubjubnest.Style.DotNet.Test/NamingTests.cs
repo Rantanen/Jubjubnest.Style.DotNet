@@ -141,7 +141,7 @@ namespace Jubjubnest.Style.DotNet.Test
 						public string Property { get; set; }
 
 						private string privateField;
-						private readonly string READONLY_FIELD = null
+						private readonly string readOnlyField = null
 						private const int CONST_FIELD = 1;
 					}
 				}",

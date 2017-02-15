@@ -183,14 +183,26 @@ namespace Jubjubnest.Style.DotNet
 				// Type field variable.
 
 				// Check for modifiers.
-				var isReadOnly = field.Modifiers.Any( st => st.IsKind( SyntaxKind.ReadOnlyKeyword ) );
 				var isConst = field.Modifiers.Any( st => st.IsKind( SyntaxKind.ConstKeyword ) );
+				var isReadOnly = field.Modifiers.Any( st => st.IsKind( SyntaxKind.ReadOnlyKeyword ) );
 
 				// Delegate depending on the field type.
-				if( isReadOnly || isConst )
+				if( isConst )
+				{
+					// Consts are named with capital case. These are true constants and immutable.
 					CheckName( context, variable.Identifier, NameConstantsWithCapitalCase, IsCapitalCase );
-				else
+				}
+				else if( isReadOnly )
+				{
+					// While 'read only' is very close to a const, they are not immutable and as such behave
+					// often much closer to normal variables instead of consts.
 					CheckName( context, variable.Identifier, NameFieldsWithCamelCase, IsCamelCase );
+				}
+				else
+				{
+					// Normal variable.
+					CheckName( context, variable.Identifier, NameFieldsWithCamelCase, IsCamelCase );
+				}
 			}
 			else
 			{
