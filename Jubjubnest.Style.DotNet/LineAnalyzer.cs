@@ -177,13 +177,14 @@ namespace Jubjubnest.Style.DotNet
 					statement.IsKind( SyntaxKind.ForStatement ) ||
 					statement.IsKind( SyntaxKind.DoStatement ) ||
 					statement.IsKind( SyntaxKind.SwitchStatement ) ||
-					statement.IsKind( SyntaxKind.WhileStatement ) )
+					statement.IsKind( SyntaxKind.WhileStatement ) ||
+					statement.IsKind( SyntaxKind.UsingStatement ) )
 				{
 					// Flow control statement. Skip.
 					continue;
 				}
 
-				// There should be leading whitespace trivia.
+				// There should be leading whitespace trivia. This includes the indent.
 				if( !statement.HasLeadingTrivia )
 					continue;
 
@@ -236,8 +237,12 @@ namespace Jubjubnest.Style.DotNet
 
 		/// <summary>
 		/// Close brace validation regex.
+		///
+		/// Close brace must end the line or be followed by parameters/parentheses. This allows continuation
+		/// such as closing parentheses, which can then be followed by things closing parentheses can be followed by
+		/// in other places - however keywords such as 'else' are not allowed to follow closing braces.
 		/// </summary>
-		private static readonly Regex VALID_CLOSE_BRACE_REGEX = new Regex( @"^\s*\}[\s);,]*(?://.*)?$" );
+		private static readonly Regex VALID_CLOSE_BRACE_REGEX = new Regex( @"^\s*\}\s*($|[);,])" );
 
 		/// <summary>
 		/// Check whether the braces are on their own lines.
@@ -256,10 +261,9 @@ namespace Jubjubnest.Style.DotNet
 			// We'll approximate this with the identifier line number as otherwise we'd end up
 			// with line number for various attributes, etc.
 			var parentIdentifier = SyntaxHelper.GetIdentifier( parent );
-			var parentLocation =
-					( parentIdentifier.HasValue
+			var parentLocation = parentIdentifier.HasValue
 						? parentIdentifier.Value.GetLocation()
-						: parent.GetLocation() );
+						: parent.GetLocation();
 			var parentStartLine = parentLocation.GetLineSpan().StartLinePosition.Line;
 
 			// Get the line numbers for the various braces.
@@ -304,8 +308,11 @@ namespace Jubjubnest.Style.DotNet
 
 		/// <summary>
 		/// Regex for checking for trailing whitespace.
+		/// 
+		/// Report error only if there is two or more spaces. Single space isn't all THAT bad and it's a bit too
+		/// easy to add that when editing code through VS which doesn't remove trailing spaces.
 		/// </summary>
-		private static readonly Regex TRAILING_WHITESPACE_REGEX = new Regex( @"\s+$" );
+		private static readonly Regex TRAILING_WHITESPACE_REGEX = new Regex( @"\s\s+$" );
 
 		/// <summary>
 		/// Analyze each line textually.
@@ -387,7 +394,7 @@ namespace Jubjubnest.Style.DotNet
 			// Do this only once per file to avoid spamming warnings.
 			if( nonCrlfLineEndings.Count > 0 )
 			{
-				// Trailing whitespace. Report error.
+				// Non CRLF line endings. Report error.
 				var firstLocation = nonCrlfLineEndings.First();
 				var additionalLocations = nonCrlfLineEndings.Skip( 1 );
 				var diagnostic = Diagnostic.Create(

@@ -76,6 +76,19 @@ namespace Jubjubnest.Style.DotNet.Test
 		}
 
 		[TestMethod]
+		public void TestMultipleUsingStatements()
+		{
+			var code = Code.InMethod( @"
+				using( var x = Foo() )
+				using( var y = Bar() )
+				{
+					Console.WriteLine( x, y );
+				}" );
+
+			VerifyCSharpDiagnostic( code.Code );
+		}
+
+		[TestMethod]
 		public void TestBracesNotAlone()
 		{
 			var code = Code.InMethod( @"
@@ -97,6 +110,30 @@ namespace Jubjubnest.Style.DotNet.Test
 				{
 					foo.i = 2;
 				} );" );
+
+			VerifyCSharpDiagnostic( code.Code );
+		}
+
+		[TestMethod]
+		public void TestCloseBraceWithExtraParameters()
+		{
+			var code = Code.InMethod( @"
+				Foo( foo =>
+				{
+					foo.i = 2;
+				}, bar );" );
+
+			VerifyCSharpDiagnostic( code.Code );
+		}
+
+		[TestMethod]
+		public void TestCloseBraceWithAdditionalInvocations()
+		{
+			var code = Code.InMethod( @"
+				Foo( foo =>
+				{
+					foo.i = 2;
+				} ).ToList();" );
 
 			VerifyCSharpDiagnostic( code.Code );
 		}
