@@ -103,6 +103,17 @@ namespace Jubjubnest.Style.DotNet.Test
 		}
 
 		[TestMethod]
+		public void TestCommentAfterClosingBrace()
+		{
+			var code = Code.InMethod( @"
+				if( foo )
+				{
+				}  // end if" );
+
+			VerifyCSharpDiagnostic( code.Code );
+		}
+
+		[TestMethod]
 		public void TestCloseBraceWithParenthesis()
 		{
 			var code = Code.InMethod( @"

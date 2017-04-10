@@ -242,7 +242,7 @@ namespace Jubjubnest.Style.DotNet
 		/// such as closing parentheses, which can then be followed by things closing parentheses can be followed by
 		/// in other places - however keywords such as 'else' are not allowed to follow closing braces.
 		/// </summary>
-		private static readonly Regex VALID_CLOSE_BRACE_REGEX = new Regex( @"^\s*\}\s*($|[);,])" );
+		private static readonly Regex VALID_CLOSE_BRACE_REGEX = new Regex( @"^\s*\}\s*($|[);,]|//)" );
 
 		/// <summary>
 		/// Check whether the braces are on their own lines.
