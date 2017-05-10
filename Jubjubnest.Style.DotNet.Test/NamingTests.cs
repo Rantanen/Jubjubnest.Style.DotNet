@@ -168,7 +168,7 @@ namespace Jubjubnest.Style.DotNet.Test
 					@"namespace TestProject { class Bar { } }",
 
 					new TestEnvironment { FileName = "File" },
-					Warning( 1, 25, NamingAnalyzer.NameFilesAccordingToTypeNames, "Bar", "Bar.cs" ) );
+					Warning( 1, 31, NamingAnalyzer.NameFilesAccordingToTypeNames, "Bar", "Bar.cs" ) );
 		}
 
 		[TestMethod]
@@ -179,7 +179,7 @@ namespace Jubjubnest.Style.DotNet.Test
 					@"namespace TestProject { class Bar { } }",
 
 					new TestEnvironment { FileName = @"Path\File" },
-					Warning( 1, 25, NamingAnalyzer.NameFilesAccordingToTypeNames, "Bar", "Bar.cs" ) );
+					Warning( 1, 31, NamingAnalyzer.NameFilesAccordingToTypeNames, "Bar", "Bar.cs" ) );
 		}
 
 		[TestMethod, Ignore]

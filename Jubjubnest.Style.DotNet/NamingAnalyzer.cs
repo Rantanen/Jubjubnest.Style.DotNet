@@ -258,19 +258,58 @@ namespace Jubjubnest.Style.DotNet
 					string file = syntax.SyntaxTree.FilePath;
 					string filename = Path.GetFileNameWithoutExtension( file );
 
+					// Get the location for the declaration for more specific target.
+					// Try to find the identifier, otherwise use the whole block.
+					Location declarationLocation = GetDeclarationLocation( syntax );
+
 					// Check the file name matches the symbol name.
 					if( context.Symbol.Name != filename )
 					{
 						// File name doesn't match the symbol. Report the issue.
 						var diagnostic = Diagnostic.Create(
 								NameFilesAccordingToTypeNames.Rule,
-								syntax.GetLocation(),
+								declarationLocation,
 								context.Symbol.Name,
 								context.Symbol.Name + ".cs" );
 						context.ReportDiagnostic( diagnostic );
 					}
 				}
 			}
+		}
+
+		/// <summary>
+		/// Gets the declaration location.
+		/// </summary>
+		/// <param name="syntax">The node from which the declaration should be found.</param>
+		/// <returns>The location for declaration, or the whole node location.</returns>
+		private static Location GetDeclarationLocation(
+			SyntaxNode syntax
+		)
+		{
+			// Go over all the types one by one. We get the identifier most reliably for them that way.
+			Location declarationLocation = null;
+
+			// Is class?
+			ClassDeclarationSyntax declSyntax = syntax as ClassDeclarationSyntax;
+			if( declSyntax != null )
+				declarationLocation = declSyntax.Identifier.GetLocation();
+
+			// Is interface?
+			InterfaceDeclarationSyntax interfaceSyntax = syntax as InterfaceDeclarationSyntax;
+			if( interfaceSyntax != null )
+				declarationLocation = interfaceSyntax.Identifier.GetLocation();
+
+			// Is enum?
+			EnumDeclarationSyntax enumSyntax = syntax as EnumDeclarationSyntax;
+			if( enumSyntax != null )
+				declarationLocation = enumSyntax.Identifier.GetLocation();
+
+			// Is something else?
+			if( declarationLocation == null )
+				declarationLocation = syntax.GetLocation();
+
+			// Return the resolved location.
+			return declarationLocation;
 		}
 
 		/// <summary>
@@ -286,6 +325,7 @@ namespace Jubjubnest.Style.DotNet
 			if( classSyntax.BaseList == null ||
 				!classSyntax.BaseList.Types.Any( bt => IsExceptionName( bt.ToString() ) ) )
 			{
+
 				// Not an exception class. Stop processing.
 				return;
 			}
