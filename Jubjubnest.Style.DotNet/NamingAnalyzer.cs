@@ -47,9 +47,9 @@ namespace Jubjubnest.Style.DotNet
 		public static RuleDescription NameFieldsWithCamelCase { get; } =
 				new RuleDescription( nameof( NameFieldsWithCamelCase ), "Naming" );
 
-		/// <summary>Constants must be named with CAPITAL_CASE.</summary>
-		public static RuleDescription NameConstantsWithCapitalCase { get; } =
-				new RuleDescription( nameof( NameConstantsWithCapitalCase ), "Naming" );
+		/// <summary>Constants must be named with CamelCase.</summary>
+		public static RuleDescription NameConstantsWithCamelCase { get; } =
+				new RuleDescription( nameof( NameConstantsWithCamelCase ), "Naming" );
 
 		/// <summary>Enum values must be named with PascalCase.</summary>
 		public static RuleDescription NameEnumValuesWithPascalCase { get; } =
@@ -90,7 +90,7 @@ namespace Jubjubnest.Style.DotNet
 					NameVariablesWithCamelCase.Rule,
 					NamePropertiesWithPascalCase.Rule,
 					NameFieldsWithCamelCase.Rule,
-					NameConstantsWithCapitalCase.Rule,
+					NameConstantsWithCamelCase.Rule,
 					NameEnumValuesWithPascalCase.Rule,
 					NameExceptionsWithExceptionSuffix.Rule,
 					NameInterfacesWithIPrefix.Rule,
@@ -190,7 +190,7 @@ namespace Jubjubnest.Style.DotNet
 				if( isConst )
 				{
 					// Consts are named with capital case. These are true constants and immutable.
-					CheckName( context, variable.Identifier, NameConstantsWithCapitalCase, IsCapitalCase );
+					CheckName( context, variable.Identifier, NameConstantsWithCamelCase, IsPascalCase );
 				}
 				else if( isReadOnly )
 				{
@@ -503,7 +503,7 @@ namespace Jubjubnest.Style.DotNet
 		/// <summary>
 		/// Regex for checking the pascal case names.
 		/// </summary>
-		private static readonly Regex PASCAL_CASE_REGEX = new Regex( @"
+		private static readonly Regex PascalCaseRegex = new Regex( @"
 			^(?>
 				[A-Z]			# Normal pascal casing
 				[a-z]+
@@ -527,13 +527,13 @@ namespace Jubjubnest.Style.DotNet
 		private static bool IsPascalCase( string name )
 		{
 			// Check with regex.
-			return PASCAL_CASE_REGEX.IsMatch( name );
+			return PascalCaseRegex.IsMatch( name );
 		}
 
 		/// <summary>
 		/// Camel case naming rule.
 		/// </summary>
-		private static readonly Regex CAMEL_CASE_REGEX = new Regex( @"^[a-z]+(?>[A-Z][A-Z]?[a-z]+|[0-9])*[A-Z]?$" );
+		private static readonly Regex CamelCaseRegex = new Regex( @"^[a-z]+(?>[A-Z][A-Z]?[a-z]+|[0-9])*[A-Z]?$" );
 
 		/// <summary>
 		/// Method for checking camel casing.
@@ -543,23 +543,7 @@ namespace Jubjubnest.Style.DotNet
 		private static bool IsCamelCase( string name )
 		{
 			// Check with regex.
-			return CAMEL_CASE_REGEX.IsMatch( name );
-		}
-
-		/// <summary>
-		/// CAPITAL_CASE naming rule.
-		/// </summary>
-		private static readonly Regex CAPITAL_CASE_REGEX = new Regex( @"^[A-Z]+(?>_[A-Z]+|_[0-9]+)*$" );
-
-		/// <summary>
-		/// Method for checking capital casing.
-		/// </summary>
-		/// <param name="name">Name to check.</param>
-		/// <returns>True, if name is capital cased.</returns>
-		private static bool IsCapitalCase( string name )
-		{
-			// Check with regex.
-			return CAPITAL_CASE_REGEX.IsMatch( name );
+			return CamelCaseRegex.IsMatch( name );
 		}
 	}
 }

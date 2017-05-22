@@ -253,27 +253,27 @@ namespace Jubjubnest.Style.DotNet {
         /// <summary>
         ///   Looks up a localized string similar to .
         /// </summary>
-        internal static string NameConstantsWithCapitalCase_Description {
+        internal static string NameConstantsWithCamelCase_Description {
             get {
-                return ResourceManager.GetString("NameConstantsWithCapitalCase_Description", resourceCulture);
+                return ResourceManager.GetString("NameConstantsWithCamelCase_Description", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Rename the constant &apos;{0}&apos; using CAPITAL_CASING..
+        ///   Looks up a localized string similar to Rename the constant &apos;{0}&apos; using CamelCasing..
         /// </summary>
-        internal static string NameConstantsWithCapitalCase_Message {
+        internal static string NameConstantsWithCamelCase_Message {
             get {
-                return ResourceManager.GetString("NameConstantsWithCapitalCase_Message", resourceCulture);
+                return ResourceManager.GetString("NameConstantsWithCamelCase_Message", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Constants should be named with CAPITAL_CASING.
+        ///   Looks up a localized string similar to Constants should be named with CamelCasing.
         /// </summary>
-        internal static string NameConstantsWithCapitalCase_Title {
+        internal static string NameConstantsWithCamelCase_Title {
             get {
-                return ResourceManager.GetString("NameConstantsWithCapitalCase_Title", resourceCulture);
+                return ResourceManager.GetString("NameConstantsWithCamelCase_Title", resourceCulture);
             }
         }
         

@@ -237,14 +237,14 @@
   <data name="KeepLinesWithin120Characters_Title" xml:space="preserve">
     <value>Lines should be limited to 120 characters</value>
   </data>
-  <data name="NameConstantsWithCapitalCase_Description" xml:space="preserve">
+  <data name="NameConstantsWithCamelCase_Description" xml:space="preserve">
     <value />
   </data>
-  <data name="NameConstantsWithCapitalCase_Message" xml:space="preserve">
-    <value>Rename the constant '{0}' using CAPITAL_CASING.</value>
+  <data name="NameConstantsWithCamelCase_Message" xml:space="preserve">
+    <value>Rename the constant '{0}' using CamelCasing.</value>
   </data>
-  <data name="NameConstantsWithCapitalCase_Title" xml:space="preserve">
-    <value>Constants should be named with CAPITAL_CASING</value>
+  <data name="NameConstantsWithCamelCase_Title" xml:space="preserve">
+    <value>Constants should be named with CamelCasing</value>
   </data>
   <data name="NameEnumValuesWithPascalCase_Description" xml:space="preserve">
     <value />

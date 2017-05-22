@@ -142,7 +142,7 @@ namespace Jubjubnest.Style.DotNet.Test
 
 						private string privateField;
 						private readonly string readOnlyField = null
-						private const int CONST_FIELD = 1;
+						private const int ConstField = 1;
 					}
 				}",
 				new TestEnvironment { FileName = "Bar.cs" } );
