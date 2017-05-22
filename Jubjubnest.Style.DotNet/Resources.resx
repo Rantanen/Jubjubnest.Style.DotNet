@@ -444,4 +444,13 @@
   <data name="ClosingParameterParenthesesOnTheirOwnLines_Title" xml:space="preserve">
     <value>Multiple parameter list parenthesis should be on their own line</value>
   </data>
+  <data name="SpacesNotWithinBrackets_Description" xml:space="preserve">
+    <value />
+  </data>
+  <data name="SpacesNotWithinBrackets_Message" xml:space="preserve">
+    <value>Remove the space inside the {0}.</value>
+  </data>
+  <data name="SpacesNotWithinBrackets_Title" xml:space="preserve">
+    <value>Angle brackets should not have space inside</value>
+  </data>
 </root>

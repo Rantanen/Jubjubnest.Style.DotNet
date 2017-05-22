@@ -54,21 +54,21 @@ namespace Jubjubnest.Style.DotNet.Test
 		[TestMethod]
 		public void TestMissingSpacesInCollectionInitializer()
 		{
-            var code = Code.InMethod( "var l = new List< int > {1, 2, 3}" );
+            var code = Code.InMethod( "var l = new List<int> {1, 2, 3}" );
 
 			VerifyCSharpDiagnostic( code.Code,
-					Warning( code, 0, 26, SpacingAnalyzer.SpacesWithinBrackets, "brace" ),
-					Warning( code, 0, 32, SpacingAnalyzer.SpacesWithinBrackets, "brace" ) );
+					Warning( code, 0, 24, SpacingAnalyzer.SpacesWithinBrackets, "brace" ),
+					Warning( code, 0, 30, SpacingAnalyzer.SpacesWithinBrackets, "brace" ) );
 		}
 
 		[TestMethod]
 		public void TestMissingSpacesInComplexElementInitializer()
 		{
-            var code = Code.InMethod( "var l = new Dictionary< int, int > { {0, 1} }" );
+            var code = Code.InMethod( "var l = new Dictionary<int, int> { {0, 1} }" );
 
 			VerifyCSharpDiagnostic( code.Code,
-					Warning( code, 0, 39, SpacingAnalyzer.SpacesWithinBrackets, "brace" ),
-					Warning( code, 0, 42, SpacingAnalyzer.SpacesWithinBrackets, "brace" ) );
+					Warning( code, 0, 37, SpacingAnalyzer.SpacesWithinBrackets, "brace" ),
+					Warning( code, 0, 40, SpacingAnalyzer.SpacesWithinBrackets, "brace" ) );
 		}
 
 		[TestMethod]
@@ -84,21 +84,21 @@ namespace Jubjubnest.Style.DotNet.Test
 		[TestMethod]
 		public void TestMissingSpacesInAttributeArgumentList()
 		{
-            var code = Code.InClass( "[ Foo(1, 2) ] public string Foo { get; set; }" );
+            var code = Code.InClass( "[Foo(1, 2)] public string Foo { get; set; }" );
 
 			VerifyCSharpDiagnostic( code.Code,
-					Warning( code, 0, 7, SpacingAnalyzer.SpacesWithinBrackets, "parenthesis" ),
-					Warning( code, 0, 10, SpacingAnalyzer.SpacesWithinBrackets, "parenthesis" ) );
+					Warning( code, 0, 6, SpacingAnalyzer.SpacesWithinBrackets, "parenthesis" ),
+					Warning( code, 0, 9, SpacingAnalyzer.SpacesWithinBrackets, "parenthesis" ) );
 		}
 
-		[TestMethod, Ignore]
-		public void TestMissingSpacesInAttributeList()
+		[TestMethod]
+		public void TestExtraSpacesInAttributeList()
 		{
-            var code = Code.InClass( "[Foo, Bar] public string Foo { get; set; }" );
+            var code = Code.InClass( "[ Foo, Bar ] public string Foo { get; set; }" );
 
 			VerifyCSharpDiagnostic( code.Code,
-					Warning( code, 0, 2, SpacingAnalyzer.SpacesWithinBrackets, "bracket" ),
-					Warning( code, 0, 9, SpacingAnalyzer.SpacesWithinBrackets, "bracket" ) );
+					Warning( code, 0, 2, SpacingAnalyzer.SpacesNotWithinBrackets, "bracket" ),
+					Warning( code, 0, 11, SpacingAnalyzer.SpacesNotWithinBrackets, "bracket" ) );
 		}
 
 		[TestMethod]
@@ -181,16 +181,16 @@ namespace Jubjubnest.Style.DotNet.Test
 					Warning( code, 0, 14, SpacingAnalyzer.SpacesWithinBrackets, "parenthesis" ) );
 		}
 
-		[TestMethod, Ignore]
-		public void TestMissingSpacesInTypeArgumentList()
+		[TestMethod]
+		public void TestExtraSpacesInTypeArgumentList()
 		{
-            var code = Code.InMethod( "List<int> i = new List<int>();" );
+            var code = Code.InMethod( "List< int > i = new List< int >();" );
 
 			VerifyCSharpDiagnostic( code.Code,
-					Warning( code, 0, 6, SpacingAnalyzer.SpacesWithinBrackets, "angle bracket" ),
-					Warning( code, 0, 8, SpacingAnalyzer.SpacesWithinBrackets, "angle bracket" ),
-					Warning( code, 0, 24, SpacingAnalyzer.SpacesWithinBrackets, "angle bracket" ),
-					Warning( code, 0, 26, SpacingAnalyzer.SpacesWithinBrackets, "angle bracket" ) );
+					Warning( code, 0, 6, SpacingAnalyzer.SpacesNotWithinBrackets, "angle bracket" ),
+					Warning( code, 0, 10, SpacingAnalyzer.SpacesNotWithinBrackets, "angle bracket" ),
+					Warning( code, 0, 26, SpacingAnalyzer.SpacesNotWithinBrackets, "angle bracket" ),
+					Warning( code, 0, 30, SpacingAnalyzer.SpacesNotWithinBrackets, "angle bracket" ) );
 		}
 
 		[TestMethod]

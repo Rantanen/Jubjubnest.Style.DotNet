@@ -764,6 +764,33 @@ namespace Jubjubnest.Style.DotNet {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        internal static string SpacesNotWithinBrackets_Description {
+            get {
+                return ResourceManager.GetString("SpacesNotWithinBrackets_Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Remove the space inside the {0}..
+        /// </summary>
+        internal static string SpacesNotWithinBrackets_Message {
+            get {
+                return ResourceManager.GetString("SpacesNotWithinBrackets_Message", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Angle brackets should not have space inside.
+        /// </summary>
+        internal static string SpacesNotWithinBrackets_Title {
+            get {
+                return ResourceManager.GetString("SpacesNotWithinBrackets_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Spaces should be inserted within parentheses, braces, square brackets and angle brackets..
         /// </summary>
         internal static string SpacesWithinBrackets_Description {

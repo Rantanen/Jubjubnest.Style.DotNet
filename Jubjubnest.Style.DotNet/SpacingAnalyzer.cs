@@ -18,17 +18,24 @@ namespace Jubjubnest.Style.DotNet
 	public class SpacingAnalyzer : DiagnosticAnalyzer
 	{
 		/// <summary>
-		/// Spaces should be inserted inside brackets (round, curly, square, angle).
+		/// Spaces should be inserted inside brackets (round, curly, square).
 		/// </summary>
 		public static RuleDescription SpacesWithinBrackets { get; } =
-				new RuleDescription( "SpacesWithinBrackets", "Spacing" );
+				new RuleDescription( nameof( SpacesWithinBrackets ), "Spacing" );
+
+		/// <summary>
+		/// Spaces should NOT be inserted inside angle brackets.
+		/// </summary>
+		public static RuleDescription SpacesNotWithinBrackets { get; } =
+				new RuleDescription( nameof( SpacesNotWithinBrackets ), "Spacing" );
 
 		/// <summary>
 		/// Supported diagnostic rules.
 		/// </summary>
 		public override ImmutableArray< DiagnosticDescriptor > SupportedDiagnostics =>
 				ImmutableArray.Create(
-					SpacesWithinBrackets.Rule );
+					SpacesWithinBrackets.Rule,
+					SpacesNotWithinBrackets.Rule );
 
 		/// <summary>
 		/// Initialize the actions.
@@ -45,7 +52,7 @@ namespace Jubjubnest.Style.DotNet
 					SyntaxKind.ComplexElementInitializerExpression,
 					SyntaxKind.ObjectInitializerExpression,
 					SyntaxKind.AttributeArgumentList,
-					// SyntaxKind.AttributeList,
+					SyntaxKind.AttributeList,
 					SyntaxKind.BracketedArgumentList,
 					SyntaxKind.BracketedParameterList,
 					SyntaxKind.DoStatement,
@@ -54,7 +61,7 @@ namespace Jubjubnest.Style.DotNet
 					SyntaxKind.IfStatement,
 					SyntaxKind.ParameterList,
 					SyntaxKind.ParenthesizedExpression,
-					// SyntaxKind.TypeArgumentList,
+					SyntaxKind.TypeArgumentList,
 					SyntaxKind.WhileStatement
 				);
 		}
@@ -194,13 +201,24 @@ namespace Jubjubnest.Style.DotNet
 					throw new NotImplementedException();
 			}
 
+			// Attributes and angle brackets should have no space. Everything else has space.
+			var requireSpace =
+					context.Node.Kind() != SyntaxKind.AttributeList &&
+					bracket.Kind() != SyntaxKind.LessThanToken &&
+					bracket.Kind() != SyntaxKind.GreaterThanToken;
+
 			// Stop analysis if there's whitespace found.
 			var text = bracket.GetLocation()
 							.SourceTree
 							.GetText()
 							.GetSubText( TextSpan.FromBounds( spanStart, spanStart + 1 ) )
 							.ToString();
-			if( string.IsNullOrEmpty( text.Trim() ) )
+
+			// Check if the character next to the bracket is correct.
+			// Space requires whitespace. No space should not be empty.
+			if( requireSpace && text?.Length == 1 && string.IsNullOrWhiteSpace( text ) )
+				return;
+			if( ! requireSpace && ! string.IsNullOrEmpty( text.Trim() ) )
 				return;
 
 			// Get the bracket type name.
@@ -233,7 +251,7 @@ namespace Jubjubnest.Style.DotNet
 
 			// Create the diagnostic message and report it.
 			var diagnostic = Diagnostic.Create(
-					SpacesWithinBrackets.Rule,
+					requireSpace ? SpacesWithinBrackets.Rule : SpacesNotWithinBrackets.Rule,
 					Location.Create(
 						bracket.GetLocation().SourceTree,
 						TextSpan.FromBounds( spanStart, spanStart + 1 ) ),

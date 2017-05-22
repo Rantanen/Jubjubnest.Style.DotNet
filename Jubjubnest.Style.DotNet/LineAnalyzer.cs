@@ -308,7 +308,7 @@ namespace Jubjubnest.Style.DotNet
 
 		/// <summary>
 		/// Regex for checking for trailing whitespace.
-		/// 
+		///
 		/// Report error only if there is two or more spaces. Single space isn't all THAT bad and it's a bit too
 		/// easy to add that when editing code through VS which doesn't remove trailing spaces.
 		/// </summary>
