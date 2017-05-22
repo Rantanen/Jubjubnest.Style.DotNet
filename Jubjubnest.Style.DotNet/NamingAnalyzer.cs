@@ -89,6 +89,7 @@ namespace Jubjubnest.Style.DotNet
 					NameNamespacesWithPascalCasing.Rule,
 					NameVariablesWithCamelCase.Rule,
 					NamePropertiesWithPascalCase.Rule,
+					NameEventsWithPascalCase.Rule,
 					NameFieldsWithCamelCase.Rule,
 					NameConstantsWithCamelCase.Rule,
 					NameEnumValuesWithPascalCase.Rule,
@@ -108,7 +109,6 @@ namespace Jubjubnest.Style.DotNet
 			context.RegisterSymbolAction( AnalyzePropertyName, SymbolKind.Property );
 			context.RegisterSymbolAction( AnalyzeMethodName, SymbolKind.Method );
 			context.RegisterSymbolAction( AnalyzeNamespaceName, SymbolKind.Namespace );
-			context.RegisterSymbolAction( AnalyzeEventName, SymbolKind.Event );
 
 			// Stuff.
 			context.RegisterSyntaxNodeAction( AnalyzeEnumValues, SyntaxKind.EnumMemberDeclaration );
@@ -178,6 +178,7 @@ namespace Jubjubnest.Style.DotNet
 
 			// If this variable is a field, skip it here. We have separate checks for fields.
 			FieldDeclarationSyntax field = variable.Parent.Parent as FieldDeclarationSyntax;
+			EventFieldDeclarationSyntax eventField = variable.Parent.Parent as EventFieldDeclarationSyntax;
 			if( field != null )
 			{
 				// Type field variable.
@@ -203,6 +204,11 @@ namespace Jubjubnest.Style.DotNet
 					// Normal variable.
 					CheckName( context, variable.Identifier, NameFieldsWithCamelCase, IsCamelCase );
 				}
+			}
+			else if( eventField != null )
+			{
+				// Events are considered public and are named with pascal case.
+				CheckName( context, variable.Identifier, NameEventsWithPascalCase, IsPascalCase );
 			}
 			else
 			{
@@ -418,16 +424,6 @@ namespace Jubjubnest.Style.DotNet
 		{
 			// Delegate.
 			CheckName( context, NameNamespacesWithPascalCasing, IsPascalCase );
-		}
-
-		/// <summary>
-		/// Check event naming rules.
-		/// </summary>
-		/// <param name="context">Analysis context.</param>
-		private static void AnalyzeEventName( SymbolAnalysisContext context )
-		{
-			// Delegate.
-			CheckName( context, NameEventsWithPascalCase, IsPascalCase );
 		}
 
 		/// <summary>

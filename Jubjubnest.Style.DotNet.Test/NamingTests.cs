@@ -80,6 +80,18 @@ namespace Jubjubnest.Style.DotNet.Test
 		}
 
 		[TestMethod]
+		public void TestEventWithCamelCaseName()
+		{
+
+			VerifyCSharpDiagnostic(
+
+					@"namespace TestProject { class Bar { public event EventHandler eventName; } }",
+
+					new TestEnvironment { FileName = "Bar.cs" },
+					Warning( 1, 63, NamingAnalyzer.NameEventsWithPascalCase, "eventName" ) );
+		}
+
+		[TestMethod]
 		public void TestInterfaceWithCamelCaseName()
 		{
 
@@ -143,6 +155,8 @@ namespace Jubjubnest.Style.DotNet.Test
 						private string privateField;
 						private readonly string readOnlyField = null
 						private const int ConstField = 1;
+
+						public event EventHandler FooBar;
 					}
 				}",
 				new TestEnvironment { FileName = "Bar.cs" } );
@@ -182,7 +196,7 @@ namespace Jubjubnest.Style.DotNet.Test
 					Warning( 1, 31, NamingAnalyzer.NameFilesAccordingToTypeNames, "Bar", "Bar.cs" ) );
 		}
 
-		[TestMethod, Ignore]
+		[TestMethod, Ignore /* Folder name rules not implemented */ ]
 		public void TestWrongFolderName()
 		{
 			VerifyCSharpDiagnostic(
