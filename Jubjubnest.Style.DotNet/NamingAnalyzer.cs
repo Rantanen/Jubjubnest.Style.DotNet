@@ -104,6 +104,9 @@ namespace Jubjubnest.Style.DotNet
 		/// <param name="context">Analysis context the analysis actions are registered on.</param>
 		public override void Initialize( AnalysisContext context )
 		{
+			// Ignore generated files.
+			context.ConfigureGeneratedCodeAnalysis( GeneratedCodeAnalysisFlags.None );
+
 			// Register actions.
 			context.RegisterSymbolAction( AnalyzeTypeName, SymbolKind.NamedType );
 			context.RegisterSymbolAction( AnalyzePropertyName, SymbolKind.Property );
