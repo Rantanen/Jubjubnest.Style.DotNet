@@ -504,17 +504,12 @@ namespace Jubjubnest.Style.DotNet
 		/// </summary>
 		private static readonly Regex PascalCaseRegex = new Regex( @"
 			^(?>
-				[A-Z]			# Normal pascal casing
+				[A-Z][A-Z]?		# Normal pascal casing where we allow'IInterface' for example.
 				[a-z]+
 			|
 				[0-9]+			# Numbering.
 			|
-				[A-Z][A-Z]?		# Abbreviation
-				(?>				# Abbreviation must be followed by normal pascal casing or end of name.
-					[A-Z][a-z]+
-				|
-					$
-				)
+				[A-Z]$			# Allow single capital character in the end.
 			)+$
 		", RegexOptions.IgnorePatternWhitespace );
 
@@ -532,7 +527,22 @@ namespace Jubjubnest.Style.DotNet
 		/// <summary>
 		/// Camel case naming rule.
 		/// </summary>
-		private static readonly Regex CamelCaseRegex = new Regex( @"^[a-z]+(?>[A-Z][A-Z]?[a-z]+|[0-9])*[A-Z]?$" );
+		/// <remarks>
+		/// The construction of the camel case regex is done by taking the pascal case regex,
+		/// inserting [a-z]+ in the start to require the lower cased word at the start and then
+		/// swapping the last '+' with a '*' to ensure that the pascal cased end is optional.
+		/// </remarks>
+		private static readonly Regex CamelCaseRegex = new Regex( @"
+			^[a-z]+				# Require lower cased word in the start.
+			(?>
+				[A-Z][A-Z]?		# Normal pascal casing where we allow'IInterface' for example.
+				[a-z]+
+			|
+				[0-9]+			# Numbering.
+			|
+				[A-Z]$			# Allow single capital character in the end.
+			)*$					# Note for camel case the pascal-portion is optional.
+		", RegexOptions.IgnorePatternWhitespace );
 
 		/// <summary>
 		/// Method for checking camel casing.

@@ -151,8 +151,13 @@ namespace Jubjubnest.Style.DotNet.Test
 						public Bar() {}
 						public void Method() {}
 						public string Property { get; set; }
+						public string XSingleCapitalCharacter { get; set; }
+						public string SingleXCapitalCharacter { get; set; }
+						public string SingleCapitalCharacterX { get; set; }
 
 						private string privateField;
+						private string singleXCapitalCharacter;
+						private string singleCapitalCharacterX;
 						private readonly string readOnlyField = null
 						private const int ConstField = 1;
 
@@ -172,6 +177,32 @@ namespace Jubjubnest.Style.DotNet.Test
 					enum Foo { }
 				}",
 				new TestEnvironment { FileName = "Foo.cs" } );
+		}
+
+		[TestMethod]
+		public void TestAbbreviationFails()
+		{
+			VerifyCSharpDiagnostic(
+				@"class XYPascalCase {
+						public void PascalXYCase() {}
+						public void XYZPascalCase() {}
+						public void PascalXYZCase() {}
+						public void PascalCaseXY() {}
+
+						private string camelXYCase;
+						private string camelXYZCase;
+						private string camelCaseXY;
+					}
+				}",
+				new TestEnvironment { FileName = "XYPascalCase.cs" },
+				Warning( 1, 7, NamingAnalyzer.NameTypesWithPascalCasing, "class", "XYPascalCase" ),
+				Warning( 2, 19, NamingAnalyzer.NameMethodsWithPascalCasing, "PascalXYCase" ),
+				Warning( 3, 19, NamingAnalyzer.NameMethodsWithPascalCasing, "XYZPascalCase" ),
+				Warning( 4, 19, NamingAnalyzer.NameMethodsWithPascalCasing, "PascalXYZCase" ),
+				Warning( 5, 19, NamingAnalyzer.NameMethodsWithPascalCasing, "PascalCaseXY" ),
+				Warning( 7, 22, NamingAnalyzer.NameFieldsWithCamelCase, "camelXYCase" ),
+				Warning( 8, 22, NamingAnalyzer.NameFieldsWithCamelCase, "camelXYZCase" ),
+				Warning( 9, 22, NamingAnalyzer.NameFieldsWithCamelCase, "camelCaseXY" ) );
 		}
 
 		[TestMethod]
