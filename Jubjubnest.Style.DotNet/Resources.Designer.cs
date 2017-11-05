@@ -71,7 +71,7 @@ namespace Jubjubnest.Style.DotNet {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Insert the brace on its own line..
+        ///   Looks up a localized string similar to Insert the brace on its own line.
         /// </summary>
         internal static string BracesOnTheirOwnLine_Message {
             get {
@@ -215,7 +215,7 @@ namespace Jubjubnest.Style.DotNet {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Indenting should be done with tabs instead of spaces..
+        ///   Looks up a localized string similar to Indenting should be done with tabs instead of spaces.
         /// </summary>
         internal static string IndentWithTabs_Title {
             get {
@@ -350,7 +350,7 @@ namespace Jubjubnest.Style.DotNet {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Exception names should end with Exception..
+        ///   Looks up a localized string similar to Exception names should end with Exception.
         /// </summary>
         internal static string NameExceptionsWithExceptionSuffix_Title {
             get {
@@ -458,7 +458,7 @@ namespace Jubjubnest.Style.DotNet {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Interface names should begin with I.
+        ///   Looks up a localized string similar to Interface names should begin with &apos;I&apos;.
         /// </summary>
         internal static string NameInterfacesWithIPrefix_Title {
             get {
@@ -584,7 +584,7 @@ namespace Jubjubnest.Style.DotNet {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Give T parameter a more descriptive name..
+        ///   Looks up a localized string similar to Give &apos;T&apos; parameter a more descriptive name..
         /// </summary>
         internal static string NameTypeParameterWithDescriptiveName_Message {
             get {
@@ -593,7 +593,7 @@ namespace Jubjubnest.Style.DotNet {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Type parameters should not be named just T.
+        ///   Looks up a localized string similar to Type parameters should not be named just &apos;T&apos;.
         /// </summary>
         internal static string NameTypeParameterWithDescriptiveName_Title {
             get {
@@ -611,7 +611,7 @@ namespace Jubjubnest.Style.DotNet {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Add T prefix to the &apos;{0}&apos; type parameter name..
+        ///   Looks up a localized string similar to Add &apos;T&apos; prefix to the &apos;{0}&apos; type parameter name..
         /// </summary>
         internal static string NameTypeParameterWithTPrefix_Message {
             get {
@@ -620,7 +620,7 @@ namespace Jubjubnest.Style.DotNet {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Type parameters should begin with T.
+        ///   Looks up a localized string similar to Type parameters should begin with &apos;T&apos;.
         /// </summary>
         internal static string NameTypeParameterWithTPrefix_Title {
             get {
@@ -755,7 +755,7 @@ namespace Jubjubnest.Style.DotNet {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Method parameters should be on their own lines..
+        ///   Looks up a localized string similar to Method parameters should be on their own lines.
         /// </summary>
         internal static string ParametersOnTheirOwnLines_Title {
             get {
@@ -827,7 +827,7 @@ namespace Jubjubnest.Style.DotNet {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Insert a space inside the {0}..
+        ///   Looks up a localized string similar to Insert a space inside the &apos;{0}&apos;..
         /// </summary>
         internal static string SpacesWithinBrackets_Message {
             get {
@@ -881,7 +881,7 @@ namespace Jubjubnest.Style.DotNet {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Add &lt;param name=&quot;{0}&quot;&gt; tag to the XML documentation..
+        ///   Looks up a localized string similar to Add &apos;&lt;param name=&quot;{0}&quot;&gt;&apos; tag to the XML documentation..
         /// </summary>
         internal static string XmlDocumentAllMethodParams_Message {
             get {
@@ -890,7 +890,7 @@ namespace Jubjubnest.Style.DotNet {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Method parameters should have &lt;param&gt; tag.
+        ///   Looks up a localized string similar to Method parameters should have &apos;&lt;param&gt;&apos; tag.
         /// </summary>
         internal static string XmlDocumentAllMethodParams_Title {
             get {
@@ -908,7 +908,7 @@ namespace Jubjubnest.Style.DotNet {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Add the documentation content to {0} tag..
+        ///   Looks up a localized string similar to Add the documentation content to &apos;{0}&apos; tag..
         /// </summary>
         internal static string XmlDocumentationNoEmptyContent_Message {
             get {
@@ -935,7 +935,7 @@ namespace Jubjubnest.Style.DotNet {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Remove &lt;param&gt; for missing parameter &apos;{0}&apos;..
+        ///   Looks up a localized string similar to Remove &apos;&lt;param&gt;&apos; for missing parameter &apos;{0}&apos;..
         /// </summary>
         internal static string XmlDocumentationNoMismatchedParam_Message {
             get {
@@ -944,7 +944,7 @@ namespace Jubjubnest.Style.DotNet {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Each &lt;param&gt; tag should have a matching parameter declared..
+        ///   Looks up a localized string similar to Each &lt;param&gt; tag should have a matching parameter declared.
         /// </summary>
         internal static string XmlDocumentationNoMismatchedParam_Title {
             get {
@@ -962,7 +962,7 @@ namespace Jubjubnest.Style.DotNet {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Add XML documentation to the {0} {1}..
+        ///   Looks up a localized string similar to Add XML documentation to the {0} &apos;{1}&apos;..
         /// </summary>
         internal static string XmlDocumentEverythingWithSummary_Message {
             get {
@@ -971,7 +971,7 @@ namespace Jubjubnest.Style.DotNet {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to All items should have &lt;summary&gt; documentation.
+        ///   Looks up a localized string similar to All items should have &apos;&lt;summary&gt;&apos; documentation.
         /// </summary>
         internal static string XmlDocumentEverythingWithSummary_Title {
             get {
@@ -980,7 +980,7 @@ namespace Jubjubnest.Style.DotNet {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to All methods that return a value should be documented with the &lt;returns&gt; tag..
+        ///   Looks up a localized string similar to All methods that return a value should be documented with the &apos;&lt;returns&gt;&apos; tag..
         /// </summary>
         internal static string XmlDocumentReturnValues_Description {
             get {
@@ -989,7 +989,7 @@ namespace Jubjubnest.Style.DotNet {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Add &lt;returns&gt; tag to the XML documentation for method &apos;{0}&apos;..
+        ///   Looks up a localized string similar to Add &apos;&lt;returns&gt;&apos; tag to the XML documentation for method &apos;{0}&apos;..
         /// </summary>
         internal static string XmlDocumentReturnValues_Message {
             get {
@@ -998,7 +998,7 @@ namespace Jubjubnest.Style.DotNet {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Methods that return a value should have &lt;returns&gt; tag.
+        ///   Looks up a localized string similar to Methods that return a value should have &apos;&lt;returns&gt;&apos; tag.
         /// </summary>
         internal static string XmlDocumentReturnValues_Title {
             get {
@@ -1025,7 +1025,7 @@ namespace Jubjubnest.Style.DotNet {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to XML documentation should be processed..
+        ///   Looks up a localized string similar to XML documentation should be processed.
         /// </summary>
         internal static string XmlEnableDocumentationGeneration_Title {
             get {
@@ -1043,7 +1043,7 @@ namespace Jubjubnest.Style.DotNet {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Remove duplicate &lt;param name=&quot;{0}&quot;&gt;.
+        ///   Looks up a localized string similar to Remove duplicate &apos;&lt;param name=&quot;{0}&quot;&gt;&apos;..
         /// </summary>
         internal static string XmlNoMultipleParamsWIthSameName_Message {
             get {
@@ -1052,7 +1052,7 @@ namespace Jubjubnest.Style.DotNet {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to There should be no duplicate &lt;param&gt; tags with the same name.
+        ///   Looks up a localized string similar to There should be no duplicate &apos;&lt;param&gt;&apos; tags with the same name.
         /// </summary>
         internal static string XmlNoMultipleParamsWIthSameName_Title {
             get {

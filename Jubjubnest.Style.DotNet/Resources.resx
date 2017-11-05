@@ -160,7 +160,7 @@
     <value>Spaces should be inserted within parentheses, braces, square brackets and angle brackets.</value>
   </data>
   <data name="SpacesWithinBrackets_Message" xml:space="preserve">
-    <value>Insert a space inside the {0}.</value>
+    <value>Insert a space inside the '{0}'.</value>
   </data>
   <data name="SpacesWithinBrackets_Title" xml:space="preserve">
     <value>Brackets should have space inside</value>
@@ -169,16 +169,16 @@
     <value>All method parameters should be documented with the &lt;param&gt; tag.</value>
   </data>
   <data name="XmlDocumentAllMethodParams_Message" xml:space="preserve">
-    <value>Add &lt;param name="{0}"&gt; tag to the XML documentation.</value>
+    <value>Add '&lt;param name="{0}"&gt;' tag to the XML documentation.</value>
   </data>
   <data name="XmlDocumentAllMethodParams_Title" xml:space="preserve">
-    <value>Method parameters should have &lt;param&gt; tag</value>
+    <value>Method parameters should have '&lt;param&gt;' tag</value>
   </data>
   <data name="XmlDocumentationNoEmptyContent_Description" xml:space="preserve">
     <value />
   </data>
   <data name="XmlDocumentationNoEmptyContent_Message" xml:space="preserve">
-    <value>Add the documentation content to {0} tag.</value>
+    <value>Add the documentation content to '{0}' tag.</value>
   </data>
   <data name="XmlDocumentationNoEmptyContent_Title" xml:space="preserve">
     <value>All XML documentation tags should have non-empty content</value>
@@ -187,28 +187,28 @@
     <value />
   </data>
   <data name="XmlDocumentationNoMismatchedParam_Message" xml:space="preserve">
-    <value>Remove &lt;param&gt; for missing parameter '{0}'.</value>
+    <value>Remove '&lt;param&gt;' for missing parameter '{0}'.</value>
   </data>
   <data name="XmlDocumentationNoMismatchedParam_Title" xml:space="preserve">
-    <value>Each &lt;param&gt; tag should have a matching parameter declared.</value>
+    <value>Each &lt;param&gt; tag should have a matching parameter declared</value>
   </data>
   <data name="XmlDocumentEverythingWithSummary_Description" xml:space="preserve">
     <value>All interfaces, classes, structs and enums and their items should be documented with the &lt;summary&gt; tag.</value>
   </data>
   <data name="XmlDocumentEverythingWithSummary_Message" xml:space="preserve">
-    <value>Add XML documentation to the {0} {1}.</value>
+    <value>Add XML documentation to the {0} '{1}'.</value>
   </data>
   <data name="XmlDocumentEverythingWithSummary_Title" xml:space="preserve">
-    <value>All items should have &lt;summary&gt; documentation</value>
+    <value>All items should have '&lt;summary&gt;' documentation</value>
   </data>
   <data name="XmlDocumentReturnValues_Description" xml:space="preserve">
-    <value>All methods that return a value should be documented with the &lt;returns&gt; tag.</value>
+    <value>All methods that return a value should be documented with the '&lt;returns&gt;' tag.</value>
   </data>
   <data name="XmlDocumentReturnValues_Message" xml:space="preserve">
-    <value>Add &lt;returns&gt; tag to the XML documentation for method '{0}'.</value>
+    <value>Add '&lt;returns&gt;' tag to the XML documentation for method '{0}'.</value>
   </data>
   <data name="XmlDocumentReturnValues_Title" xml:space="preserve">
-    <value>Methods that return a value should have &lt;returns&gt; tag</value>
+    <value>Methods that return a value should have '&lt;returns&gt;' tag</value>
   </data>
   <data name="DoubleTabContinuationIndent_Description" xml:space="preserve">
     <value />
@@ -226,7 +226,7 @@
     <value>Replace space indent with tabs.</value>
   </data>
   <data name="IndentWithTabs_Title" xml:space="preserve">
-    <value>Indenting should be done with tabs instead of spaces.</value>
+    <value>Indenting should be done with tabs instead of spaces</value>
   </data>
   <data name="KeepLinesWithin120Characters_Description" xml:space="preserve">
     <value />
@@ -268,10 +268,10 @@
     <value />
   </data>
   <data name="NameExceptionsWithExceptionSuffix_Message" xml:space="preserve">
-    <value>Add Exception suffix to '{0}' exception type name.</value>
+    <value>Add 'Exception' suffix to '{0}' exception type name.</value>
   </data>
   <data name="NameExceptionsWithExceptionSuffix_Title" xml:space="preserve">
-    <value>Exception names should end with Exception.</value>
+    <value>Exception names should end with 'Exception'</value>
   </data>
   <data name="NameFieldsWithCamelCase_Description" xml:space="preserve">
     <value />
@@ -289,7 +289,7 @@
     <value>Add I prefix to the '{0}' interface name.</value>
   </data>
   <data name="NameInterfacesWithIPrefix_Title" xml:space="preserve">
-    <value>Interface names should begin with I</value>
+    <value>Interface names should begin with 'I'</value>
   </data>
   <data name="NameMethodsWithPascalCasing_Description" xml:space="preserve">
     <value />
@@ -322,19 +322,19 @@
     <value />
   </data>
   <data name="NameTypeParameterWithDescriptiveName_Message" xml:space="preserve">
-    <value>Give T parameter a more descriptive name.</value>
+    <value>Give 'T' parameter a more descriptive name.</value>
   </data>
   <data name="NameTypeParameterWithDescriptiveName_Title" xml:space="preserve">
-    <value>Type parameters should not be named just T</value>
+    <value>Type parameters should not be named just 'T'</value>
   </data>
   <data name="NameTypeParameterWithTPrefix_Description" xml:space="preserve">
     <value />
   </data>
   <data name="NameTypeParameterWithTPrefix_Message" xml:space="preserve">
-    <value>Add T prefix to the '{0}' type parameter name.</value>
+    <value>Add 'T' prefix to the '{0}' type parameter name.</value>
   </data>
   <data name="NameTypeParameterWithTPrefix_Title" xml:space="preserve">
-    <value>Type parameters should begin with T</value>
+    <value>Type parameters should begin with 'T'</value>
   </data>
   <data name="NameTypesWithPascalCasing_Description" xml:space="preserve">
     <value />
@@ -370,16 +370,16 @@
     <value>Insert newline before the '{0}' parameter.</value>
   </data>
   <data name="ParametersOnTheirOwnLines_Title" xml:space="preserve">
-    <value>Method parameters should be on their own lines.</value>
+    <value>Method parameters should be on their own lines</value>
   </data>
   <data name="XmlNoMultipleParamsWIthSameName_Description" xml:space="preserve">
     <value />
   </data>
   <data name="XmlNoMultipleParamsWIthSameName_Message" xml:space="preserve">
-    <value>Remove duplicate &lt;param name="{0}"&gt;</value>
+    <value>Remove duplicate '&lt;param name="{0}"&gt;'.</value>
   </data>
   <data name="XmlNoMultipleParamsWIthSameName_Title" xml:space="preserve">
-    <value>There should be no duplicate &lt;param&gt; tags with the same name</value>
+    <value>There should be no duplicate '&lt;param&gt;' tags with the same name</value>
   </data>
   <data name="XmlNoMultipleXmlDocumentationSegments_Description" xml:space="preserve">
     <value />
@@ -394,7 +394,7 @@
     <value />
   </data>
   <data name="BracesOnTheirOwnLine_Message" xml:space="preserve">
-    <value>Insert the brace on its own line.</value>
+    <value>Insert the brace on its own line</value>
   </data>
   <data name="BracesOnTheirOwnLine_Title" xml:space="preserve">
     <value>Braces must be on their own line</value>
@@ -433,7 +433,7 @@
     <value>Enable XML documentation generation.</value>
   </data>
   <data name="XmlEnableDocumentationGeneration_Title" xml:space="preserve">
-    <value>XML documentation should be processed.</value>
+    <value>XML documentation should be processed</value>
   </data>
   <data name="ClosingParameterParenthesesOnTheirOwnLines_Description" xml:space="preserve">
     <value />
