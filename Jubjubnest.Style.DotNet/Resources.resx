@@ -453,4 +453,13 @@
   <data name="SpacesNotWithinBrackets_Title" xml:space="preserve">
     <value>Angle brackets should not have space inside</value>
   </data>
+  <data name="NameReadOnlyFieldsWithCamelCase_Description" xml:space="preserve">
+    <value />
+  </data>
+  <data name="NameReadOnlyFieldsWithCamelCase_Message" xml:space="preserve">
+    <value>Rename the field '{0}' using camelCasing.</value>
+  </data>
+  <data name="NameReadOnlyFieldsWithCamelCase_Title" xml:space="preserve">
+    <value>Read-only fields should be named with camelCasing</value>
+  </data>
 </root>

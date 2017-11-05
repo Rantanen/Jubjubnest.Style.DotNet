@@ -550,6 +550,33 @@ namespace Jubjubnest.Style.DotNet {
         /// <summary>
         ///   Looks up a localized string similar to .
         /// </summary>
+        internal static string NameReadOnlyFieldsWithCamelCase_Description {
+            get {
+                return ResourceManager.GetString("NameReadOnlyFieldsWithCamelCase_Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Rename the field &apos;{0}&apos; using camelCasing..
+        /// </summary>
+        internal static string NameReadOnlyFieldsWithCamelCase_Message {
+            get {
+                return ResourceManager.GetString("NameReadOnlyFieldsWithCamelCase_Message", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Read-only fields should be named with camelCasing.
+        /// </summary>
+        internal static string NameReadOnlyFieldsWithCamelCase_Title {
+            get {
+                return ResourceManager.GetString("NameReadOnlyFieldsWithCamelCase_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
         internal static string NameTypeParameterWithDescriptiveName_Description {
             get {
                 return ResourceManager.GetString("NameTypeParameterWithDescriptiveName_Description", resourceCulture);

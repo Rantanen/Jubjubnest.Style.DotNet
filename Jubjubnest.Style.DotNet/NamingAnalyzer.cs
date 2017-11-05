@@ -47,6 +47,10 @@ namespace Jubjubnest.Style.DotNet
 		public static RuleDescription NameFieldsWithCamelCase { get; } =
 				new RuleDescription( nameof( NameFieldsWithCamelCase ), "Naming" );
 
+		/// <summary>Read-only fields must be named with camelCase.</summary>
+		public static RuleDescription NameReadOnlyFieldsWithCamelCase { get; } =
+				new RuleDescription( nameof( NameReadOnlyFieldsWithCamelCase  ), "Naming" );
+
 		/// <summary>Constants must be named with CamelCase.</summary>
 		public static RuleDescription NameConstantsWithCamelCase { get; } =
 				new RuleDescription( nameof( NameConstantsWithCamelCase ), "Naming" );
@@ -91,6 +95,7 @@ namespace Jubjubnest.Style.DotNet
 					NamePropertiesWithPascalCase.Rule,
 					NameEventsWithPascalCase.Rule,
 					NameFieldsWithCamelCase.Rule,
+					NameReadOnlyFieldsWithCamelCase.Rule,
 					NameConstantsWithCamelCase.Rule,
 					NameEnumValuesWithPascalCase.Rule,
 					NameExceptionsWithExceptionSuffix.Rule,
@@ -200,7 +205,7 @@ namespace Jubjubnest.Style.DotNet
 				{
 					// While 'read only' is very close to a const, they are not immutable and as such behave
 					// often much closer to normal variables instead of consts.
-					CheckName( context, variable.Identifier, NameFieldsWithCamelCase, IsCamelCase );
+					CheckName( context, variable.Identifier, NameReadOnlyFieldsWithCamelCase, IsCamelCase );
 				}
 				else
 				{
