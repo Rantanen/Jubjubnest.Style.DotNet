@@ -181,6 +181,8 @@ namespace Jubjubnest.Style.DotNet
 					statement.IsKind( SyntaxKind.DoStatement ) ||
 					statement.IsKind( SyntaxKind.SwitchStatement ) ||
 					statement.IsKind( SyntaxKind.WhileStatement ) ||
+					statement.IsKind( SyntaxKind.LockStatement ) ||
+					statement.IsKind( SyntaxKind.UncheckedStatement ) ||
 					statement.IsKind( SyntaxKind.UsingStatement ) )
 				{
 					// Flow control statement. Skip.
