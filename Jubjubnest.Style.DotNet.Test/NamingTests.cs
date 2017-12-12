@@ -100,8 +100,8 @@ namespace Jubjubnest.Style.DotNet.Test
 					@"namespace TestProject { interface bar { } }",
 
 					new TestEnvironment { FileName = "bar.cs" },
-					Warning( 1, 35, NamingAnalyzer.NameTypesWithPascalCasing, "interface", "bar" ),
-					Warning( 1, 35, NamingAnalyzer.NameInterfacesWithIPrefix, "bar" ) );
+					Warning( 1, 35, NamingAnalyzer.NameInterfacesWithIPrefix, "bar" ),
+					Warning( 1, 35, NamingAnalyzer.NameTypesWithPascalCasing, "interface", "bar" ) );
 		}
 
 		[TestMethod]
@@ -142,18 +142,48 @@ namespace Jubjubnest.Style.DotNet.Test
 		}
 
 		[TestMethod]
+		public void TestTypeArgumentWithoutTPrefix()
+		{
+
+			VerifyCSharpDiagnostic(
+
+					@"namespace Foo { class Foo<Bar> { } }",
+
+					new TestEnvironment { FileName = "Foo.cs" },
+					Warning( 1, 27, NamingAnalyzer.NameTypeParameterWithTPrefix, "Bar" ) );
+		}
+
+		[TestMethod]
+		public void TestPrefixedNamesAlone()
+		{
+
+			VerifyCSharpDiagnostic(
+
+					@"namespace Foo {
+						interface I<T> { void M<T>(); } }
+					",
+
+					new TestEnvironment { FileName = "I.cs" },
+					Warning( 2, 17, NamingAnalyzer.NamePrefixedNamesWithDescriptiveName, "I" ),
+					Warning( 2, 19, NamingAnalyzer.NamePrefixedNamesWithDescriptiveName, "T" ),
+					Warning( 2, 31, NamingAnalyzer.NamePrefixedNamesWithDescriptiveName, "T" ) );
+		}
+
+		[TestMethod]
 		public void TestProperNaming()
 		{
 			VerifyCSharpDiagnostic(
 				@"namespace Foo.Bar {
 
-					class Bar {
+					class Bar<TFoo> {
 						public Bar() {}
 						public void Method() {}
 						public string Property { get; set; }
 						public string XSingleCapitalCharacter { get; set; }
 						public string SingleXCapitalCharacter { get; set; }
 						public string SingleCapitalCharacterX { get; set; }
+
+						public void Generic<TParameter>( TParameter p ) {}
 
 						private string privateField;
 						private string singleXCapitalCharacter;

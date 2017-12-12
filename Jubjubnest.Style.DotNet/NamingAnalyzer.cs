@@ -71,9 +71,9 @@ namespace Jubjubnest.Style.DotNet
 		public static RuleDescription NameTypeParameterWithTPrefix { get; } =
 				new RuleDescription( nameof( NameTypeParameterWithTPrefix ), "Naming" );
 
-		/// <summary>Type parameters must have better name than just 'T'.</summary>
-		public static RuleDescription NameTypeParameterWithDescriptiveName { get; } =
-				new RuleDescription( nameof( NameTypeParameterWithDescriptiveName ), "Naming" );
+		/// <summary>Prefixed names must have a better name than just the prefix.</summary>
+		public static RuleDescription NamePrefixedNamesWithDescriptiveName { get; } =
+				new RuleDescription( nameof( NamePrefixedNamesWithDescriptiveName ), "Naming" );
 
 		/// <summary>Type parameters must have better name than just 'T'.</summary>
 		public static RuleDescription NameFilesAccordingToTypeNames { get; } =
@@ -102,8 +102,8 @@ namespace Jubjubnest.Style.DotNet
 					NameInterfacesWithIPrefix.Rule,
 					NameFilesAccordingToTypeNames.Rule,
 					NameFoldersAccordingToNamespaces.Rule,
-					NameTypeParameterWithDescriptiveName.Rule,
-					NameTypeParameterWithTPrefix.Rule );
+					NameTypeParameterWithTPrefix.Rule,
+					NamePrefixedNamesWithDescriptiveName.Rule );
 
 		/// <summary>
 		/// Initialize the analyzer.
@@ -157,7 +157,7 @@ namespace Jubjubnest.Style.DotNet
 			// Check the names.
 			var method = (MethodDeclarationSyntax)context.Node;
 			foreach( var parameter in method.ParameterList.Parameters )
-				CheckName( context, parameter.Identifier, NameVariablesWithCamelCase, IsCamelCase );
+				CheckName( parameter.Identifier, NameVariablesWithCamelCase, IsCamelCase, context.ReportDiagnostic );
 
 			// If there are no type parameters, we're done now.
 			// This prevents null-reference exception in the foreach.
@@ -166,15 +166,26 @@ namespace Jubjubnest.Style.DotNet
 
 			// Type parameters. Go through all.
 			foreach( var typeParameter in method.TypeParameterList.Parameters )
-			{
-				// Check the naming on the type parameters.
-				CheckName(
-						context, typeParameter.Identifier, NameTypesWithPascalCasing,
-						IsPascalCase, "type parameter" );
-				CheckPrefix(
-						"T", typeParameter.Identifier, NameTypeParameterWithTPrefix,
-						IsPascalCase, context.ReportDiagnostic );
-			}
+				AnalyzeTypeParameter( typeParameter, context.ReportDiagnostic );
+		}
+
+		/// <summary>
+		/// Analyze type parameters on types and methods.
+		/// </summary>
+		/// <param name="typeParameter">Type parameter to analyze.</param>
+		/// <param name="report">Fucntion used to report the diagnostic findings.</param>
+		private static void AnalyzeTypeParameter(
+			TypeParameterSyntax typeParameter,
+			Action< Diagnostic > report
+		)
+		{
+			// Check the basic naming rules on the type parameters.
+			string remainingName = CheckPrefix(
+					"T", typeParameter.Identifier, NameTypeParameterWithTPrefix,
+					IsPascalCase, report );
+			CheckName(
+					typeParameter.Identifier, remainingName, NameTypesWithPascalCasing,
+					IsPascalCase, report, "type parameter" );
 		}
 
 		/// <summary>
@@ -189,6 +200,7 @@ namespace Jubjubnest.Style.DotNet
 			// If this variable is a field, skip it here. We have separate checks for fields.
 			FieldDeclarationSyntax field = variable.Parent.Parent as FieldDeclarationSyntax;
 			EventFieldDeclarationSyntax eventField = variable.Parent.Parent as EventFieldDeclarationSyntax;
+			Action<Diagnostic> report = context.ReportDiagnostic;
 			if( field != null )
 			{
 				// Type field variable.
@@ -201,31 +213,31 @@ namespace Jubjubnest.Style.DotNet
 				if( isConst )
 				{
 					// Consts are named with capital case. These are true constants and immutable.
-					CheckName( context, variable.Identifier, NameConstantsWithCamelCase, IsPascalCase );
+					CheckName( variable.Identifier, NameConstantsWithCamelCase, IsPascalCase, report );
 				}
 				else if( isReadOnly )
 				{
 					// While 'read only' is very close to a const, they are not immutable and as such behave
 					// often much closer to normal variables instead of consts.
-					CheckName( context, variable.Identifier, NameReadOnlyFieldsWithCamelCase, IsCamelCase );
+					CheckName( variable.Identifier, NameReadOnlyFieldsWithCamelCase, IsCamelCase, report );
 				}
 				else
 				{
 					// Normal variable.
-					CheckName( context, variable.Identifier, NameFieldsWithCamelCase, IsCamelCase );
+					CheckName( variable.Identifier, NameFieldsWithCamelCase, IsCamelCase, report );
 				}
 			}
 			else if( eventField != null )
 			{
 				// Events are considered public and are named with pascal case.
-				CheckName( context, variable.Identifier, NameEventsWithPascalCase, IsPascalCase );
+				CheckName( variable.Identifier, NameEventsWithPascalCase, IsPascalCase, report );
 			}
 			else
 			{
 				// Normal non-field variable.
 
 				// Go through each variable in the declaration.
-				CheckName( context, variable.Identifier, NameVariablesWithCamelCase, IsCamelCase );
+				CheckName( variable.Identifier, NameVariablesWithCamelCase, IsCamelCase, report );
 			}
 		}
 
@@ -241,12 +253,8 @@ namespace Jubjubnest.Style.DotNet
 						.Select( r => r.GetSyntax( context.CancellationToken ) )
 						.ToList();
 
-			// Check the naming.
-			CheckName(
-					context, NameTypesWithPascalCasing, IsPascalCase,
-					SyntaxHelper.GetItemType( syntaxRefs.First() ) );
-
 			// Check the type-specific rules.
+			string unprefixedName = context.Symbol.Name;
 			foreach( var syntax in syntaxRefs )
 			{
 				// Check for class rules.
@@ -255,6 +263,14 @@ namespace Jubjubnest.Style.DotNet
 					// Class. Check exception naming.
 					var classSyntax = (ClassDeclarationSyntax)syntax;
 					CheckExceptionName( context, classSyntax );
+
+					// Check if the class has type parameters.
+					if( classSyntax.TypeParameterList != null )
+					{
+						// Type parameters. Go through all.
+						foreach( var typeParameter in classSyntax.TypeParameterList.Parameters )
+							AnalyzeTypeParameter( typeParameter, context.ReportDiagnostic );
+					}
 				}
 
 				// Check for interface rules.
@@ -262,9 +278,19 @@ namespace Jubjubnest.Style.DotNet
 				{
 					// Interface. Save for I prefix.
 					var interfaceSyntax = ( InterfaceDeclarationSyntax )syntax;
-					CheckPrefix(
+
+					// If we encounter this as an interface, get the unprefixed name from that.
+					unprefixedName = CheckPrefix(
 							"I", interfaceSyntax.Identifier, NameInterfacesWithIPrefix,
 							IsPascalCase, context.ReportDiagnostic );
+
+					// Check if the interface has type parameters.
+					if( interfaceSyntax.TypeParameterList != null )
+					{
+						// Type parameters. Go through all.
+						foreach( var typeParameter in interfaceSyntax.TypeParameterList.Parameters )
+							AnalyzeTypeParameter( typeParameter, context.ReportDiagnostic );
+					}
 				}
 
 				// If this is a top-level type, we'll check for file naming.
@@ -291,6 +317,12 @@ namespace Jubjubnest.Style.DotNet
 					}
 				}
 			}
+
+			// Check the naming.
+			CheckName(
+					context, unprefixedName, NameTypesWithPascalCasing, IsPascalCase,
+					SyntaxHelper.GetItemType( syntaxRefs.First() ) );
+
 		}
 
 		/// <summary>
@@ -380,30 +412,47 @@ namespace Jubjubnest.Style.DotNet
 		/// <param name="rule">Rule descriptor.</param>
 		/// <param name="predicate">Naming rule for the remaining bits.</param>
 		/// <param name="report">Reporting function.</param>
-		private static void CheckPrefix(
+		/// <returns>Name after the prefix.</returns>
+		private static string CheckPrefix(
 			string prefix,
 			SyntaxToken token,
 			RuleDescription rule,
 			Func< string, bool > predicate,
-			Action< Diagnostic > report )
+			Action< Diagnostic > report
+		)
 		{
 			// Get the name.
 			var name = token.ToString();
 
-			// Chekc for prefix rules.
-			if( name.StartsWith( prefix, StringComparison.Ordinal ) &&
-				name.Length > prefix.Length &&
-				predicate( name.Substring( prefix.Length, 1 ) ) )
+			// Check for prefix rules.
+			String remainingName = name;
+			if( name.StartsWith( prefix, StringComparison.Ordinal ) )
 			{
-				// Prefix in order. Stop processing.
-				return;
+				// Prefix exists.
+				// Strip the prefix from the remaining checks.
+				remainingName = name.Substring( prefix.Length );
+			}
+			else
+			{
+				// Prefix faulty. Report warning.
+				var diagnostic = Diagnostic.Create(
+						rule.Rule,
+						token.GetLocation(), name );
+				report( diagnostic );
 			}
 
-			// Prefix faulty. Report warning.
-			var diagnostic = Diagnostic.Create(
-					rule.Rule,
-					token.GetLocation(), name );
-			report( diagnostic );
+			// Check that the remaining name exists.
+			if( remainingName.Length == 0 )
+			{
+				// There was no remaining name. Report the error.
+				var diagnostic = Diagnostic.Create(
+						NamePrefixedNamesWithDescriptiveName.Rule,
+						token.GetLocation(), name );
+				report( diagnostic );
+			}
+
+			// Return the remaining name for further checks.
+			return remainingName;
 		}
 
 		/// <summary>
@@ -449,6 +498,25 @@ namespace Jubjubnest.Style.DotNet
 			Func< string, bool > predicate,
 			params object[] args )
 		{
+			// Delegate.
+			CheckName( context, context.Symbol.Name, ruleDescription, predicate, args );
+		}
+
+		/// <summary>
+		/// Check naming rules.
+		/// </summary>
+		/// <param name="context">Analysis context.</param>
+		/// <param name="name">Name to check.</param>
+		/// <param name="ruleDescription">Rule to check for.</param>
+		/// <param name="predicate">Name condition.</param>
+		/// <param name="args">Format args.</param>
+		private static void CheckName(
+			SymbolAnalysisContext context,
+			string name,
+			RuleDescription ruleDescription,
+			Func< string, bool > predicate,
+			params object[] args )
+		{
 			// If this is implicit symbol, skip it for naming checks.
 			if( context.Symbol.IsImplicitlyDeclared )
 				return;
@@ -458,8 +526,15 @@ namespace Jubjubnest.Style.DotNet
 			if( ! context.Symbol.CanBeReferencedByName )
 				return;
 
+			// If the name is empty the checks don't apply.
+			//
+			// Either the name really is empty or this should have been caught somewhere
+			// else. This is usually a case of prefixed names after prefix stripping.
+			if( name == "" )
+				return;
+
 			// Check for predicate.
-			if( !predicate( context.Symbol.Name ) )
+			if( !predicate( name ) )
 			{
 				// Naming rules not in order.
 
@@ -480,20 +555,47 @@ namespace Jubjubnest.Style.DotNet
 		/// <summary>
 		/// Check naming for syntax token.
 		/// </summary>
-		/// <param name="context">Analysis context.</param>
 		/// <param name="identifier">Token identifier.</param>
 		/// <param name="ruleDescription">Rule to check for.</param>
 		/// <param name="predicate">Name condition.</param>
+		/// <param name="report">Fucntion used to report the diagnostic findings.</param>
 		/// <param name="args">Format args.</param>
 		private static void CheckName(
-			SyntaxNodeAnalysisContext context,
 			SyntaxToken identifier,
 			RuleDescription ruleDescription,
 			Func< string, bool > predicate,
+			Action< Diagnostic > report,
 			params object[] args )
 		{
+			// Delegate.
+			CheckName( identifier, identifier.ToString(), ruleDescription, predicate, report );
+		}
+
+		/// <summary>
+		/// Check naming for syntax token.
+		/// </summary>
+		/// <param name="identifier">Token identifier.</param>
+		/// <param name="name">Name to check.</param>
+		/// <param name="ruleDescription">Rule to check for.</param>
+		/// <param name="predicate">Name condition.</param>
+		/// <param name="report">Fucntion used to report the diagnostic findings.</param>
+		/// <param name="args">Format args.</param>
+		private static void CheckName(
+			SyntaxToken identifier,
+			string name,
+			RuleDescription ruleDescription,
+			Func< string, bool > predicate,
+			Action< Diagnostic > report,
+			params object[] args )
+		{
+			// If the name is empty the checks don't apply.
+			//
+			// Either the name really is empty or this should have been caught somewhere
+			// else. This is usually a case of prefixed names after prefix stripping.
+			if( name == "" )
+				return;
+
 			// Check the name.
-			var name = identifier.ToString();
 			if( !predicate( name ) )
 			{
 				// Name is faulty. Report.
@@ -502,7 +604,7 @@ namespace Jubjubnest.Style.DotNet
 						ruleDescription.Rule,
 						identifier.GetLocation(),
 						formatParams.ToArray() );
-				context.ReportDiagnostic( diagnostic );
+				report( diagnostic );
 			}
 		}
 
@@ -511,7 +613,7 @@ namespace Jubjubnest.Style.DotNet
 		/// </summary>
 		private static readonly Regex PascalCaseRegex = new Regex( @"
 			^(?>
-				[A-Z][A-Z]?		# Normal pascal casing where we allow'IInterface' for example.
+				[A-Z][A-Z]?		# Normal pascal casing where we allow 'XCoordinate' for example.
 				[a-z]+
 			|
 				[0-9]+			# Numbering.

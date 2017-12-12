@@ -318,14 +318,14 @@
   <data name="NamePropertiesWithPascalCase_Title" xml:space="preserve">
     <value>Properties should be named with PascalCasing</value>
   </data>
-  <data name="NameTypeParameterWithDescriptiveName_Description" xml:space="preserve">
+  <data name="NamePrefixedNamesWithDescriptiveName_Description" xml:space="preserve">
     <value />
   </data>
-  <data name="NameTypeParameterWithDescriptiveName_Message" xml:space="preserve">
-    <value>Give 'T' parameter a more descriptive name.</value>
+  <data name="NamePrefixedNamesWithDescriptiveName_Message" xml:space="preserve">
+    <value>Give '{0}' a more descriptive name.</value>
   </data>
-  <data name="NameTypeParameterWithDescriptiveName_Title" xml:space="preserve">
-    <value>Type parameters should not be named just 'T'</value>
+  <data name="NamePrefixedNamesWithDescriptiveName_Title" xml:space="preserve">
+    <value>Prefixed names should not be named with only the prefix</value>
   </data>
   <data name="NameTypeParameterWithTPrefix_Description" xml:space="preserve">
     <value />

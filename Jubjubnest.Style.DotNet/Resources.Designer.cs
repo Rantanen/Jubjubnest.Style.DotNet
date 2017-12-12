@@ -20,7 +20,7 @@ namespace Jubjubnest.Style.DotNet {
     // class via a tool like ResGen or Visual Studio.
     // To add or remove a member, edit your .ResX file then rerun ResGen
     // with the /str option, or rebuild your VS project.
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "4.0.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "15.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     internal class Resources {
@@ -341,7 +341,7 @@ namespace Jubjubnest.Style.DotNet {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Add Exception suffix to &apos;{0}&apos; exception type name..
+        ///   Looks up a localized string similar to Add &apos;Exception&apos; suffix to &apos;{0}&apos; exception type name..
         /// </summary>
         internal static string NameExceptionsWithExceptionSuffix_Message {
             get {
@@ -350,7 +350,7 @@ namespace Jubjubnest.Style.DotNet {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Exception names should end with Exception.
+        ///   Looks up a localized string similar to Exception names should end with &apos;Exception&apos;.
         /// </summary>
         internal static string NameExceptionsWithExceptionSuffix_Title {
             get {
@@ -523,6 +523,33 @@ namespace Jubjubnest.Style.DotNet {
         /// <summary>
         ///   Looks up a localized string similar to .
         /// </summary>
+        internal static string NamePrefixedNamesWithDescriptiveName_Description {
+            get {
+                return ResourceManager.GetString("NamePrefixedNamesWithDescriptiveName_Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Give &apos;{0}&apos; a more descriptive name..
+        /// </summary>
+        internal static string NamePrefixedNamesWithDescriptiveName_Message {
+            get {
+                return ResourceManager.GetString("NamePrefixedNamesWithDescriptiveName_Message", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Prefixed names should not be named with only the prefix.
+        /// </summary>
+        internal static string NamePrefixedNamesWithDescriptiveName_Title {
+            get {
+                return ResourceManager.GetString("NamePrefixedNamesWithDescriptiveName_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
         internal static string NamePropertiesWithPascalCase_Description {
             get {
                 return ResourceManager.GetString("NamePropertiesWithPascalCase_Description", resourceCulture);
@@ -571,33 +598,6 @@ namespace Jubjubnest.Style.DotNet {
         internal static string NameReadOnlyFieldsWithCamelCase_Title {
             get {
                 return ResourceManager.GetString("NameReadOnlyFieldsWithCamelCase_Title", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to .
-        /// </summary>
-        internal static string NameTypeParameterWithDescriptiveName_Description {
-            get {
-                return ResourceManager.GetString("NameTypeParameterWithDescriptiveName_Description", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Give &apos;T&apos; parameter a more descriptive name..
-        /// </summary>
-        internal static string NameTypeParameterWithDescriptiveName_Message {
-            get {
-                return ResourceManager.GetString("NameTypeParameterWithDescriptiveName_Message", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Type parameters should not be named just &apos;T&apos;.
-        /// </summary>
-        internal static string NameTypeParameterWithDescriptiveName_Title {
-            get {
-                return ResourceManager.GetString("NameTypeParameterWithDescriptiveName_Title", resourceCulture);
             }
         }
         
