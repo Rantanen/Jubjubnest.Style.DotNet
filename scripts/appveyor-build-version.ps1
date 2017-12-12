@@ -1,4 +1,13 @@
 ﻿param( [ string ]$version )
+
+# Ensure the pull request version becomes a valid .Net version:
+# 1.2.3-abcdef -> 1.2.3.9999
+$m = ( [regex] '(\d+\.\d+\.\d+)(-.*)?' ).Match( $version )
+$version = $m.Groups[ 1 ].Value
+if( $m.Groups[ 2 ].Success ) {
+    $version += ".9999"
+}
+
 $version = New-Object Version( $version )
 
 "Setting version to $version" | Write-Host

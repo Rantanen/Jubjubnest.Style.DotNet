@@ -47,9 +47,13 @@ namespace Jubjubnest.Style.DotNet
 		public static RuleDescription NameFieldsWithCamelCase { get; } =
 				new RuleDescription( nameof( NameFieldsWithCamelCase ), "Naming" );
 
-		/// <summary>Constants must be named with CAPITAL_CASE.</summary>
-		public static RuleDescription NameConstantsWithCapitalCase { get; } =
-				new RuleDescription( nameof( NameConstantsWithCapitalCase ), "Naming" );
+		/// <summary>Read-only fields must be named with camelCase.</summary>
+		public static RuleDescription NameReadOnlyFieldsWithCamelCase { get; } =
+				new RuleDescription( nameof( NameReadOnlyFieldsWithCamelCase  ), "Naming" );
+
+		/// <summary>Constants must be named with CamelCase.</summary>
+		public static RuleDescription NameConstantsWithCamelCase { get; } =
+				new RuleDescription( nameof( NameConstantsWithCamelCase ), "Naming" );
 
 		/// <summary>Enum values must be named with PascalCase.</summary>
 		public static RuleDescription NameEnumValuesWithPascalCase { get; } =
@@ -89,8 +93,10 @@ namespace Jubjubnest.Style.DotNet
 					NameNamespacesWithPascalCasing.Rule,
 					NameVariablesWithCamelCase.Rule,
 					NamePropertiesWithPascalCase.Rule,
+					NameEventsWithPascalCase.Rule,
 					NameFieldsWithCamelCase.Rule,
-					NameConstantsWithCapitalCase.Rule,
+					NameReadOnlyFieldsWithCamelCase.Rule,
+					NameConstantsWithCamelCase.Rule,
 					NameEnumValuesWithPascalCase.Rule,
 					NameExceptionsWithExceptionSuffix.Rule,
 					NameInterfacesWithIPrefix.Rule,
@@ -103,12 +109,14 @@ namespace Jubjubnest.Style.DotNet
 		/// <param name="context">Analysis context the analysis actions are registered on.</param>
 		public override void Initialize( AnalysisContext context )
 		{
+			// Ignore generated files.
+			context.ConfigureGeneratedCodeAnalysis( GeneratedCodeAnalysisFlags.None );
+
 			// Register actions.
 			context.RegisterSymbolAction( AnalyzeTypeName, SymbolKind.NamedType );
 			context.RegisterSymbolAction( AnalyzePropertyName, SymbolKind.Property );
 			context.RegisterSymbolAction( AnalyzeMethodName, SymbolKind.Method );
 			context.RegisterSymbolAction( AnalyzeNamespaceName, SymbolKind.Namespace );
-			context.RegisterSymbolAction( AnalyzeEventName, SymbolKind.Event );
 
 			// Stuff.
 			context.RegisterSyntaxNodeAction( AnalyzeEnumValues, SyntaxKind.EnumMemberDeclaration );
@@ -178,6 +186,7 @@ namespace Jubjubnest.Style.DotNet
 
 			// If this variable is a field, skip it here. We have separate checks for fields.
 			FieldDeclarationSyntax field = variable.Parent.Parent as FieldDeclarationSyntax;
+			EventFieldDeclarationSyntax eventField = variable.Parent.Parent as EventFieldDeclarationSyntax;
 			if( field != null )
 			{
 				// Type field variable.
@@ -190,19 +199,24 @@ namespace Jubjubnest.Style.DotNet
 				if( isConst )
 				{
 					// Consts are named with capital case. These are true constants and immutable.
-					CheckName( context, variable.Identifier, NameConstantsWithCapitalCase, IsCapitalCase );
+					CheckName( context, variable.Identifier, NameConstantsWithCamelCase, IsPascalCase );
 				}
 				else if( isReadOnly )
 				{
 					// While 'read only' is very close to a const, they are not immutable and as such behave
 					// often much closer to normal variables instead of consts.
-					CheckName( context, variable.Identifier, NameFieldsWithCamelCase, IsCamelCase );
+					CheckName( context, variable.Identifier, NameReadOnlyFieldsWithCamelCase, IsCamelCase );
 				}
 				else
 				{
 					// Normal variable.
 					CheckName( context, variable.Identifier, NameFieldsWithCamelCase, IsCamelCase );
 				}
+			}
+			else if( eventField != null )
+			{
+				// Events are considered public and are named with pascal case.
+				CheckName( context, variable.Identifier, NameEventsWithPascalCase, IsPascalCase );
 			}
 			else
 			{
@@ -258,19 +272,58 @@ namespace Jubjubnest.Style.DotNet
 					string file = syntax.SyntaxTree.FilePath;
 					string filename = Path.GetFileNameWithoutExtension( file );
 
+					// Get the location for the declaration for more specific target.
+					// Try to find the identifier, otherwise use the whole block.
+					Location declarationLocation = GetDeclarationLocation( syntax );
+
 					// Check the file name matches the symbol name.
 					if( context.Symbol.Name != filename )
 					{
 						// File name doesn't match the symbol. Report the issue.
 						var diagnostic = Diagnostic.Create(
 								NameFilesAccordingToTypeNames.Rule,
-								syntax.GetLocation(),
+								declarationLocation,
 								context.Symbol.Name,
 								context.Symbol.Name + ".cs" );
 						context.ReportDiagnostic( diagnostic );
 					}
 				}
 			}
+		}
+
+		/// <summary>
+		/// Gets the declaration location.
+		/// </summary>
+		/// <param name="syntax">The node from which the declaration should be found.</param>
+		/// <returns>The location for declaration, or the whole node location.</returns>
+		private static Location GetDeclarationLocation(
+			SyntaxNode syntax
+		)
+		{
+			// Go over all the types one by one. We get the identifier most reliably for them that way.
+			Location declarationLocation = null;
+
+			// Is class?
+			ClassDeclarationSyntax declSyntax = syntax as ClassDeclarationSyntax;
+			if( declSyntax != null )
+				declarationLocation = declSyntax.Identifier.GetLocation();
+
+			// Is interface?
+			InterfaceDeclarationSyntax interfaceSyntax = syntax as InterfaceDeclarationSyntax;
+			if( interfaceSyntax != null )
+				declarationLocation = interfaceSyntax.Identifier.GetLocation();
+
+			// Is enum?
+			EnumDeclarationSyntax enumSyntax = syntax as EnumDeclarationSyntax;
+			if( enumSyntax != null )
+				declarationLocation = enumSyntax.Identifier.GetLocation();
+
+			// Is something else?
+			if( declarationLocation == null )
+				declarationLocation = syntax.GetLocation();
+
+			// Return the resolved location.
+			return declarationLocation;
 		}
 
 		/// <summary>
@@ -286,6 +339,7 @@ namespace Jubjubnest.Style.DotNet
 			if( classSyntax.BaseList == null ||
 				!classSyntax.BaseList.Types.Any( bt => IsExceptionName( bt.ToString() ) ) )
 			{
+
 				// Not an exception class. Stop processing.
 				return;
 			}
@@ -381,16 +435,6 @@ namespace Jubjubnest.Style.DotNet
 		}
 
 		/// <summary>
-		/// Check event naming rules.
-		/// </summary>
-		/// <param name="context">Analysis context.</param>
-		private static void AnalyzeEventName( SymbolAnalysisContext context )
-		{
-			// Delegate.
-			CheckName( context, NameEventsWithPascalCase, IsPascalCase );
-		}
-
-		/// <summary>
 		/// Check naming rules.
 		/// </summary>
 		/// <param name="context">Analysis context.</param>
@@ -463,19 +507,14 @@ namespace Jubjubnest.Style.DotNet
 		/// <summary>
 		/// Regex for checking the pascal case names.
 		/// </summary>
-		private static readonly Regex PASCAL_CASE_REGEX = new Regex( @"
+		private static readonly Regex PascalCaseRegex = new Regex( @"
 			^(?>
-				[A-Z]			# Normal pascal casing
+				[A-Z][A-Z]?		# Normal pascal casing where we allow'IInterface' for example.
 				[a-z]+
 			|
 				[0-9]+			# Numbering.
 			|
-				[A-Z][A-Z]?		# Abbreviation
-				(?>				# Abbreviation must be followed by normal pascal casing or end of name.
-					[A-Z][a-z]+
-				|
-					$
-				)
+				[A-Z]$			# Allow single capital character in the end.
 			)+$
 		", RegexOptions.IgnorePatternWhitespace );
 
@@ -487,13 +526,28 @@ namespace Jubjubnest.Style.DotNet
 		private static bool IsPascalCase( string name )
 		{
 			// Check with regex.
-			return PASCAL_CASE_REGEX.IsMatch( name );
+			return PascalCaseRegex.IsMatch( name );
 		}
 
 		/// <summary>
 		/// Camel case naming rule.
 		/// </summary>
-		private static readonly Regex CAMEL_CASE_REGEX = new Regex( @"^[a-z]+(?>[A-Z][A-Z]?[a-z]+|[0-9])*[A-Z]?$" );
+		/// <remarks>
+		/// The construction of the camel case regex is done by taking the pascal case regex,
+		/// inserting [a-z]+ in the start to require the lower cased word at the start and then
+		/// swapping the last '+' with a '*' to ensure that the pascal cased end is optional.
+		/// </remarks>
+		private static readonly Regex CamelCaseRegex = new Regex( @"
+			^[a-z]+				# Require lower cased word in the start.
+			(?>
+				[A-Z][A-Z]?		# Normal pascal casing where we allow'IInterface' for example.
+				[a-z]+
+			|
+				[0-9]+			# Numbering.
+			|
+				[A-Z]$			# Allow single capital character in the end.
+			)*$					# Note for camel case the pascal-portion is optional.
+		", RegexOptions.IgnorePatternWhitespace );
 
 		/// <summary>
 		/// Method for checking camel casing.
@@ -503,23 +557,7 @@ namespace Jubjubnest.Style.DotNet
 		private static bool IsCamelCase( string name )
 		{
 			// Check with regex.
-			return CAMEL_CASE_REGEX.IsMatch( name );
-		}
-
-		/// <summary>
-		/// CAPITAL_CASE naming rule.
-		/// </summary>
-		private static readonly Regex CAPITAL_CASE_REGEX = new Regex( @"^[A-Z]+(?>_[A-Z]+|_[0-9]+)*$" );
-
-		/// <summary>
-		/// Method for checking capital casing.
-		/// </summary>
-		/// <param name="name">Name to check.</param>
-		/// <returns>True, if name is capital cased.</returns>
-		private static bool IsCapitalCase( string name )
-		{
-			// Check with regex.
-			return CAPITAL_CASE_REGEX.IsMatch( name );
+			return CamelCaseRegex.IsMatch( name );
 		}
 	}
 }

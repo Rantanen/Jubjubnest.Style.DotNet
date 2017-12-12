@@ -70,6 +70,9 @@ namespace Jubjubnest.Style.DotNet
 		/// <param name="context">Analysis context the analysis actions are registered on.</param>
 		public override void Initialize( AnalysisContext context )
 		{
+			// Ignore generated files.
+			context.ConfigureGeneratedCodeAnalysis( GeneratedCodeAnalysisFlags.None );
+
 			// Register the actions.
 			context.RegisterSyntaxTreeAction( AnalyzeLines );
 			context.RegisterSyntaxNodeAction( AnalyzeBlocks, SyntaxKind.Block );
@@ -178,6 +181,8 @@ namespace Jubjubnest.Style.DotNet
 					statement.IsKind( SyntaxKind.DoStatement ) ||
 					statement.IsKind( SyntaxKind.SwitchStatement ) ||
 					statement.IsKind( SyntaxKind.WhileStatement ) ||
+					statement.IsKind( SyntaxKind.LockStatement ) ||
+					statement.IsKind( SyntaxKind.UncheckedStatement ) ||
 					statement.IsKind( SyntaxKind.UsingStatement ) )
 				{
 					// Flow control statement. Skip.
@@ -308,7 +313,7 @@ namespace Jubjubnest.Style.DotNet
 
 		/// <summary>
 		/// Regex for checking for trailing whitespace.
-		/// 
+		///
 		/// Report error only if there is two or more spaces. Single space isn't all THAT bad and it's a bit too
 		/// easy to add that when editing code through VS which doesn't remove trailing spaces.
 		/// </summary>

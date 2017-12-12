@@ -80,6 +80,18 @@ namespace Jubjubnest.Style.DotNet.Test
 		}
 
 		[TestMethod]
+		public void TestEventWithCamelCaseName()
+		{
+
+			VerifyCSharpDiagnostic(
+
+					@"namespace TestProject { class Bar { public event EventHandler eventName; } }",
+
+					new TestEnvironment { FileName = "Bar.cs" },
+					Warning( 1, 63, NamingAnalyzer.NameEventsWithPascalCase, "eventName" ) );
+		}
+
+		[TestMethod]
 		public void TestInterfaceWithCamelCaseName()
 		{
 
@@ -139,10 +151,17 @@ namespace Jubjubnest.Style.DotNet.Test
 						public Bar() {}
 						public void Method() {}
 						public string Property { get; set; }
+						public string XSingleCapitalCharacter { get; set; }
+						public string SingleXCapitalCharacter { get; set; }
+						public string SingleCapitalCharacterX { get; set; }
 
 						private string privateField;
+						private string singleXCapitalCharacter;
+						private string singleCapitalCharacterX;
 						private readonly string readOnlyField = null
-						private const int CONST_FIELD = 1;
+						private const int ConstField = 1;
+
+						public event EventHandler FooBar;
 					}
 				}",
 				new TestEnvironment { FileName = "Bar.cs" } );
@@ -161,6 +180,32 @@ namespace Jubjubnest.Style.DotNet.Test
 		}
 
 		[TestMethod]
+		public void TestAbbreviationFails()
+		{
+			VerifyCSharpDiagnostic(
+				@"class XYPascalCase {
+						public void PascalXYCase() {}
+						public void XYZPascalCase() {}
+						public void PascalXYZCase() {}
+						public void PascalCaseXY() {}
+
+						private string camelXYCase;
+						private string camelXYZCase;
+						private string camelCaseXY;
+					}
+				}",
+				new TestEnvironment { FileName = "XYPascalCase.cs" },
+				Warning( 1, 7, NamingAnalyzer.NameTypesWithPascalCasing, "class", "XYPascalCase" ),
+				Warning( 2, 19, NamingAnalyzer.NameMethodsWithPascalCasing, "PascalXYCase" ),
+				Warning( 3, 19, NamingAnalyzer.NameMethodsWithPascalCasing, "XYZPascalCase" ),
+				Warning( 4, 19, NamingAnalyzer.NameMethodsWithPascalCasing, "PascalXYZCase" ),
+				Warning( 5, 19, NamingAnalyzer.NameMethodsWithPascalCasing, "PascalCaseXY" ),
+				Warning( 7, 22, NamingAnalyzer.NameFieldsWithCamelCase, "camelXYCase" ),
+				Warning( 8, 22, NamingAnalyzer.NameFieldsWithCamelCase, "camelXYZCase" ),
+				Warning( 9, 22, NamingAnalyzer.NameFieldsWithCamelCase, "camelCaseXY" ) );
+		}
+
+		[TestMethod]
 		public void TestWrongFileName()
 		{
 			VerifyCSharpDiagnostic(
@@ -168,7 +213,7 @@ namespace Jubjubnest.Style.DotNet.Test
 					@"namespace TestProject { class Bar { } }",
 
 					new TestEnvironment { FileName = "File" },
-					Warning( 1, 25, NamingAnalyzer.NameFilesAccordingToTypeNames, "Bar", "Bar.cs" ) );
+					Warning( 1, 31, NamingAnalyzer.NameFilesAccordingToTypeNames, "Bar", "Bar.cs" ) );
 		}
 
 		[TestMethod]
@@ -179,10 +224,10 @@ namespace Jubjubnest.Style.DotNet.Test
 					@"namespace TestProject { class Bar { } }",
 
 					new TestEnvironment { FileName = @"Path\File" },
-					Warning( 1, 25, NamingAnalyzer.NameFilesAccordingToTypeNames, "Bar", "Bar.cs" ) );
+					Warning( 1, 31, NamingAnalyzer.NameFilesAccordingToTypeNames, "Bar", "Bar.cs" ) );
 		}
 
-		[TestMethod, Ignore]
+		[TestMethod, Ignore /* Folder name rules not implemented */ ]
 		public void TestWrongFolderName()
 		{
 			VerifyCSharpDiagnostic(
