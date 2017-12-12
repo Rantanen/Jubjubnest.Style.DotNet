@@ -101,7 +101,9 @@ namespace Jubjubnest.Style.DotNet
 					NameExceptionsWithExceptionSuffix.Rule,
 					NameInterfacesWithIPrefix.Rule,
 					NameFilesAccordingToTypeNames.Rule,
-					NameFoldersAccordingToNamespaces.Rule );
+					NameFoldersAccordingToNamespaces.Rule,
+					NameTypeParameterWithDescriptiveName.Rule,
+					NameTypeParameterWithTPrefix.Rule );
 
 		/// <summary>
 		/// Initialize the analyzer.
