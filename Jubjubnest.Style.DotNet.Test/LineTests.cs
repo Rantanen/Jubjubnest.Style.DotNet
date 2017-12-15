@@ -266,6 +266,48 @@ namespace Jubjubnest.Style.DotNet.Test
 			VerifyCSharpDiagnostic( code.Code );
 		}
 
+		[TestMethod]
+		public void TestDisallowBaseConstructorOtherLine()
+		{
+			var code = Code.InClass( @"
+				public Test(
+					int i
+				)
+					: base( i )
+				{
+
+				}" );
+
+			VerifyCSharpDiagnostic( code.Code, Warning( code, 4, 6, LineAnalyzer.BaseConstructorCallSameLine ) );
+		}
+
+		[TestMethod]
+		public void TestAllowBaseConstructorSameLine()
+		{
+			var code = Code.InClass( @"
+				public Test(
+					int i
+				) : base( i )
+				{
+
+				}" );
+
+			VerifyCSharpDiagnostic( code.Code );
+		}
+
+		[TestMethod]
+		public void TestAllowBaseConstructorOtherLineWhenOneParameter()
+		{
+			var code = Code.InClass( @"
+				public Test( int i )
+					: base( i )
+				{
+
+				}" );
+
+			VerifyCSharpDiagnostic( code.Code );
+		}
+
 		protected override CodeFixProvider GetCSharpCodeFixProvider()
 		{
 			return new LineCodeFixProvider();

@@ -51,6 +51,12 @@ namespace Jubjubnest.Style.DotNet
 				new RuleDescription( nameof( ClosingParameterParenthesesOnTheirOwnLines ), "Newlines" );
 
 		/// <summary>
+		/// Base constructor call should be on the same line as the ending braces of the parameter list.
+		/// </summary>
+		public static RuleDescription BaseConstructorCallSameLine { get; } =
+				new RuleDescription( nameof( BaseConstructorCallSameLine ), "Newlines" );
+
+		/// <summary>
 		/// Supported diagnostic rules.
 		/// </summary>
 		public override ImmutableArray< DiagnosticDescriptor > SupportedDiagnostics =>
@@ -62,7 +68,8 @@ namespace Jubjubnest.Style.DotNet
 					KeepLinesWithin120Characters.Rule,
 					BracesOnTheirOwnLine.Rule,
 					ParametersOnTheirOwnLines.Rule,
-					ClosingParameterParenthesesOnTheirOwnLines.Rule );
+					ClosingParameterParenthesesOnTheirOwnLines.Rule,
+					BaseConstructorCallSameLine.Rule );
 
 		/// <summary>
 		/// Initialize the analyzer.
@@ -78,6 +85,11 @@ namespace Jubjubnest.Style.DotNet
 			context.RegisterSyntaxNodeAction( AnalyzeBlocks, SyntaxKind.Block );
 			context.RegisterSyntaxNodeAction( AnalyzePropertyBlock, SyntaxKind.PropertyDeclaration );
 			context.RegisterSyntaxNodeAction( AnalyzeMethodParameters, SyntaxKind.MethodDeclaration );
+			context.RegisterSyntaxNodeAction( AnalyzeConstructorInitializers,
+					SyntaxKind.BaseConstructorInitializer );
+			context.RegisterSyntaxNodeAction( AnalyzeConstructorInitializers,
+					SyntaxKind.ThisConstructorInitializer );
+
 		}
 
 		/// <summary>
@@ -96,7 +108,7 @@ namespace Jubjubnest.Style.DotNet
 				// Resolve the parameter line number.
 				var currentLine = parameter.GetLocation().GetLineSpan().StartLinePosition.Line;
 
-				// Check there was a previou parameter.
+				// Check there was a previous parameter.
 				if( previousParamLine != int.MinValue )
 				{
 					// Previous param exists.
@@ -238,6 +250,45 @@ namespace Jubjubnest.Style.DotNet
 							Location.Create( statement.SyntaxTree, TextSpan.FromBounds( start, end ) ) );
 					context.ReportDiagnostic( diagnostic );
 				}
+			}
+		}
+
+		/// <summary>
+		/// Analyzes base constructor initializer.
+		/// </summary>
+		/// <param name="context">The context.</param>
+		private static void AnalyzeConstructorInitializers( SyntaxNodeAnalysisContext context )
+		{
+			// Grab the block syntax node.
+			var construcotrInitializer = ( ConstructorInitializerSyntax )context.Node;
+			var constructor = ( ConstructorDeclarationSyntax ) construcotrInitializer.Parent;
+			var parameters = constructor.ParameterList.Parameters;
+
+			// If all the parameters are on the same line, allow the initializer be on its own line.
+			int expectedLineNumber;
+			if( constructor.ParameterList.GetLocation().GetLineSpan().EndLinePosition.Line ==
+				constructor.GetLocation().GetLineSpan().StartLinePosition.Line )
+			{
+				// Expect to be on the next line.
+				expectedLineNumber = constructor.ParameterList.GetLocation().GetLineSpan().EndLinePosition.Line + 1;
+			}
+			else
+			{
+				// The parameters are on their own lines, so we expect the initializer be on the same line
+				// as the ending braces.
+				expectedLineNumber = constructor.ParameterList.CloseParenToken.GetLocation()
+						.GetLineSpan().EndLinePosition.Line;
+			}
+
+			// If needs to be on the same line as the ending braces.
+			var constructorCallLine = construcotrInitializer.GetLocation().GetLineSpan().StartLinePosition.Line;
+			if( expectedLineNumber != constructorCallLine )
+			{
+				// Closing paren is on the same line with the last parameter. Report error.
+				var diagnostic = Diagnostic.Create(
+						BaseConstructorCallSameLine.Rule,
+						construcotrInitializer.GetLocation() );
+				context.ReportDiagnostic( diagnostic );
 			}
 		}
 
