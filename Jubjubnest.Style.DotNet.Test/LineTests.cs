@@ -255,6 +255,17 @@ namespace Jubjubnest.Style.DotNet.Test
 			VerifyCSharpDiagnostic( code.Code, Warning( 7, 11, LineAnalyzer.UseWindowsLineEnding ) );
 		}
 
+		[TestMethod]
+		public void TestCodeWithAnonymousBlocks()
+		{
+			var code = Code.InMethod( @"
+				{
+					int i = 0;
+				}" );
+
+			VerifyCSharpDiagnostic( code.Code );
+		}
+
 		protected override CodeFixProvider GetCSharpCodeFixProvider()
 		{
 			return new LineCodeFixProvider();

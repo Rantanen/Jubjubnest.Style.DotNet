@@ -227,6 +227,13 @@ namespace Jubjubnest.Style.DotNet.Test
 					Warning( 1, 31, NamingAnalyzer.NameFilesAccordingToTypeNames, "Bar", "Bar.cs" ) );
 		}
 
+		[TestMethod]
+		public void TestNamesEndingInLetterAndNumber()
+		{
+			VerifyCSharpDiagnostic( @"namespace SomethingA1 { class Bar { } }",
+					new TestEnvironment { FileName = "Bar.cs" } );
+		}
+
 		[TestMethod, Ignore /* Folder name rules not implemented */ ]
 		public void TestWrongFolderName()
 		{
@@ -240,7 +247,7 @@ namespace Jubjubnest.Style.DotNet.Test
 
 		protected override DiagnosticAnalyzer GetCSharpDiagnosticAnalyzer()
 		{
-            return new NamingAnalyzer();
+			return new NamingAnalyzer();
 		}
 	}
 }

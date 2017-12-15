@@ -516,7 +516,7 @@ namespace Jubjubnest.Style.DotNet
 			|
 				[0-9]+			# Numbering.
 			|
-				[A-Z]$			# Allow single capital character in the end.
+				[A-Z][0-9]*$			# Allow single capital character and numbering in the end.
 			)+$
 		", RegexOptions.IgnorePatternWhitespace );
 

@@ -183,7 +183,8 @@ namespace Jubjubnest.Style.DotNet
 					statement.IsKind( SyntaxKind.WhileStatement ) ||
 					statement.IsKind( SyntaxKind.LockStatement ) ||
 					statement.IsKind( SyntaxKind.UncheckedStatement ) ||
-					statement.IsKind( SyntaxKind.UsingStatement ) )
+					statement.IsKind( SyntaxKind.UsingStatement ) ||
+					statement.IsKind( SyntaxKind.Block ) )
 				{
 					// Flow control statement. Skip.
 					continue;
