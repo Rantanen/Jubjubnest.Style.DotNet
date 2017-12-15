@@ -92,6 +92,7 @@ namespace Jubjubnest.Style.DotNet
 			context.RegisterSyntaxNodeAction( AnalyzeBlocks, SyntaxKind.Block );
 			context.RegisterSyntaxNodeAction( AnalyzePropertyBlock, SyntaxKind.PropertyDeclaration );
 			context.RegisterSyntaxNodeAction( AnalyzeMethodParameters, SyntaxKind.MethodDeclaration );
+			context.RegisterSyntaxNodeAction( AnalyzeMethodParameters, SyntaxKind.ConstructorDeclaration );
 			context.RegisterSyntaxNodeAction( AnalyzeConstructorInitializers,
 					SyntaxKind.BaseConstructorInitializer );
 			context.RegisterSyntaxNodeAction( AnalyzeConstructorInitializers,
@@ -105,8 +106,8 @@ namespace Jubjubnest.Style.DotNet
 		/// <param name="context">Analysis context.</param>
 		private static void AnalyzeMethodParameters( SyntaxNodeAnalysisContext context )
 		{
-			// Grab the property syntax.
-			var method = ( MethodDeclarationSyntax )context.Node;
+			// Analyze the parameters.
+			var method = ( BaseMethodDeclarationSyntax ) context.Node;
 
 			// Examine all parameters and the liens they are on.
 			int previousParamLine = int.MinValue;
@@ -269,7 +270,6 @@ namespace Jubjubnest.Style.DotNet
 			// Grab the block syntax node.
 			var constructorInitializer = ( ConstructorInitializerSyntax )context.Node;
 			var constructor = ( ConstructorDeclarationSyntax ) constructorInitializer.Parent;
-			var parameters = constructor.ParameterList.Parameters;
 
 			// If all the parameters are on the same line, allow the initializer be on its own line.
 			var constructorCallLine = constructorInitializer.GetLocation().GetLineSpan().StartLinePosition.Line;

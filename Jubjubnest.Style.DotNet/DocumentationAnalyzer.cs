@@ -82,6 +82,7 @@ namespace Jubjubnest.Style.DotNet
 					SyntaxKind.StructDeclaration,
 					SyntaxKind.EnumDeclaration,
 					SyntaxKind.MethodDeclaration,
+					SyntaxKind.ConstructorDeclaration,
 					SyntaxKind.PropertyDeclaration,
 					SyntaxKind.FieldDeclaration,
 					SyntaxKind.EnumMemberDeclaration );

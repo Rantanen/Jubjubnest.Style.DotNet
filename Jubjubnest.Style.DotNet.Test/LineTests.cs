@@ -221,9 +221,26 @@ namespace Jubjubnest.Style.DotNet.Test
 		}
 
 		[TestMethod]
+		public void TestConstructorParametersOnSameLine()
+		{
+			var code = Code.InClass( @"
+				public Test( string a, string b )
+				{
+				}" );
+
+			VerifyCSharpDiagnostic( code.Code, Warning( code, 1, 28, LineAnalyzer.ParametersOnTheirOwnLines, "b" ) );
+		}
+
+		[TestMethod]
 		public void TestParametersOnTheirOwnLine()
 		{
 			var code = Code.InClass( @"
+				public Test(
+					string a,
+					string b
+				)
+				{
+				}
 				public string Foo(
 					string a,
 					string b
@@ -239,6 +256,19 @@ namespace Jubjubnest.Style.DotNet.Test
 		{
 			var code = Code.InClass( @"
 				public string Foo(
+					string a,
+					string b )
+				{
+				}" );
+
+			VerifyCSharpDiagnostic( code.Code, Warning( 8, 15, LineAnalyzer.ClosingParameterParenthesesOnTheirOwnLines ) );
+		}
+
+		[TestMethod]
+		public void TestConstructorParameterParenSharingParameterLine()
+		{
+			var code = Code.InClass( @"
+				public Test(
 					string a,
 					string b )
 				{
