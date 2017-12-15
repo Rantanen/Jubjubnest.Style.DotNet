@@ -1036,27 +1036,27 @@ namespace Jubjubnest.Style.DotNet {
         /// <summary>
         ///   Looks up a localized string similar to .
         /// </summary>
-        internal static string XmlNoMultipleParamsWIthSameName_Description {
+        internal static string XmlNoMultipleParamsWithSameName_Description {
             get {
-                return ResourceManager.GetString("XmlNoMultipleParamsWIthSameName_Description", resourceCulture);
+                return ResourceManager.GetString("XmlNoMultipleParamsWithSameName_Description", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Remove duplicate &apos;&lt;param name=&quot;{0}&quot;&gt;&apos;..
         /// </summary>
-        internal static string XmlNoMultipleParamsWIthSameName_Message {
+        internal static string XmlNoMultipleParamsWithSameName_Message {
             get {
-                return ResourceManager.GetString("XmlNoMultipleParamsWIthSameName_Message", resourceCulture);
+                return ResourceManager.GetString("XmlNoMultipleParamsWithSameName_Message", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to There should be no duplicate &apos;&lt;param&gt;&apos; tags with the same name.
         /// </summary>
-        internal static string XmlNoMultipleParamsWIthSameName_Title {
+        internal static string XmlNoMultipleParamsWithSameName_Title {
             get {
-                return ResourceManager.GetString("XmlNoMultipleParamsWIthSameName_Title", resourceCulture);
+                return ResourceManager.GetString("XmlNoMultipleParamsWithSameName_Title", resourceCulture);
             }
         }
         
