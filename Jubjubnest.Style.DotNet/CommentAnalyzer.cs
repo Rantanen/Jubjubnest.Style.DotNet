@@ -172,7 +172,7 @@ namespace Jubjubnest.Style.DotNet
 				lastInSegment = childNode;
 			}
 
-			// No more statements. We might need to process the last statmeent unless the
+			// No more statements. We might need to process the last statement unless the
 			// whole block was empty.
 			if( firstInSegment != null )
 			{
@@ -316,7 +316,8 @@ namespace Jubjubnest.Style.DotNet
 		private static void RequireComment(
 			SyntaxNodeAnalysisContext context,
 			SyntaxNode firstInSegment,
-			SyntaxNode lastInSegment )
+			SyntaxNode lastInSegment
+		)
 		{
 			// Try to find a leading comment for the segment.
 			var hasComments = false;
