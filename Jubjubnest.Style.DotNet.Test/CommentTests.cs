@@ -43,7 +43,9 @@ namespace Jubjubnest.Style.DotNet.Test
                 int b = 0;
             " );
 
-			VerifyCSharpDiagnostic( code.Code, Warning( code, 1, 17, CommentAnalyzer.CommentedSegments ), Warning( code, 4, 17, CommentAnalyzer.CommentedSegments ) );
+			VerifyCSharpDiagnostic( code.Code,
+					Warning( code, 1, 17, CommentAnalyzer.CommentedSegments ),
+					Warning( code, 4, 17, CommentAnalyzer.CommentedSegments ) );
 		}
 
 		[TestMethod]

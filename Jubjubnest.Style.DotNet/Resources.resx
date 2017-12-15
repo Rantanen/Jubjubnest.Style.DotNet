@@ -462,4 +462,10 @@
   <data name="NameReadOnlyFieldsWithCamelCase_Title" xml:space="preserve">
     <value>Read-only fields should be named with camelCasing</value>
   </data>
+  <data name="BaseConstructorCallSameLine_Message" xml:space="preserve">
+    <value>Move the constructor call to its right place.</value>
+  </data>
+  <data name="BaseConstructorCallSameLine_Title" xml:space="preserve">
+    <value>Base constructor call should be on the same line as the last closing brace of the parameter list if the parameters are on their own lines. Otherwise it should be on its own line.</value>
+  </data>
 </root>

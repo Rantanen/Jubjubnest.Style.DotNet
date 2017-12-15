@@ -66,5 +66,14 @@ namespace Jubjubnest.Style.DotNet.Test.Helpers
 		}
 	}" );
         }
-    }
+
+		public static CodeResult InNamespace( string code )
+		{
+			return new CodeResult(
+@"	namespace Namespace
+	{",
+		code,
+@"	}" );
+		}
+	}
 }

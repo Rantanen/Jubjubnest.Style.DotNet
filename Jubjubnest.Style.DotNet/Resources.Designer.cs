@@ -62,6 +62,24 @@ namespace Jubjubnest.Style.DotNet {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Move the constructor call to its right place..
+        /// </summary>
+        internal static string BaseConstructorCallSameLine_Message {
+            get {
+                return ResourceManager.GetString("BaseConstructorCallSameLine_Message", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Base constructor call should be on the same line as the last closing brace of the parameter list if the parameters are on their own lines. Otherwise it should be on its own line..
+        /// </summary>
+        internal static string BaseConstructorCallSameLine_Title {
+            get {
+                return ResourceManager.GetString("BaseConstructorCallSameLine_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to .
         /// </summary>
         internal static string BracesOnTheirOwnLine_Description {
