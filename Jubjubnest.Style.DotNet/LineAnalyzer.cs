@@ -51,10 +51,16 @@ namespace Jubjubnest.Style.DotNet
 				new RuleDescription( nameof( ClosingParameterParenthesesOnTheirOwnLines ), "Newlines" );
 
 		/// <summary>
-		/// Base constructor call should be on the same line as the ending braces of the parameter list.
+		/// Base constructor call should be on the same line as the ending parenthesis of the parameter list.
 		/// </summary>
-		public static RuleDescription BaseConstructorCallSameLine { get; } =
-				new RuleDescription( nameof( BaseConstructorCallSameLine ), "Newlines" );
+		public static RuleDescription BaseConstructorCallToClosingLine { get; } =
+				new RuleDescription( nameof( BaseConstructorCallToClosingLine ), "Newlines" );
+
+		/// <summary>
+		/// Base constructor call should be on the next line when the parameter list is on a single line.
+		/// </summary>
+		public static RuleDescription BaseConstructorCallToNextLine { get; } =
+				new RuleDescription( nameof( BaseConstructorCallToNextLine ), "Newlines" );
 
 		/// <summary>
 		/// Supported diagnostic rules.
@@ -69,7 +75,8 @@ namespace Jubjubnest.Style.DotNet
 					BracesOnTheirOwnLine.Rule,
 					ParametersOnTheirOwnLines.Rule,
 					ClosingParameterParenthesesOnTheirOwnLines.Rule,
-					BaseConstructorCallSameLine.Rule );
+					BaseConstructorCallToClosingLine.Rule,
+					BaseConstructorCallToNextLine.Rule );
 
 		/// <summary>
 		/// Initialize the analyzer.
@@ -260,35 +267,46 @@ namespace Jubjubnest.Style.DotNet
 		private static void AnalyzeConstructorInitializers( SyntaxNodeAnalysisContext context )
 		{
 			// Grab the block syntax node.
-			var construcotrInitializer = ( ConstructorInitializerSyntax )context.Node;
-			var constructor = ( ConstructorDeclarationSyntax ) construcotrInitializer.Parent;
+			var constructorInitializer = ( ConstructorInitializerSyntax )context.Node;
+			var constructor = ( ConstructorDeclarationSyntax ) constructorInitializer.Parent;
 			var parameters = constructor.ParameterList.Parameters;
 
 			// If all the parameters are on the same line, allow the initializer be on its own line.
-			int expectedLineNumber;
+			var constructorCallLine = constructorInitializer.GetLocation().GetLineSpan().StartLinePosition.Line;
 			if( constructor.ParameterList.GetLocation().GetLineSpan().EndLinePosition.Line ==
 				constructor.GetLocation().GetLineSpan().StartLinePosition.Line )
 			{
 				// Expect to be on the next line.
-				expectedLineNumber = constructor.ParameterList.GetLocation().GetLineSpan().EndLinePosition.Line + 1;
+				int expectedLineNumber = constructor.ParameterList.GetLocation().GetLineSpan().EndLinePosition.Line + 1;
+
+				// If needs to be on the same line as the ending braces.
+				if( expectedLineNumber != constructorCallLine )
+				{
+					// Closing paren is on the same line with the last parameter. Report error.
+					var diagnostic = Diagnostic.Create(
+							BaseConstructorCallToNextLine.Rule,
+							constructorInitializer.GetLocation(),
+							constructor.Identifier.ToString() );
+					context.ReportDiagnostic( diagnostic );
+				}
 			}
 			else
 			{
 				// The parameters are on their own lines, so we expect the initializer be on the same line
 				// as the ending braces.
-				expectedLineNumber = constructor.ParameterList.CloseParenToken.GetLocation()
+				int expectedLineNumber = constructor.ParameterList.CloseParenToken.GetLocation()
 						.GetLineSpan().EndLinePosition.Line;
-			}
 
-			// If needs to be on the same line as the ending braces.
-			var constructorCallLine = construcotrInitializer.GetLocation().GetLineSpan().StartLinePosition.Line;
-			if( expectedLineNumber != constructorCallLine )
-			{
-				// Closing paren is on the same line with the last parameter. Report error.
-				var diagnostic = Diagnostic.Create(
-						BaseConstructorCallSameLine.Rule,
-						construcotrInitializer.GetLocation() );
-				context.ReportDiagnostic( diagnostic );
+				// If needs to be on the same line as the ending braces.
+				if( expectedLineNumber != constructorCallLine )
+				{
+					// Closing paren is on the same line with the last parameter. Report error.
+					var diagnostic = Diagnostic.Create(
+							BaseConstructorCallToClosingLine.Rule,
+							constructorInitializer.GetLocation(),
+							constructor.Identifier.ToString() );
+					context.ReportDiagnostic( diagnostic );
+				}
 			}
 		}
 

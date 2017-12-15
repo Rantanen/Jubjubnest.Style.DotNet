@@ -62,20 +62,56 @@ namespace Jubjubnest.Style.DotNet {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Move the constructor call to its right place..
+        ///   Looks up a localized string similar to Base constructor call should be on the same line as the last closing parenthesis of the parameter list if the parameters are on their own lines..
         /// </summary>
-        internal static string BaseConstructorCallSameLine_Message {
+        internal static string BaseConstructorCallToClosingLine_Description {
             get {
-                return ResourceManager.GetString("BaseConstructorCallSameLine_Message", resourceCulture);
+                return ResourceManager.GetString("BaseConstructorCallToClosingLine_Description", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Base constructor call should be on the same line as the last closing brace of the parameter list if the parameters are on their own lines. Otherwise it should be on its own line..
+        ///   Looks up a localized string similar to Move the base constructor call to the same line with the closing parenthesis in the &apos;{0}&apos; constructor..
         /// </summary>
-        internal static string BaseConstructorCallSameLine_Title {
+        internal static string BaseConstructorCallToClosingLine_Message {
             get {
-                return ResourceManager.GetString("BaseConstructorCallSameLine_Title", resourceCulture);
+                return ResourceManager.GetString("BaseConstructorCallToClosingLine_Message", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Base constructor call should be on the closing line with multiple parameters.
+        /// </summary>
+        internal static string BaseConstructorCallToClosingLine_Title {
+            get {
+                return ResourceManager.GetString("BaseConstructorCallToClosingLine_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Base constructor call should be on a new line if the parameters are on a single line..
+        /// </summary>
+        internal static string BaseConstructorCallToNextLine_Description {
+            get {
+                return ResourceManager.GetString("BaseConstructorCallToNextLine_Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Move the base constructor call to its own line in the &apos;{0}&apos; constructor..
+        /// </summary>
+        internal static string BaseConstructorCallToNextLine_Message {
+            get {
+                return ResourceManager.GetString("BaseConstructorCallToNextLine_Message", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Base constructor call should be on a new line with single line parameters..
+        /// </summary>
+        internal static string BaseConstructorCallToNextLine_Title {
+            get {
+                return ResourceManager.GetString("BaseConstructorCallToNextLine_Title", resourceCulture);
             }
         }
         
@@ -1054,27 +1090,27 @@ namespace Jubjubnest.Style.DotNet {
         /// <summary>
         ///   Looks up a localized string similar to .
         /// </summary>
-        internal static string XmlNoMultipleParamsWithSameName_Description {
+        internal static string XmlNoMultipleParamsWIthSameName_Description {
             get {
-                return ResourceManager.GetString("XmlNoMultipleParamsWithSameName_Description", resourceCulture);
+                return ResourceManager.GetString("XmlNoMultipleParamsWIthSameName_Description", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Remove duplicate &apos;&lt;param name=&quot;{0}&quot;&gt;&apos;..
         /// </summary>
-        internal static string XmlNoMultipleParamsWithSameName_Message {
+        internal static string XmlNoMultipleParamsWIthSameName_Message {
             get {
-                return ResourceManager.GetString("XmlNoMultipleParamsWithSameName_Message", resourceCulture);
+                return ResourceManager.GetString("XmlNoMultipleParamsWIthSameName_Message", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to There should be no duplicate &apos;&lt;param&gt;&apos; tags with the same name.
         /// </summary>
-        internal static string XmlNoMultipleParamsWithSameName_Title {
+        internal static string XmlNoMultipleParamsWIthSameName_Title {
             get {
-                return ResourceManager.GetString("XmlNoMultipleParamsWithSameName_Title", resourceCulture);
+                return ResourceManager.GetString("XmlNoMultipleParamsWIthSameName_Title", resourceCulture);
             }
         }
         

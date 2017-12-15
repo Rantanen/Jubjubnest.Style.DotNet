@@ -267,7 +267,7 @@ namespace Jubjubnest.Style.DotNet.Test
 		}
 
 		[TestMethod]
-		public void TestDisallowBaseConstructorOtherLine()
+		public void TestDisallowBaseConstructorOtherLineForMultiLineParameters()
 		{
 			var code = Code.InClass( @"
 				public Test(
@@ -278,11 +278,12 @@ namespace Jubjubnest.Style.DotNet.Test
 
 				}" );
 
-			VerifyCSharpDiagnostic( code.Code, Warning( code, 4, 6, LineAnalyzer.BaseConstructorCallSameLine ) );
+			VerifyCSharpDiagnostic( code.Code,
+					Warning( code, 4, 6, LineAnalyzer.BaseConstructorCallToClosingLine, "Test" ) );
 		}
 
 		[TestMethod]
-		public void TestAllowBaseConstructorSameLine()
+		public void TestAllowBaseConstructorSameLineForMultiLineParameters()
 		{
 			var code = Code.InClass( @"
 				public Test(
@@ -293,6 +294,19 @@ namespace Jubjubnest.Style.DotNet.Test
 				}" );
 
 			VerifyCSharpDiagnostic( code.Code );
+		}
+
+		[TestMethod]
+		public void TestDisallowBaseConstructorSameLineWhenOneParameter()
+		{
+			var code = Code.InClass( @"
+				public Test( int i ) : base( i )
+				{
+
+				}" );
+
+			VerifyCSharpDiagnostic( code.Code,
+					Warning( code, 1, 26, LineAnalyzer.BaseConstructorCallToNextLine, "Test" ) );
 		}
 
 		[TestMethod]
