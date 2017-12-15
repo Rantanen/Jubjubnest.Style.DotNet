@@ -15,6 +15,9 @@ build_script:
     - ps:
         .\scripts\appveyor-copy-artifacts.ps1 -version $env:APPVEYOR_BUILD_VERSION
 
+test_script:
+    - .\packages\OpenCover.4.6.519\tools\OpenCover.Console.exe -register:user -target:vstest.console.exe "-targetargs:""Jubjubnest.Style.DotNet.Test\bin\Release\Jubjubnest.Style.DotNet.Test.dll"" /logger:Appveyor" -filter:"+[Jubjubnest.Style.DotNet*]* -[Jubjubnest.Style.DotNet.Test*]*"
+
 deploy:
     provider: NuGet
     api_key:
@@ -24,3 +27,9 @@ deploy:
 artifacts:
     - path: dist\Jubjubnest.Style.DotNet.vsix
     - path: dist\*.nupkg
+
+after_test:
+    - ps: |
+        $env:PATH = 'C:\msys64\usr\bin;' + $env:PATH
+        Invoke-WebRequest -Uri 'https://codecov.io/bash' -OutFile codecov.sh
+        bash codecov.sh -f "results.xml"
