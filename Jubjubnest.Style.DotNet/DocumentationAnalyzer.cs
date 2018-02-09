@@ -106,17 +106,17 @@ namespace Jubjubnest.Style.DotNet
 		}
 
 		/// <summary>
-		/// Check for the XML documentaiton.
+		/// Check for the XML documentation.
 		/// </summary>
 		/// <param name="context">Analysis context.</param>
 		private static void CheckXmlDocumentation( SyntaxNodeAnalysisContext context )
 		{
 			// Skip the XML checks if the Xml documentation isn't being processed.
-			// These checks would fail even if XML documentationw as present.
+			// These checks would fail even if XML documentation was present.
 			if( context.Node.SyntaxTree.Options.DocumentationMode == DocumentationMode.None )
 				return;
 
-			// Get all the documentaiton trivia.
+			// Get all the documentation trivia.
 			var documentationTrivias = context.Node.GetLeadingTrivia()
 					.Where( trivia =>
 						trivia.IsKind( SyntaxKind.SingleLineDocumentationCommentTrivia ) ||
@@ -179,7 +179,7 @@ namespace Jubjubnest.Style.DotNet
 			// Ensure the documentation exists.
 			if( documentationTrivias.Count == 0 )
 			{
-				// No documentaiton.
+				// No documentation.
 				// Create the diagnostic message and report it.
 				var identifier = SyntaxHelper.GetIdentifier( context.Node );
 				var diagnostic = Diagnostic.Create(
