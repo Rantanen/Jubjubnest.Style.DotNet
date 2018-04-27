@@ -150,6 +150,18 @@ namespace Jubjubnest.Style.DotNet.Test
 		}
 
 		[TestMethod]
+		public void TestCloseBraceWithWhile()
+		{
+			var code = Code.InMethod( @"
+				do
+				{
+					// Looping.
+				} while( true );" );
+
+			VerifyCSharpDiagnostic( code.Code );
+		}
+
+		[TestMethod]
 		public void TestTwoLinePropertyWithBracesOnSharedLines()
 		{
 			var code = Code.InClass( @"
