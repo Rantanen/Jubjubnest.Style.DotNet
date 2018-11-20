@@ -305,7 +305,7 @@ namespace Jubjubnest.Style.DotNet
 					Location declarationLocation = GetDeclarationLocation( syntax );
 
 					// Check the file name matches the symbol name.
-					if( context.Symbol.Name != filename )
+					if( context.Symbol.Name != filename && IsHelperToSibling( syntax ) == false )
 					{
 						// File name doesn't match the symbol. Report the issue.
 						var diagnostic = Diagnostic.Create(
@@ -358,6 +358,59 @@ namespace Jubjubnest.Style.DotNet
 
 			// Return the resolved location.
 			return declarationLocation;
+		}
+
+		/// <summary>
+		/// Determines whether the given syntax node is a helper to its sibling.
+		/// </summary>
+		/// <param name="node">The node that is tested.</param>
+		/// <returns>Returns true if the node is a helper to a sibling</returns>
+		private static bool IsHelperToSibling(
+			SyntaxNode node
+		)
+		{
+			// Helpers to enumerations should be implemented as a static class.
+			var helperCandidate = node as ClassDeclarationSyntax;
+			if( helperCandidate == null )
+				return false;
+
+			// Helper must be named as a helper.
+			string identifier = helperCandidate.Identifier.Text;
+			if( identifier.EndsWith( "Helper" ) == false )
+				return false;
+
+			// A helper class must be declared as static.
+			bool isStatic = helperCandidate.ChildTokens()
+					.TakeWhile( token =>
+							token.IsKind( SyntaxKind.ClassKeyword ) == false )
+					.Any( token => token.IsKind( SyntaxKind.StaticKeyword ) );
+			if( isStatic == false )
+				return false;
+
+			// Does the node actually have a sibling that it can "help"?
+			string expectedEnumerationName = identifier.Substring( 0, identifier.Length - "Helper".Length );
+			bool isHelper = GetSiblingEnumerations( node )
+							.Any( siblingEnum => siblingEnum.Identifier.Text == expectedEnumerationName );
+			return isHelper;
+		}
+
+		/// <summary>
+		/// Gets enumerations that are at the same level as the given node.
+		/// </summary>
+		/// <param name="node">Syntax which siblings are queried for.</param>
+		/// <returns>Enumeration declarations</returns>
+		private static IEnumerable<EnumDeclarationSyntax> GetSiblingEnumerations(
+			SyntaxNode node
+		)
+		{
+			// Search for enumeration declarations.
+			foreach( var childCandidate in node.Parent.ChildNodes() )
+			{
+				// An enumeration declaration?
+				var child = childCandidate as EnumDeclarationSyntax;
+				if( child != null )
+					yield return child;
+			}
 		}
 
 		/// <summary>
