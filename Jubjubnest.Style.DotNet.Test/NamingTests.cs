@@ -247,13 +247,18 @@ namespace Jubjubnest.Style.DotNet.Test
 		}
 
 		[TestMethod]
-		public void TestStaticHelperClassAllowedForEnumerations()
+		public void TestStaticHelperClassAllowedForEnumerations(
+		)
 		{
-			VerifyCSharpDiagnostic(
+			var validHelperPostfixes = new string[] { "Helper", "Extension", "Extensions" };
+			foreach( var postfix in validHelperPostfixes )
+			{
+				VerifyCSharpDiagnostic(
 
-					@"namespace TestProject { enum Bar {} public static class BarHelper {} }",
+					$"namespace TestProject {{ enum Bar {{}} public static class Bar{postfix} {{}} }}",
 
 					new TestEnvironment { FileName = "Bar" } );
+			}
 		}
 
 		[TestMethod]

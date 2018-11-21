@@ -375,8 +375,10 @@ namespace Jubjubnest.Style.DotNet
 				return false;
 
 			// Helper must be named as a helper.
+			var validHelperPostfixes = new string[] { "Helper", "Extension", "Extensions" };
 			string identifier = helperCandidate.Identifier.Text;
-			if( identifier.EndsWith( "Helper" ) == false )
+			var helperPostfix = validHelperPostfixes.SingleOrDefault( postfix => identifier.EndsWith( postfix ) );
+			if( helperPostfix == default( string ) )
 				return false;
 
 			// A helper class must be declared as static.
@@ -388,7 +390,7 @@ namespace Jubjubnest.Style.DotNet
 				return false;
 
 			// Does the node actually have a sibling that it can "help"?
-			string expectedEnumerationName = identifier.Substring( 0, identifier.Length - "Helper".Length );
+			string expectedEnumerationName = identifier.Substring( 0, identifier.Length - helperPostfix.Length );
 			bool isHelper = GetSiblingEnumerations( node )
 							.Any( siblingEnum => siblingEnum.Identifier.Text == expectedEnumerationName );
 			return isHelper;
