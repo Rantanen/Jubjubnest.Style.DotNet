@@ -247,6 +247,43 @@ namespace Jubjubnest.Style.DotNet.Test
 		}
 
 		[TestMethod]
+		public void TestStaticHelperClassAllowedForEnumerations(
+		)
+		{
+			var validHelperPostfixes = new string[] { "Helper", "Extension", "Extensions" };
+			foreach( var postfix in validHelperPostfixes )
+			{
+				VerifyCSharpDiagnostic(
+
+					$"namespace TestProject {{ enum Bar {{}} public static class Bar{postfix} {{}} }}",
+
+					new TestEnvironment { FileName = "Bar" } );
+			}
+		}
+
+		[TestMethod]
+		public void TestEnumerationsCannotActAsHelpersForEnumerations()
+		{
+			VerifyCSharpDiagnostic(
+
+					@"namespace TestProject { enum Bar {} public enum BarHelper {} }",
+
+					new TestEnvironment { FileName = "Bar" },
+					Warning( 1, 49, NamingAnalyzer.NameFilesAccordingToTypeNames, "BarHelper", "BarHelper.cs" ) );
+		}
+
+		[TestMethod]
+		public void TestNonStaticClassIsNotHelperForEnumerations()
+		{
+			VerifyCSharpDiagnostic(
+
+					@"namespace TestProject { enum Bar {} class BarHelper { public static int GetInt() => 5; } }",
+
+					new TestEnvironment { FileName = "Bar" },
+					Warning( 1, 43, NamingAnalyzer.NameFilesAccordingToTypeNames, "BarHelper", "BarHelper.cs" ) );
+		}
+
+		[TestMethod]
 		public void TestWrongFileNameInDirectory()
 		{
 			VerifyCSharpDiagnostic(
