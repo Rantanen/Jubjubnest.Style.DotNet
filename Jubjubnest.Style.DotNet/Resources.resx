@@ -439,10 +439,10 @@
     <value />
   </data>
   <data name="ClosingParameterParenthesesOnTheirOwnLines_Message" xml:space="preserve">
-    <value>Move the parameter list parenthesis on its own line.</value>
+    <value>Move the parameter list parenthesis on its own line, aligned with curly bracket.</value>
   </data>
   <data name="ClosingParameterParenthesesOnTheirOwnLines_Title" xml:space="preserve">
-    <value>Multiple parameter list parenthesis should be on their own line</value>
+    <value>Multiple parameter list parenthesis should be on their own line, aligned with opening curly bracket.</value>
   </data>
   <data name="SpacesNotWithinBrackets_Description" xml:space="preserve">
     <value />
