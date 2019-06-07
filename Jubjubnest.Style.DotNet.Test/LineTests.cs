@@ -290,6 +290,21 @@ namespace Jubjubnest.Style.DotNet.Test
 		}
 
 		[TestMethod]
+		public void TestConstructorParameterParenWrongColumn()
+		{
+			var code = Code.InClass( @"
+				public Test(
+					string a,
+					string b
+					)
+				{
+				}" );
+
+			// Closing paren must be aligned with opening curly bracket.
+			VerifyCSharpDiagnostic( code.Code, Warning( 9, 6, LineAnalyzer.ClosingParameterParenthesesOnTheirOwnLines ) );
+		}
+
+		[TestMethod]
 		public void TestCodeWithUnixNewlines()
 		{
 			var code = Code.InMethod( "int a = 0;\nint b = 0;" );

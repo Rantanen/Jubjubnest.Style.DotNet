@@ -152,7 +152,7 @@ namespace Jubjubnest.Style.DotNet {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Move the parameter list parenthesis on its own line..
+        ///   Looks up a localized string similar to Move the parameter list parenthesis on its own line, aligned with curly bracket..
         /// </summary>
         internal static string ClosingParameterParenthesesOnTheirOwnLines_Message {
             get {
@@ -161,7 +161,7 @@ namespace Jubjubnest.Style.DotNet {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Multiple parameter list parenthesis should be on their own line.
+        ///   Looks up a localized string similar to Multiple parameter list parenthesis should be on their own line, aligned with opening curly bracket..
         /// </summary>
         internal static string ClosingParameterParenthesesOnTheirOwnLines_Title {
             get {

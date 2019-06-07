@@ -46,7 +46,7 @@ namespace Jubjubnest.Style.DotNet
 		public static RuleDescription ParametersOnTheirOwnLines { get; } =
 				new RuleDescription( nameof( ParametersOnTheirOwnLines ), "Newlines" );
 
-		/// <summary>Parameters should be on their own lines.</summary>
+		/// <summary>Closing paren for parameters should be on its own line.</summary>
 		public static RuleDescription ClosingParameterParenthesesOnTheirOwnLines { get; } =
 				new RuleDescription( nameof( ClosingParameterParenthesesOnTheirOwnLines ), "Newlines" );
 
@@ -109,7 +109,7 @@ namespace Jubjubnest.Style.DotNet
 			// Analyze the parameters.
 			var method = ( BaseMethodDeclarationSyntax ) context.Node;
 
-			// Examine all parameters and the liens they are on.
+			// Examine all parameters and the lines they are on.
 			int previousParamLine = int.MinValue;
 			foreach( var parameter in method.ParameterList.Parameters )
 			{
@@ -135,12 +135,29 @@ namespace Jubjubnest.Style.DotNet
 				previousParamLine = currentLine;
 			}
 
-			// Ensure multi-line parameter lists have the closing paren on their own line.
+			// Get the lines where opening and closing parenthesis are.
 			var openParen = method.ParameterList.OpenParenToken.GetLocation().GetLineSpan().StartLinePosition.Line;
 			var closingParen = method.ParameterList.CloseParenToken.GetLocation().GetLineSpan().StartLinePosition.Line;
+
+			// Get the column positions for closing parenthesis and opening curly bracket.
+			// At least body can be null in some circumstances.
+			int? closingParenPos = method.ParameterList?.CloseParenToken.GetLocation().GetLineSpan()
+					.StartLinePosition.Character;
+			int? bodyStartPos = method.Body?.GetLocation().GetLineSpan().StartLinePosition.Character;
+
+			// Ensure multi-line parameter lists have the closing paren on their own line.
 			if( openParen != closingParen && previousParamLine == closingParen )
 			{
 				// Closing paren is on the same line with the last parameter. Report error.
+				var diagnostic = Diagnostic.Create(
+						ClosingParameterParenthesesOnTheirOwnLines.Rule,
+						method.ParameterList.CloseParenToken.GetLocation() );
+				context.ReportDiagnostic( diagnostic );
+			}
+			else if( openParen != closingParen && closingParenPos != null && bodyStartPos != null && 
+				closingParenPos != bodyStartPos )
+			{
+				// Closing paren is on the wrong spot on the line. Report error.
 				var diagnostic = Diagnostic.Create(
 						ClosingParameterParenthesesOnTheirOwnLines.Rule,
 						method.ParameterList.CloseParenToken.GetLocation() );
@@ -226,7 +243,7 @@ namespace Jubjubnest.Style.DotNet
 					continue;
 
 				// Get the whitespace preceding the statement.
-				// There might be a lot of trivia preceding the statement. We're currently insterested only of
+				// There might be a lot of trivia preceding the statement. We're currently interested only in
 				// the whitespace on the last line.
 
 				// First figure out where the last line begins from.
@@ -406,15 +423,15 @@ namespace Jubjubnest.Style.DotNet
 			{
 				// Chech whether the line stays withint he 120 character limit.
 				var lineText = line.ToString();
-				int treshold;
-				SyntaxHelper.GetTextLengthWith120Treshold( lineText, out treshold );
-				if( treshold != -1 )
+				int threshold;
+				SyntaxHelper.GetTextLengthWith120Treshold( lineText, out threshold );
+				if( threshold != -1 )
 				{
 					// Line exceeds 120 characters. Report the error.
 					var diagnostic = Diagnostic.Create(
 							KeepLinesWithin120Characters.Rule,
 							Location.Create( context.Tree,
-								TextSpan.FromBounds( line.Span.Start + treshold, line.Span.End ) ) );
+								TextSpan.FromBounds( line.Span.Start + threshold, line.Span.End ) ) );
 					context.ReportDiagnostic( diagnostic );
 				}
 
